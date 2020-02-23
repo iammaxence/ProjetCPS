@@ -1,0 +1,7 @@
+1582484366369|starting Subscriber component.
+1582484366372|Subscriber subcribe to a topic.
+1582484366381|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582484366388|my-URI-subscribe a reçu le message Hello World!
+1582484366400|my-URI-subscribe a reçu le message Mon 1er message.
+1582484366403|my-URI-subscribe a reçu le message Mon second message.
+1582484386381|stopping subscriber component.
