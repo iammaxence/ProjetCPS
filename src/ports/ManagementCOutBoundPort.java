@@ -17,6 +17,10 @@ extends AbstractOutboundPort implements ManagementCI{
 		assert	uri != null && (owner instanceof Subscriber || owner instanceof Publisher);
 	}
 
+	public ManagementCOutBoundPort(ComponentI owner) throws Exception {
+		super(ManagementCI.class, owner);
+		assert (owner instanceof Subscriber || owner instanceof Publisher);
+	}
 	
 	
 

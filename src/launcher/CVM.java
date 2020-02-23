@@ -14,18 +14,19 @@ public class CVM extends AbstractCVM {
 	 * =================================== BROKER ===========================================
 	 =======================================================================================*/
 	protected String uriBrokerURI;
-	protected static final String	BROKER_COMPONENT_URI = "my-URI-Broker" ;
+	protected static final String BROKER_COMPONENT_URI = "my-URI-Broker" ;
 	protected static final String URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
-	protected static final String URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
-	protected static final String URIBrokerPublicationInboundPortURI = "bp-iport";
+	public static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
+	public static final String    URIBrokerPublicationInboundPortURI = "bp-iport";
 	//protected static final String URIBrokerReceptionOutboundPortURI = "br-oport"; 
+
 	
 	
 	/**=======================================================================================
 	 * ==================================== PUBLISHER ========================================
 	 ========================================================================================*/
 	protected String uriPublisherURI;
-	protected static final String	PUBLISHER_COMPONENT_URI = "my-URI-publisher" ;
+	protected static final String PUBLISHER_COMPONENT_URI = "my-URI-publisher" ;
 	protected static final String URIPublisherManagementOutboundPortURI = "pm-iport";
 	protected static final String URIPublisherPublicationOutboundPortURI = "pp-iport";
 	
@@ -34,7 +35,7 @@ public class CVM extends AbstractCVM {
 	 * ===================================== SUBSCRIBER =======================================
 	 =========================================================================================*/
 	protected String uriSubscriberURI;
-	protected static final String	SUBSCRIBE_COMPONENT_URI = "my-URI-subscribe" ;
+	protected static final String SUBSCRIBE_COMPONENT_URI = "my-URI-subscribe" ;
 	protected static final String URISubscriberRecepetionInboundPortURI = "sr-iport"; 
 	protected static final String URISubscriberManagementOutboundPortURI = "sm-iport"; 
 	

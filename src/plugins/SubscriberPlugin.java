@@ -1,51 +1,50 @@
 package plugins;
 
-import annexes.message.interfaces.MessageI;
+import annexes.message.interfaces.MessageFilterI;
 import connectors.PublicationConnector;
 import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.ComponentI;
 import fr.sorbonne_u.components.reflection.connectors.ReflectionConnector;
 import fr.sorbonne_u.components.reflection.interfaces.ReflectionI;
 import fr.sorbonne_u.components.reflection.ports.ReflectionOutboundPort;
+import interfaces.ManagementCI;
 import interfaces.PublicationCI;
-import interfaces.PublicationsImplementationI;
+import interfaces.SubscriptionImplementationI;
 import launcher.CVM;
-import ports.PublicationCOutBoundPort;
+import ports.ManagementCOutBoundPort;
 
-public class PublisherPlugin 
-extends AbstractPlugin implements PublicationsImplementationI{
+public class SubscriberPlugin 
+extends AbstractPlugin implements SubscriptionImplementationI{
 
 	private static final long serialVersionUID = 1L;
-	protected PublicationCOutBoundPort publicationOutboundPort;
+	protected ManagementCOutBoundPort managementOutboundPort;
 	
-
+	
 	/**-----------------------------------------------------
 	 * ------------------ CYCLE OF LIFE --------------------
-	 ------------------------------------------------------*/	
+	 ------------------------------------------------------*/
 	
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
 		super.installOn(owner) ;
 
-		// Add interfaces and create ports
-		this.addRequiredInterface(PublicationCI.class) ;
-		this.publicationOutboundPort = new PublicationCOutBoundPort(this.owner) ;
-		this.publicationOutboundPort.publishPort() ;
+		this.addRequiredInterface(ManagementCI.class) ;
+		this.managementOutboundPort = new ManagementCOutBoundPort(this.owner) ;
+		this.managementOutboundPort.publishPort() ;
 	}
-
 	
 	@Override
 	public void initialise() throws Exception {
 		// Use the reflection approach to get the URI of the inbound port
-		// of the hash map component.
+				// of the hash map component.
 		this.addRequiredInterface(ReflectionI.class) ;
 		ReflectionOutboundPort rop = new ReflectionOutboundPort(this.owner) ;
 		rop.publishPort() ;
 		this.owner.doPortConnection(
 				rop.getPortURI(),
-				CVM.URIBrokerPublicationInboundPortURI,
+				CVM.URIBrokerManagementInboundPortURI2,
 				ReflectionConnector.class.getCanonicalName()) ;
-		String[] uris = rop.findPortURIsFromInterface(PublicationCI.class) ;
+		String[] uris = rop.findPortURIsFromInterface(ManagementCI.class) ;
 		
 		assert	uris != null && uris.length == 1 ;
 
@@ -56,7 +55,7 @@ extends AbstractPlugin implements PublicationsImplementationI{
 
 		// connect the outbound port.
 		this.owner.doPortConnection(
-				this.publicationOutboundPort.getPortURI(),
+				this.managementOutboundPort.getPortURI(),
 				uris[0],
 				PublicationConnector.class.getCanonicalName()) ;
 
@@ -66,14 +65,14 @@ extends AbstractPlugin implements PublicationsImplementationI{
 	
 	@Override
 	public void finalise() throws Exception {
-		this.owner.doPortDisconnection(this.publicationOutboundPort.getPortURI()) ;
+		this.owner.doPortDisconnection(this.managementOutboundPort.getPortURI()) ;
 	}
 
 	
 	@Override
 	public void	uninstall() throws Exception {
-		this.publicationOutboundPort.unpublishPort() ;
-		this.publicationOutboundPort.destroyPort() ;
+		this.managementOutboundPort.unpublishPort() ;
+		this.managementOutboundPort.destroyPort() ;
 		this.removeRequiredInterface(PublicationCI.class) ;
 	}
 	
@@ -83,23 +82,28 @@ extends AbstractPlugin implements PublicationsImplementationI{
 	 * ---------------- PLUGIN SERVICES IMPLEMENTATION ------------------
 	 ------------------------------------------------------------------*/
 	@Override
-	public void publish(MessageI m, String topic) throws Exception {
-		this.publicationOutboundPort.publish(m, topic);
+	public void subscribe(String topic, String inboundPortUri) throws Exception {
+		this.managementOutboundPort.subscribe(topic, inboundPortUri);
 	}
 
 	@Override
-	public void publish(MessageI m, String[] topics) throws Exception {
-		this.publicationOutboundPort.publish(m, topics);
+	public void subscribe(String[] topics, String inboundPortUri) throws Exception {
+		this.managementOutboundPort.subscribe(topics, inboundPortUri);
 	}
 
 	@Override
-	public void publish(MessageI[] ms, String topic) throws Exception {
-		this.publicationOutboundPort.publish(ms, topic);
+	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
+		this.managementOutboundPort.subscribe(topic, inboundPortUri);
 	}
 
 	@Override
-	public void publish(MessageI[] ms, String[] topics) throws Exception {
-		this.publicationOutboundPort.publish(ms, topics);
+	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortUri) throws Exception {
+		this.managementOutboundPort.modifyFilter(topic, newFilter, inboundPortUri);
 	}
-	
+
+	@Override
+	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
+		this.managementOutboundPort.unsubscribe(topic, inboundPortURI);
+	}
+
 }

@@ -14,6 +14,11 @@ extends AbstractOutboundPort implements PublicationCI{
 		super(uri, PublicationCI.class, owner);
 		assert	uri != null && owner instanceof Publisher;
 	}
+	
+	public PublicationCOutBoundPort(ComponentI owner) throws Exception {
+		super(PublicationCI.class, owner);
+		assert owner instanceof Publisher;
+	}
 
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
