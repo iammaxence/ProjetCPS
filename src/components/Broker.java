@@ -139,7 +139,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		//Notify Subscribers
 		if(subscriptions.containsKey(topic)) { 
 			for(Client sub : subscriptions.get(topic)) {
-				sub.getPort().acceptMessage(m);
+				if(sub.hasFilter())
+					this.logMessage("FILTER MESSAGE");
+				else
+					sub.getPort().acceptMessage(m);
 			}
 		}
 		this.logMessage("Broker: Message publié dans "+topic);
@@ -207,7 +210,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 -------------------------------------------------------*/
 	@Override
 	public void subscribe(String topic, String inboundPortURI) throws Exception {
-		
 		this.subscribe(topic, null, inboundPortURI);
 	}
 
@@ -245,6 +247,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 				subscribers.add(monSub); // J'ajoute le sub nouvellement crée dans la liste officiel des subscibers
 				
 			}
+			
+			if(monSub.hasFilter())
+				monSub.setFilter(filter);
 			
 			// Je l'ajoute dans la liste de ceux abonnée au topic
 			subs.add(monSub);

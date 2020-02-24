@@ -64,6 +64,7 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 		String [] topics = {"Peche&Cuisine", "CPS"};
 		
 		try {
+			Thread.sleep(1000);
 			//Scenario 1 : Publisher publie dans un Topic et un subsciber reçoit le message
 			this.logMessage("Publisher publit un message...");
 			this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine");

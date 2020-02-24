@@ -1,4 +1,7 @@
-/plugins/
-/components/
 /annexes/
+/components/
+/connectors/
+/interfaces/
+/launcher/
+/plugins/
 /ports/
