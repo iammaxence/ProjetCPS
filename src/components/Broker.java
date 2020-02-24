@@ -18,7 +18,7 @@ import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
-import annexes.Subscription;
+import annexes.Client;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
@@ -40,8 +40,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected final String                managInboundPortPublisher;
 	protected final String                managInboundPortSubscriber;
 	protected Map <String, ArrayList<MessageI> >                  topics;          //<Topics, List of messages>
-	protected Map <String, ReceptionCOutBoundPort>                subscribers;     // List of Subscriber
-	protected Map <String, ArrayList<Subscription> >              subscription;    //<Topics, List of Subscriber>
+	protected ArrayList<Client>                             subscribers;     // List of Subscriber
+	protected Map <String, ArrayList<Client> >              subscriptions;    //<Topics, List of Subscriber>
 	private int cpt;
 	
 	
@@ -62,8 +62,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		cpt=0;
 		
 		topics = new HashMap <String, ArrayList<MessageI>>();  
-		subscription = new HashMap <String, ArrayList<Subscription>>();  
-		subscribers = new HashMap <String, ReceptionCOutBoundPort>();
+		subscriptions = new HashMap <String, ArrayList<Client>>();  
+		subscribers = new ArrayList<Client>();
 		
 		
 		/**----------------- ADD COMPONENTS -------------------*/
@@ -113,6 +113,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.mipSubscriber.unpublishPort(); 
 		this.publicationInboundPort.unpublishPort();
 		
+
+			
+		
 		super.finalise();
 	}
 	
@@ -132,53 +135,33 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		
 		n.add(m);
 		topics.put(topic, n);
-		this.logMessage("Broker: Message publié dans "+topic);
-		
+
 		//Notify Subscribers
-		if(subscription.containsKey(topic)) { 
-			for(Subscription sub : subscription.get(topic)) {
-				
+		if(subscriptions.containsKey(topic)) { 
+			for(Client sub : subscriptions.get(topic)) {
 				sub.getPort().acceptMessage(m);
-				this.logMessage("broker: je passe par la");
 			}
 		}
+		this.logMessage("Broker: Message publié dans "+topic);
 	}
 
 	@Override
 	public void publish(MessageI m, String[] topics) throws Exception {
 		for(String t: topics) {
-			publish(m,t);
+			this.publish(m,t);
 		}
 	}
 
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
-		ArrayList<MessageI> n;
-		if(isTopic(topic)) 
-			n = topics.get(topic);
-		else 
-			n = new ArrayList<>();
-		
-		for(MessageI m: ms) {
-			n.add(m);
-		}
-		topics.put(topic, n);
-		this.logMessage("Broker: Messages publiés dans "+topic);
-		
-		//Notify Subscribers
-		if(subscription.containsKey(topic)) {
-			for(Subscription sub : subscription.get(topic)) {
-				for(MessageI m: ms) {
-					sub.getPort().acceptMessage(m);
-				}
-			}
-		}
+		for(MessageI m: ms)
+			this.publish(m, topic);
 	}
 
 	@Override
 	public void publish(MessageI[] ms, String[] topics) throws Exception {
 		for(String t: topics) {
-			publish(ms,t);
+			this.publish(ms,t);
 		}
 	}
 
@@ -202,7 +185,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	public void destroyTopic(String topic) throws Exception {
 		if(isTopic(topic)) {
 			topics.remove(topic); // /!\ être sur d'avoir délivrer les messages avant la destruction du topic. 
-			subscription.remove(topic);
+			subscriptions.remove(topic);
 		}
 	}
 
@@ -224,48 +207,65 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 -------------------------------------------------------*/
 	@Override
 	public void subscribe(String topic, String inboundPortURI) throws Exception {
+		
 		this.subscribe(topic, null, inboundPortURI);
 	}
 
 	@Override
 	public void subscribe(String[] topics, String inboundPortURI) throws Exception {
 		for(String t: topics)
-			this.subscribe(t,null, inboundPortURI);
+			this.subscribe(t, null, inboundPortURI);
 	}
 
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortURI) throws Exception {
 		if(!isTopic(topic))
 			this.createTopic(topic);
-		
-		if(!isSubscribe(topic, inboundPortURI)) {
-			ArrayList<Subscription> subs;
-			if (subscription.containsKey(topic)) //Si le topic contient déjà des subscibers
-				subs = subscription.get(topic);  //On recupere les subscriptions
-			else
-				subs = new ArrayList<>();	     //Sinon on crée une nouvelle liste associé au topic
-			
-			ReceptionCOutBoundPort port = getSubscriber(inboundPortURI);
 
-			if(filter!=null)
-				subs.add(new Subscription(port, filter));
+		Client s;
+		if(!isSubscribe(topic, inboundPortURI)) {
+			ArrayList<Client> subs;
+			if (subscriptions.containsKey(topic)) //Si le topic contiens déjà des subscibers
+				subs = subscriptions.get(topic); //On les recupèrent (les abonnées)
 			else
-				subs.add(new Subscription(port));
+				subs = new ArrayList<>();	//Sinon on crée une nouvelle liste associé au topic
 			
-			subscription.put(topic, subs);
-			this.logMessage("Le subscriber "+inboundPortURI+" subscrit au topic "+topic);
+			
+			Client monSub = getSubscriber(inboundPortURI);
+			
+			if(monSub==null) { // Si le sub n'est pas dans la liste officiel des subscibers existants
+				String portURI = "uri-"+cpt++;
+				monSub = new Client(inboundPortURI, new ReceptionCOutBoundPort(portURI, this));  // Je crée le sub avec un port unique
+				monSub.getPort().publishPort();
+				this.doPortConnection(
+						monSub.getOutBoundPortURI(),
+						inboundPortURI, 
+						ReceptionConnector.class.getCanonicalName()) ;
+				
+				subscribers.add(monSub); // J'ajoute le sub nouvellement crée dans la liste officiel des subscibers
+				
+			}
+			
+			// Je l'ajoute dans la liste de ceux abonnée au topic
+			subs.add(monSub);
+			subscriptions.put(topic, subs);
+			
+			this.logMessage("Subscriber "+inboundPortURI+" subscribe to topic "+topic);
+		}else {
+			this.logMessage("Subscriber "+inboundPortURI+" already subscribe to topic "+topic);
 		}
+
+
 	}
 
+	
 	@Override
 	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortURI) throws Exception {
-		if(!subscription.containsKey(topic)) 
-			return;
-		if(!subscribers.containsKey(inboundPortURI)) 
+		if(!subscriptions.containsKey(topic)) 
 			return;
 
-		for(Subscription s : subscription.get(topic)) {
-			if(s.getUri().equals(inboundPortURI)) {
+		for(Client s : subscriptions.get(topic)) {
+			if(s.getInBoundPortURI().equals(inboundPortURI)) {
 				s.setFilter(newFilter);
 				break;
 			}
@@ -274,17 +274,17 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 
 	@Override
 	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
-		if(subscription.containsKey(topic)) {
-			Subscription trouve = null;
-			for(Subscription s : subscription.get(topic)) {
-				if(s.getUri().equals(inboundPortURI)) {
+		if(subscriptions.containsKey(topic)) {
+			Client trouve = null;
+			for(Client s : subscriptions.get(topic)) {
+				if(s.getInBoundPortURI().equals(inboundPortURI)) {
 					trouve = s;
 					break;
 				}
 			}
 			if(trouve != null) {
-				this.logMessage("Unsubscribe of "+trouve.getUri()+" for the topic "+topic);
-				subscription.get(topic).remove(trouve);
+				this.logMessage("Unsubscribe of "+trouve.getOutBoundPortURI()+" for the topic "+topic);
+				subscriptions.get(topic).remove(trouve);
 			}else {
 				this.logMessage(inboundPortURI+" already unsubscribe");
 			}
@@ -300,10 +300,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @throws Exception 
 	 */
 	private boolean isSubscribe(String topic, String inboundPortURI) throws Exception {
-		if(subscription.containsKey(topic)) {
-			ArrayList<Subscription> subs = subscription.get(topic);
-			for(Subscription s : subs) {
-				if(s.getUri().equals(inboundPortURI))
+		if(subscriptions.containsKey(topic)) {
+			ArrayList<Client> subs = subscriptions.get(topic);
+			for(Client s : subs) {
+				if(s.getInBoundPortURI().equals(inboundPortURI))
 					return true;
 			}
 		}
@@ -315,22 +315,14 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @return the subscriber if he exists else null
 	 * @throws Exception 
 	 */
-	private ReceptionCOutBoundPort getSubscriber(String inboundPortURI) throws Exception { 
-		if(subscribers.containsKey(inboundPortURI))
-			return subscribers.get(inboundPortURI);
-		
-		//Creation of a new port for the subscriber
-		String portURI = "br"+cpt+"oport";
-		cpt++;
-		ReceptionCOutBoundPort port = new ReceptionCOutBoundPort(portURI, this);
-		port.publishPort();
-		this.doPortConnection(
-				portURI,
-				inboundPortURI, 
-				ReceptionConnector.class.getCanonicalName()) ;
-		//Update list of subscribers
-		subscribers.put(inboundPortURI, port);
-		return port;
+	private Client getSubscriber(String inboundPortURI) throws Exception { 
+		for(int i=0; i< subscribers.size() ; i++){
+			Client sub = subscribers.get(i);
+			if(sub.getInBoundPortURI().equals(inboundPortURI))
+				return sub;
+		}	
+		return null;
 	}
+
 	
 }

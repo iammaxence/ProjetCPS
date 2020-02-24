@@ -4,16 +4,19 @@ package annexes;
 import annexes.message.interfaces.MessageFilterI;
 import ports.ReceptionCOutBoundPort;
 
-public class Subscription {
+public class Client {
+	private String ReceptionCInBoundPort;
 	private ReceptionCOutBoundPort port;
 	private MessageFilterI filter;
 	
-	public Subscription(ReceptionCOutBoundPort port) {
+	public Client(String inBoundPortURI, ReceptionCOutBoundPort port) {
+		ReceptionCInBoundPort = inBoundPortURI;
 		this.port = port;
 		filter = null;
 	}
 	
-	public Subscription(ReceptionCOutBoundPort port, MessageFilterI filter) {
+	public Client(String inBoundPortURI,ReceptionCOutBoundPort port, MessageFilterI filter) {
+		ReceptionCInBoundPort = inBoundPortURI;
 		this.port = port;
 		this.filter = filter;
 	}
@@ -36,13 +39,17 @@ public class Subscription {
 		this.filter = newfilter;
 	}
 	
-	public String getUri() {
+	public String getOutBoundPortURI() {
 		try {
 			return port.getPortURI();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public String getInBoundPortURI() {
+		return ReceptionCInBoundPort;
 	}
 	
 	/**
@@ -53,9 +60,9 @@ public class Subscription {
 	public boolean equals(Object obj) {
 		if(obj == null) 
 			return false;
-		if(obj instanceof Subscription) {
-			Subscription sub = (Subscription) obj;
-			if(sub.getUri().equals(this.getUri()))
+		if(obj instanceof Client) {
+			Client sub = (Client) obj;
+			if(sub.getInBoundPortURI().equals(this.getInBoundPortURI()))
 				return true;
 		}
 		return false;

@@ -1,8 +1,14 @@
-1582556907983|starting Subscriber component.
-1582556907985|Subscriber subcribe to a topic.
-1582556907991|END OF SUBSCRIBE
-1582556907991|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
-1582556907997|my-URI-subscribe a reçu le message Hello World!
-1582556908003|my-URI-subscribe a reçu le message Mon 1er message.
-1582556908003|my-URI-subscribe a reçu le message Mon second message.
-1582556927988|stopping subscriber component.
+1582566055851|starting Subscriber component.
+1582566055853|Subscriber subcribe to a topic.
+1582566055871|Subscriber subcribe to 2 topic.
+1582566055871|END OF SUBSCRIBE
+1582566055872|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582566055873|my-URI-subscribe a reçu le message Hello World!
+1582566055875|my-URI-subscribe a reçu le message Hello World!
+1582566055877|my-URI-subscribe a reçu le message Mon 1er message.
+1582566055878|my-URI-subscribe a reçu le message Mon second message.
+1582566055879|my-URI-subscribe a reçu le message Mon 1er message.
+1582566055879|my-URI-subscribe a reçu le message Mon second message.
+1582566055882|my-URI-subscribe a reçu le message Mon 1er message.
+1582566055882|my-URI-subscribe a reçu le message Mon second message.
+1582566075858|stopping subscriber component.

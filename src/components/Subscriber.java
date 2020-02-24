@@ -72,9 +72,10 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 			this.logMessage("Subscriber subcribe to a topic.");
 			this.subscribe("Peche&Cuisine", receptionInboundPortURI);
 			
+			
 			//Scenario 2 : Voir URIPublisher
-//			this.logMessage("Subscriber subcribe to 2 topic.");
-//			this.subscribe(topics, receptionInboundPortURI);
+			this.subscribe(topics, receptionInboundPortURI);
+			this.logMessage("Subscriber subcribe to 2 topic.");
 			
 			
 			this.logMessage("END OF SUBSCRIBE");
