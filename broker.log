@@ -1,9 +1,11 @@
-1582484366363|starting Broker component.
-1582484366379|Le subscriber sr-iport subscrit au topic Peche&Cuisine
-1582484366380|Broker: Message publié dans Peche&Cuisine
-1582484366386|Broker: Message publié dans Peche&Cuisine
-1582484366389|Broker: Message publié dans CPS
-1582484366390|Broker: Messages publiés dans CPS
-1582484366393|Broker: Messages publiés dans Peche&Cuisine
-1582484366404|Broker: Messages publiés dans CPS
-1582484386372|stopping broker component.
+1582556907982|starting Broker component.
+1582556907990|Le subscriber sr-iport subscrit au topic Peche&Cuisine
+1582556907991|Broker: Message publié dans Peche&Cuisine
+1582556907992|broker: je passe par la
+1582556907994|Broker: Message publié dans Peche&Cuisine
+1582556907998|broker: je passe par la
+1582556907999|Broker: Message publié dans CPS
+1582556908001|Broker: Messages publiés dans Automobile
+1582556908003|Broker: Messages publiés dans Peche&Cuisine
+1582556908008|Broker: Messages publiés dans CPS
+1582556927985|stopping broker component.

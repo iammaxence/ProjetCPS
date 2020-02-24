@@ -31,8 +31,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 
 
 	/**------------------- PORTS -------------------------*/
-	protected ManagementCInBoundPort      mipPublisher; // Connected to URIPublisher 
-	protected ManagementCInBoundPort      mipSubscriber; // Connected to URISubscriber 
+	protected ManagementCInBoundPort      mipPublisher;   // Connected to URIPublisher 
+	protected ManagementCInBoundPort      mipSubscriber;  // Connected to URISubscriber 
 	protected PublicationCInBoundPort     publicationInboundPort;
 	
 	
@@ -137,7 +137,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		//Notify Subscribers
 		if(subscription.containsKey(topic)) { 
 			for(Subscription sub : subscription.get(topic)) {
+				
 				sub.getPort().acceptMessage(m);
+				this.logMessage("broker: je passe par la");
 			}
 		}
 	}
@@ -163,6 +165,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		topics.put(topic, n);
 		this.logMessage("Broker: Messages publiés dans "+topic);
 		
+		//Notify Subscribers
 		if(subscription.containsKey(topic)) {
 			for(Subscription sub : subscription.get(topic)) {
 				for(MessageI m: ms) {
@@ -227,7 +230,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void subscribe(String[] topics, String inboundPortURI) throws Exception {
 		for(String t: topics)
-			this.subscribe(t, inboundPortURI);
+			this.subscribe(t,null, inboundPortURI);
 	}
 
 	@Override

@@ -65,11 +65,20 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	@Override
 	public void	execute() throws Exception{
 		super.execute();
-		
+		String [] topics = {"Automobile", "CPS"};
 		
 		try {	
+			//Scenario 1 : voir URIPublisher
 			this.logMessage("Subscriber subcribe to a topic.");
-			this.managementOutboundPort.subscribe("Peche&Cuisine", receptionInboundPortURI);
+			this.subscribe("Peche&Cuisine", receptionInboundPortURI);
+			
+			//Scenario 2 : Voir URIPublisher
+//			this.logMessage("Subscriber subcribe to 2 topic.");
+//			this.subscribe(topics, receptionInboundPortURI);
+			
+			
+			this.logMessage("END OF SUBSCRIBE");
+			
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;
 		}
@@ -103,7 +112,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.subscribe(topic, inboundPortUri);
+		this.managementOutboundPort.subscribe(topic, filter,inboundPortUri);
 	}
 
 	@Override
