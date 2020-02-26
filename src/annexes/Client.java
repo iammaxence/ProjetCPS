@@ -15,7 +15,7 @@ public class Client {
 		filter = null;
 	}
 	
-	public Client(String inBoundPortURI,ReceptionCOutBoundPort port, MessageFilterI filter) {
+	public Client(String inBoundPortURI, ReceptionCOutBoundPort port, MessageFilterI filter) {
 		ReceptionCInBoundPort = inBoundPortURI;
 		this.port = port;
 		this.filter = filter;
