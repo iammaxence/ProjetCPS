@@ -1,42 +1,45 @@
 package annexes;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import annexes.message.interfaces.MessageFilterI;
 import ports.ReceptionCOutBoundPort;
 
 public class Client {
 	private String ReceptionCInBoundPort;
 	private ReceptionCOutBoundPort port;
-	private MessageFilterI filter;
+	private Map <String, MessageFilterI> filters;
 	
 	public Client(String inBoundPortURI, ReceptionCOutBoundPort port) {
 		ReceptionCInBoundPort = inBoundPortURI;
 		this.port = port;
-		filter = null;
+		filters = new HashMap<String, MessageFilterI>();
 	}
 	
-	public Client(String inBoundPortURI, ReceptionCOutBoundPort port, MessageFilterI filter) {
+	public Client(String inBoundPortURI, ReceptionCOutBoundPort port, Map <String, MessageFilterI> filters) {
 		ReceptionCInBoundPort = inBoundPortURI;
 		this.port = port;
-		this.filter = filter;
+		this.filters = filters;
 	}
 	
 	public ReceptionCOutBoundPort getPort() {
 		return port;
 	}
 	
-	public boolean hasFilter() {
-		if(filter != null)
-			return true;
-		return false;
+	public boolean hasFilter(String topic) {
+		return filters.containsKey(topic);
 	}
 
-	public MessageFilterI getFilter() {
-		return filter;
+	public MessageFilterI getFilter(String topic) {
+		if(hasFilter(topic))
+			return filters.get(topic);
+		return null;
 	}
 
-	public void setFilter(MessageFilterI newfilter) {
-		this.filter = newfilter;
+	public void setFilter(MessageFilterI newfilter, String topic) {
+		filters.put( topic, newfilter);
 	}
 	
 	public String getOutBoundPortURI() {

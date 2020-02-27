@@ -1,14 +1,220 @@
-1582570371879|starting Broker component.
-1582570371888|Subscriber sr-iport subscribe to topic Peche&Cuisine
-1582570371889|Subscriber sr-iport subscribe to topic Automobile
-1582570371889|Subscriber sr-iport subscribe to topic CPS
-1582570372887|Broker: Message publié dans Peche&Cuisine
-1582570372889|Broker: Message publié dans Peche&Cuisine
-1582570372889|Broker: Message publié dans CPS
-1582570372891|Broker: Message publié dans Automobile
-1582570372894|Broker: Message publié dans Automobile
-1582570372896|Broker: Message publié dans Peche&Cuisine
-1582570372897|Broker: Message publié dans Peche&Cuisine
-1582570372897|Broker: Message publié dans CPS
-1582570372898|Broker: Message publié dans CPS
-1582570391883|stopping broker component.
+1582819316887|starting Broker component.
+1582819316894|Subscriber sr-iport subscribe to topic Peche&Cuisine
+1582819316895|Subscriber sr-iport subscribe to topic Automobile
+1582819316895|Subscriber sr-iport subscribe to topic CPS
+1582819316898|THREAD
+1582819316898|THREAD
+1582819316902|THREAD
+1582819316902|Broker: Message publié dans Peche&Cuisine
+1582819316902|Broker: Message publié dans Peche&Cuisine
+1582819316903|Broker: Message publié dans Peche&Cuisine
+1582819316903|THREAD
+1582819316903|THREAD
+1582819316903|THREAD
+1582819316903|THREAD
+1582819316903|Broker: Message publié dans Peche&Cuisine
+1582819316904|Broker: Message publié dans Peche&Cuisine
+1582819316904|Broker: Message publié dans Peche&Cuisine
+1582819316905|Broker: Message publié dans Peche&Cuisine
+1582819316905|THREAD
+1582819316905|THREAD
+1582819316905|THREAD
+1582819316906|THREAD
+1582819316906|THREAD
+1582819316906|Broker: Message publié dans Peche&Cuisine
+1582819316907|THREAD
+1582819316907|Broker: Message publié dans Peche&Cuisine
+1582819316907|Broker: Message publié dans Peche&Cuisine
+1582819316907|Broker: Message publié dans Peche&Cuisine
+1582819316907|Broker: Message publié dans Peche&Cuisine
+1582819316907|Broker: Message publié dans Peche&Cuisine
+1582819316908|THREAD
+1582819316908|THREAD
+1582819316909|THREAD
+1582819316909|Broker: Message publié dans Peche&Cuisine
+1582819316909|Broker: Message publié dans Peche&Cuisine
+1582819316910|THREAD
+1582819316910|Broker: Message publié dans Peche&Cuisine
+1582819316910|Broker: Message publié dans Peche&Cuisine
+1582819316911|THREAD
+1582819316911|THREAD
+1582819316911|THREAD
+1582819316911|THREAD
+1582819316911|THREAD
+1582819316911|Broker: Message publié dans Peche&Cuisine
+1582819316912|THREAD
+1582819316912|Broker: Message publié dans Peche&Cuisine
+1582819316912|Broker: Message publié dans Peche&Cuisine
+1582819316912|Broker: Message publié dans Peche&Cuisine
+1582819316912|Broker: Message publié dans Peche&Cuisine
+1582819316913|THREAD
+1582819316913|THREAD
+1582819316913|THREAD
+1582819316913|THREAD
+1582819316913|Broker: Message publié dans Peche&Cuisine
+1582819316915|THREAD
+1582819316915|Broker: Message publié dans Peche&Cuisine
+1582819316915|Broker: Message publié dans Peche&Cuisine
+1582819316915|Broker: Message publié dans Peche&Cuisine
+1582819316915|Broker: Message publié dans Peche&Cuisine
+1582819316915|THREAD
+1582819316916|THREAD
+1582819316916|Broker: Message publié dans Peche&Cuisine
+1582819316916|Broker: Message publié dans Peche&Cuisine
+1582819316916|THREAD
+1582819316917|THREAD
+1582819316917|Broker: Message publié dans Peche&Cuisine
+1582819316917|Broker: Message publié dans Peche&Cuisine
+1582819316917|THREAD
+1582819316917|THREAD
+1582819316917|THREAD
+1582819316917|THREAD
+1582819316917|Broker: Message publié dans Peche&Cuisine
+1582819316918|THREAD
+1582819316918|Broker: Message publié dans Peche&Cuisine
+1582819316919|Broker: Message publié dans Peche&Cuisine
+1582819316919|Broker: Message publié dans Peche&Cuisine
+1582819316919|Broker: Message publié dans Peche&Cuisine
+1582819316919|Broker: Message publié dans Peche&Cuisine
+1582819316921|THREAD
+1582819316921|THREAD
+1582819316921|THREAD
+1582819316921|THREAD
+1582819316921|Broker: Message publié dans Peche&Cuisine
+1582819316922|Broker: Message publié dans Peche&Cuisine
+1582819316922|THREAD
+1582819316922|Broker: Message publié dans Peche&Cuisine
+1582819316922|Broker: Message publié dans Peche&Cuisine
+1582819316923|THREAD
+1582819316923|Broker: Message publié dans Peche&Cuisine
+1582819316924|Broker: Message publié dans Peche&Cuisine
+1582819316924|THREAD
+1582819316927|Broker: Message publié dans Peche&Cuisine
+1582819316928|Broker: Message publié dans Peche&Cuisine
+1582819316928|THREAD
+1582819316928|THREAD
+1582819316928|THREAD
+1582819316928|Broker: Message publié dans Peche&Cuisine
+1582819316928|THREAD
+1582819316928|THREAD
+1582819316929|THREAD
+1582819316929|Broker: Message publié dans Peche&Cuisine
+1582819316929|Broker: Message publié dans Peche&Cuisine
+1582819316929|Broker: Message publié dans Peche&Cuisine
+1582819316929|THREAD
+1582819316930|THREAD
+1582819316930|Broker: Message publié dans Peche&Cuisine
+1582819316930|Broker: Message publié dans Peche&Cuisine
+1582819316931|THREAD
+1582819316931|THREAD
+1582819316931|Broker: Message publié dans Peche&Cuisine
+1582819316931|Broker: Message publié dans Peche&Cuisine
+1582819316932|THREAD
+1582819316932|Broker: Message publié dans Peche&Cuisine
+1582819316932|THREAD
+1582819316932|Broker: Message publié dans Peche&Cuisine
+1582819316933|Broker: Message publié dans Peche&Cuisine
+1582819316933|THREAD
+1582819316933|Broker: Message publié dans Peche&Cuisine
+1582819316933|THREAD
+1582819316933|THREAD
+1582819316933|THREAD
+1582819316933|THREAD
+1582819316933|Broker: Message publié dans Peche&Cuisine
+1582819316935|THREAD
+1582819316935|Broker: Message publié dans Peche&Cuisine
+1582819316935|THREAD
+1582819316936|Broker: Message publié dans Peche&Cuisine
+1582819316936|Broker: Message publié dans Peche&Cuisine
+1582819316936|Broker: Message publié dans Peche&Cuisine
+1582819316936|Broker: Message publié dans Peche&Cuisine
+1582819316936|Broker: Message publié dans Peche&Cuisine
+1582819316936|THREAD
+1582819316936|THREAD
+1582819316936|THREAD
+1582819316936|THREAD
+1582819316937|THREAD
+1582819316937|Broker: Message publié dans Peche&Cuisine
+1582819316937|Broker: Message publié dans Peche&Cuisine
+1582819316937|THREAD
+1582819316937|Broker: Message publié dans Peche&Cuisine
+1582819316937|Broker: Message publié dans Peche&Cuisine
+1582819316938|THREAD
+1582819316938|THREAD
+1582819316939|Broker: Message publié dans Peche&Cuisine
+1582819316939|THREAD
+1582819316939|THREAD
+1582819316939|Broker: Message publié dans Peche&Cuisine
+1582819316939|Broker: Message publié dans Peche&Cuisine
+1582819316939|THREAD
+1582819316939|Broker: Message publié dans Peche&Cuisine
+1582819316940|Broker: Message publié dans Peche&Cuisine
+1582819316940|Broker: Message publié dans Peche&Cuisine
+1582819316940|THREAD
+1582819316941|THREAD
+1582819316941|Broker: Message publié dans Peche&Cuisine
+1582819316941|Broker: Message publié dans Peche&Cuisine
+1582819316941|Broker: Message publié dans Peche&Cuisine
+1582819316941|THREAD
+1582819316942|THREAD
+1582819316942|THREAD
+1582819316942|THREAD
+1582819316942|Broker: Message publié dans Peche&Cuisine
+1582819316942|Broker: Message publié dans Peche&Cuisine
+1582819316942|Broker: Message publié dans Peche&Cuisine
+1582819316942|Broker: Message publié dans Peche&Cuisine
+1582819316943|THREAD
+1582819316947|THREAD
+1582819316947|Broker: Message publié dans Peche&Cuisine
+1582819316947|Broker: Message publié dans Peche&Cuisine
+1582819316947|THREAD
+1582819316948|THREAD
+1582819316948|Broker: Message publié dans Peche&Cuisine
+1582819316948|THREAD
+1582819316948|Broker: Message publié dans Peche&Cuisine
+1582819316949|THREAD
+1582819316949|Broker: Message publié dans Peche&Cuisine
+1582819316949|THREAD
+1582819316949|Broker: Message publié dans Peche&Cuisine
+1582819316949|THREAD
+1582819316950|Broker: Message publié dans Peche&Cuisine
+1582819316950|Broker: Message publié dans Peche&Cuisine
+1582819316950|THREAD
+1582819316950|THREAD
+1582819316950|Broker: Message publié dans Peche&Cuisine
+1582819316950|THREAD
+1582819316951|Broker: Message publié dans Peche&Cuisine
+1582819316951|THREAD
+1582819316951|THREAD
+1582819316951|THREAD
+1582819316951|THREAD
+1582819316951|Broker: Message publié dans Peche&Cuisine
+1582819316951|THREAD
+1582819316952|Broker: Message publié dans Peche&Cuisine
+1582819316952|Broker: Message publié dans Peche&Cuisine
+1582819316952|Broker: Message publié dans Peche&Cuisine
+1582819316952|Broker: Message publié dans Peche&Cuisine
+1582819316952|THREAD
+1582819316974|THREAD
+1582819316975|THREAD
+1582819316976|THREAD
+1582819316976|Broker: Message publié dans Peche&Cuisine
+1582819316976|Broker: Message publié dans Peche&Cuisine
+1582819316976|Broker: Message publié dans Peche&Cuisine
+1582819316976|Broker: Message publié dans Peche&Cuisine
+1582819316977|THREAD
+1582819316977|THREAD
+1582819316978|Broker: Message publié dans Peche&Cuisine
+1582819316978|THREAD
+1582819316978|Broker: Message publié dans Automobile
+1582819316978|Broker: Message publié dans CPS
+1582819316979|Broker: Message publié dans Automobile
+1582819316979|THREAD
+1582819316979|THREAD
+1582819316979|Broker: Message publié dans Peche&Cuisine
+1582819316979|THREAD
+1582819316979|Broker: Message publié dans Peche&Cuisine
+1582819316980|Broker: Message publié dans CPS
+1582819316980|THREAD
+1582819316980|Broker: Message publié dans CPS
+1582819336897|stopping broker component.

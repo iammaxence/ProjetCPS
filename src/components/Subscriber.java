@@ -51,6 +51,8 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 		/**-------------- PUBLISH PORT IN REGISTER ------------*/
 		this.managementOutboundPort.publishPort(); 
 		this.recepetionInboundPort.publishPort();
+	
+		
 	}
 	
 	/**-----------------------------------------------------
@@ -60,29 +62,28 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	public void	start() throws ComponentStartException {
 		super.start() ;
 		this.logMessage("starting Subscriber component.") ;
-	}
-	
-	@Override
-	public void	execute() throws Exception{
-		super.execute();
-		String [] topics = {"Automobile", "CPS"};
 		
+		String [] topics = {"Automobile", "CPS"};   //Pour que le Subscriber soit abonné aux topics avant la publication
 		try {	
 			//Scenario 1 : voir URIPublisher
-			this.logMessage("Subscriber subcribe to a topic.");
+			this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
 			this.subscribe("Peche&Cuisine", receptionInboundPortURI);
 			
 			
 			//Scenario 2 : Voir URIPublisher
 			this.subscribe(topics, receptionInboundPortURI);
-			this.logMessage("Subscriber subcribe to 2 topic.");
+			this.logMessage("Subscriber subcribe to 2 topics.");
 			
-			
-			this.logMessage("END OF SUBSCRIBE");
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;
 		}
+	}
+	
+	@Override
+	public void	execute() throws Exception{
+		super.execute();
+
 	}
 	
 	@Override

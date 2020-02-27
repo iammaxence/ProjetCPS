@@ -1,14 +1,112 @@
-1582570371881|starting Subscriber component.
-1582570371883|Subscriber subcribe to a topic.
-1582570371889|Subscriber subcribe to 2 topic.
-1582570371889|END OF SUBSCRIBE
-1582570372887|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
-1582570372888|my-URI-subscribe a reçu le message Hello World!
-1582570372889|my-URI-subscribe a reçu le message Hello World!
-1582570372891|my-URI-subscribe a reçu le message Mon 1er message.
-1582570372893|my-URI-subscribe a reçu le message Mon second message.
-1582570372895|my-URI-subscribe a reçu le message Mon 1er message.
-1582570372896|my-URI-subscribe a reçu le message Mon second message.
-1582570372897|my-URI-subscribe a reçu le message Mon 1er message.
-1582570372898|my-URI-subscribe a reçu le message Mon second message.
-1582570391888|stopping subscriber component.
+1582819316889|starting Subscriber component.
+1582819316890|Subscriber subcribe to the topic Peche&Cuisine.
+1582819316895|Subscriber subcribe to 2 topics.
+1582819316902|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316902|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316903|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316903|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316904|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316904|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316905|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316906|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316907|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316908|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316908|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316908|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316908|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316909|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316909|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316910|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316910|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316911|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316912|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316912|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316912|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316912|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316914|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316915|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316915|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316915|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316915|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316916|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316918|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316918|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316918|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316918|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316919|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316919|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316919|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316919|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316919|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316921|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316922|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316922|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316922|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316923|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316924|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316927|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316928|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316928|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316929|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316929|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316929|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316930|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316930|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316947|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316948|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316948|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316949|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316949|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316950|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316950|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316952|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316952|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316953|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316953|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316953|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316953|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316953|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316953|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316954|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316954|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316954|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316954|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316955|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316955|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316955|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316955|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316955|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316955|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316956|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316956|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316956|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316956|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316956|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316956|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316957|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316957|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316957|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316957|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316957|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316957|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316958|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316958|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316958|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316958|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316958|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316958|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316958|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316959|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316976|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316976|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316976|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316976|my-URI-subscribe a reçu le message Le saumon c'est trop bon!
+1582819316978|my-URI-subscribe a reçu le message Hello World!
+1582819316978|my-URI-subscribe a reçu le message Mon 1er message.
+1582819316978|my-URI-subscribe a reçu le message Hello World!
+1582819316979|my-URI-subscribe a reçu le message Mon second message.
+1582819316979|my-URI-subscribe a reçu le message Mon 1er message.
+1582819316979|my-URI-subscribe a reçu le message Mon second message.
+1582819316980|my-URI-subscribe a reçu le message Mon 1er message.
+1582819316980|my-URI-subscribe a reçu le message Mon second message.
+1582819336903|stopping subscriber component.

@@ -64,10 +64,12 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 		String [] topics = {"Peche&Cuisine", "CPS"};
 		
 		try {
-			Thread.sleep(1000);
+			//Thread.sleep(1000);
 			//Scenario 1 : Publisher publie dans un Topic et un subsciber reçoit le message
 			this.logMessage("Publisher publit un message...");
-			this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine");
+			for(int i=0; i<100;i++) {
+				this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine");
+			}
 			
 			//Scenario 2: Publisher publie dans plusieurs Topic, seul les subs abonnées aux topics reçoivent les messages
 			this.logMessage("Publisher publit un message...");

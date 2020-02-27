@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import connectors.ReceptionConnector;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -40,10 +43,15 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected final String                managInboundPortPublisher;
 	protected final String                managInboundPortSubscriber;
 	protected Map <String, ArrayList<MessageI> >                  topics;          //<Topics, List of messages>
-	protected ArrayList<Client>                             subscribers;     // List of Subscriber
-	protected Map <String, ArrayList<Client> >              subscriptions;    //<Topics, List of Subscriber>
+	protected ArrayList<Client>                                   subscribers;     // List of Subscriber
+	protected Map <String, ArrayList<Client> >                    subscriptions;   //<Topics, List of Subscriber>
 	private int cpt;
+	private int indexWrite, indexRead;
 	
+	/**----------------------- MUTEX ----------------------*/
+	protected ReadWriteLock lock = new ReentrantReadWriteLock();
+	protected Lock readLock = lock.readLock();
+	protected Lock writeLock = lock.writeLock();
 	
 	
 	protected Broker(int nbThreads, int nbSchedulableThreads, 
@@ -81,6 +89,13 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.mipPublisher.publishPort(); 
 		this.mipSubscriber.publishPort(); 
 		this.publicationInboundPort.publishPort();
+		
+		
+		/**---------------------- THREADS ---------------------*/
+		indexWrite = createNewExecutorService("group1-thread", 5, true);
+		indexRead = createNewExecutorService("group2-thread", 5, false);
+		
+		
 	}
 	
 	
@@ -94,12 +109,13 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	public void	start() throws ComponentStartException {
 		super.start() ;
 		this.logMessage("starting Broker component.") ;
+		
 	}
 	
 	@Override
 	public void	execute() throws Exception{
 		super.execute();
-		
+
 	}
 	
 
@@ -128,29 +144,48 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
 		ArrayList<MessageI> n;
-		if(isTopic(topic)) 
+		if(isTopic(topic)) {   
+			readLock.lock();
 			n = topics.get(topic);
-		else 
+			readLock.unlock();
+		}else {
 			n = new ArrayList<>();
-		
+		}
+		writeLock.lock();
 		n.add(m);
 		topics.put(topic, n);
+		writeLock.unlock();
 
-		//Notify Subscribers
-		if(subscriptions.containsKey(topic)) { 
-			for(Client sub : subscriptions.get(topic)) {
-				if(sub.hasFilter())
-					this.logMessage("FILTER MESSAGE");
-				else
-					sub.getPort().acceptMessage(m);
+		this.runTask(indexRead, new AbstractTask() {
+			
+			@Override
+			public void run() {
+				this.getTaskOwner().logMessage("THREAD");
+				//Notify Subscribers
+				readLock.lock();
+				if(subscriptions.containsKey(topic)) { 
+					for(Client sub : subscriptions.get(topic)) {
+						if(sub.hasFilter(topic)) {
+							this.getTaskOwner().logMessage("FILTER MESSAGE");
+						}else {
+							try {
+								sub.getPort().acceptMessage(m);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+				this.getTaskOwner().logMessage("Broker: Message publié dans "+topic);
+				readLock.unlock();
 			}
-		}
-		this.logMessage("Broker: Message publié dans "+topic);
+		});
+
 	}
 
 	@Override
-	public void publish(MessageI m, String[] topics) throws Exception {
-		for(String t: topics) {
+	public void publish(MessageI m, String[] listTopics) throws Exception {
+		for(String t: listTopics) {
 			this.publish(m,t);
 		}
 	}
@@ -162,8 +197,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 
 	@Override
-	public void publish(MessageI[] ms, String[] topics) throws Exception {
-		for(String t: topics) {
+	public void publish(MessageI[] ms, String[] listTopics) throws Exception {
+		for(String t: listTopics) {  //listTopics: local donc pas besoin de lock
 			this.publish(ms,t);
 		}
 	}
@@ -174,34 +209,49 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 ======================================================================================*/
 	@Override
 	public void createTopic(String topic) throws Exception {
-		if(!isTopic(topic))
+		if(!isTopic(topic)) {
+			writeLock.lock();
 			topics.put(topic, new ArrayList<MessageI>());
+			writeLock.unlock();
+		}
 	}
 
 	@Override
-	public void createTopics(String[] topics) throws Exception {
-		for(String t : topics)
+	public void createTopics(String[] listTopics) throws Exception {
+		for(String t : listTopics) //listTopics: local donc pas besoin de lock
 			createTopic(t);
 	}
 
 	@Override
 	public void destroyTopic(String topic) throws Exception {
 		if(isTopic(topic)) {
+			writeLock.lock();
 			topics.remove(topic); // /!\ être sur d'avoir délivrer les messages avant la destruction du topic. 
 			subscriptions.remove(topic);
+			writeLock.unlock();
 		}
 	}
 
 	@Override
 	public boolean isTopic(String topic) throws Exception {
-		return topics.containsKey(topic);
+		try {
+			readLock.lock();
+			return topics.containsKey(topic);
+		}finally {
+			readLock.unlock();
+		}
 	}
 
 	@Override
 	public String[] getTopics() throws Exception {
-		Set<String> keys = topics.keySet();
-		String[] tops = keys.toArray(new String[0]);
-		return tops;
+		try {
+			readLock.lock();
+			Set<String> keys = topics.keySet();
+			String[] tops = keys.toArray(new String[0]);
+			return tops;
+		}finally {
+			readLock.unlock();
+		}
 	}
 
 
@@ -214,8 +264,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 
 	@Override
-	public void subscribe(String[] topics, String inboundPortURI) throws Exception {
-		for(String t: topics)
+	public void subscribe(String[] listTopics, String inboundPortURI) throws Exception {
+		for(String t: listTopics)			//listTopics: local donc pas besoin de lock
 			this.subscribe(t, null, inboundPortURI);
 	}
 
@@ -224,14 +274,15 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		if(!isTopic(topic))
 			this.createTopic(topic);
 
-		Client s;
 		if(!isSubscribe(topic, inboundPortURI)) {
 			ArrayList<Client> subs;
-			if (subscriptions.containsKey(topic)) //Si le topic contiens déjà des subscibers
-				subs = subscriptions.get(topic); //On les recupèrent (les abonnées)
-			else
-				subs = new ArrayList<>();	//Sinon on crée une nouvelle liste associé au topic
 			
+			readLock.lock();
+			if (subscriptions.containsKey(topic)) //Si le topic contiens déjà des subscibers
+				subs = subscriptions.get(topic);  //On les recupèrent (les abonnées)
+			else
+				subs = new ArrayList<>();	      //Sinon on crée une nouvelle liste associé au topic
+			readLock.unlock();
 			
 			Client monSub = getSubscriber(inboundPortURI);
 			
@@ -244,16 +295,19 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 						inboundPortURI, 
 						ReceptionConnector.class.getCanonicalName()) ;
 				
+				writeLock.lock();
 				subscribers.add(monSub); // J'ajoute le sub nouvellement crée dans la liste officiel des subscibers
-				
+				writeLock.unlock();
 			}
 			
-			if(monSub.hasFilter())
-				monSub.setFilter(filter);
+			if(filter != null)
+				monSub.setFilter(filter,topic); 
 			
 			// Je l'ajoute dans la liste de ceux abonnée au topic
+			writeLock.lock();
 			subs.add(monSub);
 			subscriptions.put(topic, subs);
+			writeLock.unlock();
 			
 			this.logMessage("Subscriber "+inboundPortURI+" subscribe to topic "+topic);
 		}else {
@@ -266,34 +320,40 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	@Override
 	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortURI) throws Exception {
-		if(!subscriptions.containsKey(topic)) 
-			return;
-
+		writeLock.lock();
 		for(Client s : subscriptions.get(topic)) {
 			if(s.getInBoundPortURI().equals(inboundPortURI)) {
-				s.setFilter(newFilter);
+				s.setFilter(newFilter, topic);
 				break;
 			}
 		}	
+		writeLock.unlock();
 	}
 
 	@Override
 	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
-		if(subscriptions.containsKey(topic)) {
-			Client trouve = null;
-			for(Client s : subscriptions.get(topic)) {
-				if(s.getInBoundPortURI().equals(inboundPortURI)) {
-					trouve = s;
-					break;
-				}
-			}
-			if(trouve != null) {
-				this.logMessage("Unsubscribe of "+trouve.getOutBoundPortURI()+" for the topic "+topic);
-				subscriptions.get(topic).remove(trouve);
-			}else {
-				this.logMessage(inboundPortURI+" already unsubscribe");
+
+		Client trouve = null;
+		readLock.lock();
+		ArrayList<Client> clients = subscriptions.get(topic);
+		for(Client s : clients) {
+			if(s.getInBoundPortURI().equals(inboundPortURI)) {
+				trouve = s;
+				break;
 			}
 		}
+		readLock.unlock();
+
+		if(trouve != null) {
+			this.logMessage("Unsubscribe of "+trouve.getOutBoundPortURI()+" for the topic "+topic);
+			writeLock.lock();
+			clients.remove(trouve);
+			subscriptions.put(topic, clients);
+			writeLock.unlock();
+		}else {
+			this.logMessage(inboundPortURI+" already unsubscribe");
+		}
+
 	}
 	
 	/**---------------------------------------------*/
@@ -305,14 +365,18 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @throws Exception 
 	 */
 	private boolean isSubscribe(String topic, String inboundPortURI) throws Exception {
-		if(subscriptions.containsKey(topic)) {
-			ArrayList<Client> subs = subscriptions.get(topic);
-			for(Client s : subs) {
-				if(s.getInBoundPortURI().equals(inboundPortURI))
-					return true;
+		try {
+			readLock.lock();
+			if(subscriptions.containsKey(topic)) {
+				for(Client s : subscriptions.get(topic)) {
+					if(s.getInBoundPortURI().equals(inboundPortURI))
+						return true;
+				}
 			}
+			return false;
+		}finally {
+			readLock.unlock();
 		}
-		return false;
 	}
 	
 	/**
@@ -321,12 +385,16 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @throws Exception 
 	 */
 	private Client getSubscriber(String inboundPortURI) throws Exception { 
-		for(int i=0; i< subscribers.size() ; i++){
-			Client sub = subscribers.get(i);
-			if(sub.getInBoundPortURI().equals(inboundPortURI))
-				return sub;
-		}	
-		return null;
+		try {
+			readLock.lock();
+			for(Client sub: subscribers) {
+				if(sub.getInBoundPortURI().equals(inboundPortURI))
+					return sub;
+			}	
+			return null;
+		}finally {
+			readLock.unlock();
+		}
 	}
 
 	
