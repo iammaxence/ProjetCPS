@@ -1,5 +1,8 @@
 package annexes.message;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.time.Instant;
 
 public class TimeStamp {
 	protected long time;
@@ -7,8 +10,8 @@ public class TimeStamp {
 	
 	/**
 	 * Constructor of TimeStamp with argument
-	 * @param time
-	 * @param timestamper
+	 * @param time: time system of Unix -> long
+	 * @param timestamper: identification of the guest -> String 
 	 */
 	public TimeStamp(long time, String timestamper) {
 		this.time = time;
@@ -17,18 +20,23 @@ public class TimeStamp {
 	
 	/**
 	 * Constructor of TimeStamp without argument
-	 * time initialize to -1 and timeStamper to null
+	 * time initialize to the number of milliseconds from 1970-01-01 UTC until now UTC 
+	 * and timeStamper to the hostname of the current server
 	 */
 	public TimeStamp() {
-		time = -1;      //Default value
-		timestamper = null;
+		time = Instant.now().toEpochMilli();
+		try {
+			timestamper = InetAddress.getLocalHost().getHostAddress(); 
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * @return if the time and timeStamper is initialized or not
 	 */
 	public boolean isInitialised() {
-		return (time != -1 && timestamper != null);
+		return (time < 0 && timestamper != null);
 	}
 	
 	/**
@@ -40,7 +48,7 @@ public class TimeStamp {
 	
 	/**
 	 * Set the time of the timeStamp
-	 * @param time -> long
+	 * @param time: time system of Unix -> long
 	 */
 	public void setTime(long time) {
 		this.time=time;
@@ -55,7 +63,7 @@ public class TimeStamp {
 	
 	/**
 	 * Set the timeStamper
-	 * @param timestamper -> String
+	 * @param timestamper: name of the guest -> String
 	 */
 	public void setTimeStamper(String timestamper) {
 		this.timestamper=timestamper;

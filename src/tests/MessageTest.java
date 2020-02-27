@@ -20,7 +20,7 @@ public class MessageTest {
 
 	@Test
 	public final void testUri() {
-		String uri = "Msg1";
+		String uri = "MESSAGE_1";
 		assertEquals(uri, message.getURI());  /* C'est le premier message */
 	}
 	

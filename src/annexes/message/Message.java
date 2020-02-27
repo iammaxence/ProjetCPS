@@ -15,30 +15,30 @@ implements MessageI{
 	private static int cpt=1;
 	
 	private final String uri;
-	private String message;
+	private Serializable contenue;
 	private TimeStamp ts;
 	private Properties properties;
 	
 	/**
 	 * Constructor of Message
-	 * @param msg: the message -> String
+	 * @param contenue: here a message -> Serializable
 	 */
-	public Message(String msg) {
-		uri = "Msg"+cpt++;       //ex: Msg12 avec id unique
+	public Message(Serializable contenue) {
+		uri = "MESSAGE_"+cpt++;       //ex: MESSAGE_1 qui est donc unique
 		ts = new TimeStamp(); 
-		this.message = msg;
+		this.contenue = contenue;
 		properties = new Properties();
 	}
 	
 	/**
 	 * Constructor of Message
-	 * @param msg: the message -> String
-	 * @param ts -> TimeStamp
-	 * @param props -> Properties
+	 * @param contenue: here a message -> Serializable
+	 * @param ts: describe time and guest -> TimeStamp
+	 * @param props: map of properties -> Properties
 	 */
-	public Message(String msg, TimeStamp ts, Properties props) {
-		uri="msg"+cpt++; 
-		this.message=msg;
+	public Message(Serializable contenue, TimeStamp ts, Properties props) {
+		uri="MESSAGE_"+cpt++; 
+		this.contenue=contenue;
 		this.ts=ts;
 		properties=props;
 	}
@@ -72,7 +72,7 @@ implements MessageI{
 	 */
 	@Override
 	public Serializable getPayload() {
-		return message;
+		return contenue;
 	}
 
 }

@@ -10,7 +10,7 @@ public class TimeStampTest {
 
 	@Test
 	public void test() {
-		TimeStamp ts = new TimeStamp();
+		TimeStamp ts = new TimeStamp(-1,null);
 		assertFalse(ts.isInitialised());
 		assertEquals(-1, ts.getTime());
 		
