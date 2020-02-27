@@ -70,7 +70,7 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 			for(int i=0; i<100;i++) {
 				this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine");
 			}
-			
+			/*
 			//Scenario 2: Publisher publie dans plusieurs Topic, seul les subs abonnées aux topics reçoivent les messages
 			this.logMessage("Publisher publit un message...");
 			this.publish(new Message("Hello World!"), topics);
@@ -84,7 +84,7 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 			//Scenario 4: Publisher publie plusieurs messages dans plusieurs topics	
 			this.logMessage("Publisher publit un message...");
 			this.publish(messages, topics);
-			
+			*/
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;
 		}

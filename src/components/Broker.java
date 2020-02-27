@@ -19,6 +19,7 @@ import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
 import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
+import annexes.message.Message;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import annexes.Client;
@@ -115,7 +116,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void	execute() throws Exception{
 		super.execute();
-
+		
 	}
 	
 
@@ -156,30 +157,31 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		topics.put(topic, n);
 		writeLock.unlock();
 
-		this.runTask(indexRead, new AbstractTask() {
-			
-			@Override
-			public void run() {
-				this.getTaskOwner().logMessage("THREAD");
-				//Notify Subscribers
-				readLock.lock();
-				if(subscriptions.containsKey(topic)) { 
+
+		//Notify Subscribers
+		readLock.lock();
+
+		//sub.getPort().acceptMessage(m);
+		handleRequestAsync(indexRead,
+				owner -> {if(subscriptions.containsKey(topic)) { 
 					for(Client sub : subscriptions.get(topic)) {
 						if(sub.hasFilter(topic)) {
-							this.getTaskOwner().logMessage("FILTER MESSAGE");
+							this.logMessage("FILTER MESSAGE");
 						}else {
 							try {
+								//sub.getPort().acceptMessage(m);
 								sub.getPort().acceptMessage(m);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
 					}
-				}
-				this.getTaskOwner().logMessage("Broker: Message publié dans "+topic);
-				readLock.unlock();
-			}
-		});
+				}; return null;}) ;
+
+		this.logMessage("Broker: Message publié dans "+topic);
+		readLock.unlock();
+
+
 
 	}
 
