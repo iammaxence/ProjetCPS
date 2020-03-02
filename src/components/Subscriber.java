@@ -8,6 +8,7 @@ import interfaces.ManagementCI;
 import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import interfaces.SubscriptionImplementationI;
+import annexes.message.Properties;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import ports.ManagementCOutBoundPort;
@@ -63,16 +64,24 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 		super.start() ;
 		this.logMessage("starting Subscriber component.") ;
 		
-		String [] topics = {"Automobile", "CPS"};   //Pour que le Subscriber soit abonné aux topics avant la publication
+		String [] topics = {"Automobile", "Voyage"};   //Pour que le Subscriber soit abonné aux topics avant la publication
 		try {	
 			//Scenario 1 : voir URIPublisher
 			this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
-			this.subscribe("Peche&Cuisine", receptionInboundPortURI);
+			MessageFilterI filter = m -> 
+							{Properties props = m.getProperties(); 
+							try {
+								return props.getBooleanProp("thon");
+							} catch (Exception e) {
+								e.printStackTrace();
+								return false;
+							}} ;
+			this.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
 			
 			
 			//Scenario 2 : Voir URIPublisher
 			this.subscribe(topics, receptionInboundPortURI);
-			this.logMessage("Subscriber subcribe to 2 topics.");
+			this.logMessage("Subscriber subcribe to Automobile and Voyage.");
 			
 			
 		} catch (Exception e) {

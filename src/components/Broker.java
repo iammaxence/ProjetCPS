@@ -19,7 +19,6 @@ import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
 import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
-import annexes.message.Message;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import annexes.Client;
@@ -157,32 +156,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		topics.put(topic, n);
 		writeLock.unlock();
 
-
-		//Notify Subscribers
-		readLock.lock();
-
-		//sub.getPort().acceptMessage(m);
-		handleRequestAsync(indexRead,
-				owner -> {if(subscriptions.containsKey(topic)) { 
-					for(Client sub : subscriptions.get(topic)) {
-						if(sub.hasFilter(topic)) {
-							this.logMessage("FILTER MESSAGE");
-						}else {
-							try {
-								//sub.getPort().acceptMessage(m);
-								sub.getPort().acceptMessage(m);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				}; return null;}) ;
-
+		this.sendMessage(m, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
-		readLock.unlock();
-
-
-
 	}
 
 	@Override
@@ -260,17 +235,33 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	/**------------------------------------------------------
 	 * ----------------- (UN)SUBSCRIBE ----------------------
 	 -------------------------------------------------------*/
+	/**
+	 * @param topic where the subscriber want to subscribe
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void subscribe(String topic, String inboundPortURI) throws Exception {
 		this.subscribe(topic, null, inboundPortURI);
 	}
 
+	/**
+	 * @param listTopics where the subscriber want to subscribe
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void subscribe(String[] listTopics, String inboundPortURI) throws Exception {
 		for(String t: listTopics)			//listTopics: local donc pas besoin de lock
 			this.subscribe(t, null, inboundPortURI);
 	}
 
+	/**
+	 * @param topic where the subscriber want to subscribe
+	 * @param filter of the topic
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortURI) throws Exception {
 		if(!isTopic(topic))
@@ -319,7 +310,12 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 
 	}
 
-	
+	/**
+	 * @param topic where the subscriber want to modify his filter
+	 * @param newFilter is the new filter 
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortURI) throws Exception {
 		writeLock.lock();
@@ -332,6 +328,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		writeLock.unlock();
 	}
 
+	/**
+	 * @param topic where the subscriber want to unsubscribe
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
 
@@ -399,5 +400,39 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		}
 	}
 
+	/**=====================================================================================
+	 * =================================== RECEPTIONCI =====================================
+	 ======================================================================================*/
+	
+	/**
+	 * Notify Subscribers and send them the message
+	 * @param m the message to send
+	 * @param topic where the message is publish
+	 * @throws Exception
+	 */
+	public void sendMessage(MessageI m, String topic) throws Exception {
+		readLock.lock();
+
+		handleRequestAsync(indexRead,
+				owner -> {if(subscriptions.containsKey(topic)) { 
+					for(Client sub : subscriptions.get(topic)) {
+						if(sub.hasFilter(topic)) {
+							MessageFilterI f = sub.getFilter(topic);
+							if (!f.filter(m))
+								sub.getPort().acceptMessage(m);
+						}else {
+							try {
+								sub.getPort().acceptMessage(m);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}; return null;}) ;
+
+
+		readLock.unlock();
+
+	}
 	
 }
