@@ -111,26 +111,53 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	/**======================================================================================
 	 * =================================== MANAGEMENTCI =====================================
 	 ======================================================================================*/
+	/**
+	 * @param topic where the subscriber want to subscribe
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void subscribe(String topic, String inboundPortUri) throws Exception {
 		this.managementOutboundPort.subscribe(topic, inboundPortUri);
 	}
 
+	/**
+	 * @param listTopics where the subscriber want to subscribe
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void subscribe(String[] topics, String inboundPortUri) throws Exception {
 		this.managementOutboundPort.subscribe(topics, inboundPortUri);
 	}
 
+	/**
+	 * @param topic where the subscriber want to subscribe
+	 * @param filter of the topic
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
 		this.managementOutboundPort.subscribe(topic, filter,inboundPortUri);
 	}
 
+	/**
+	 * @param topic where the subscriber want to modify his filter
+	 * @param newFilter is the new filter 
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortUri) throws Exception {
 		this.managementOutboundPort.modifyFilter(topic, newFilter, inboundPortUri);
 	}
 
+	/**
+	 * @param topic where the subscriber want to unsubscribe
+	 * @param inboundPortURI of the Subscriber
+	 * @throws Exception 
+	 */
 	@Override
 	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
 		this.managementOutboundPort.unsubscribe(topic, inboundPortURI);
@@ -140,11 +167,19 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	/**=====================================================================================
 	 * =================================== RECEPTIONCI =====================================
 	 ======================================================================================*/
+	/**
+	 * @param m the message to accept 
+	 * @throws Exeption
+	 */
 	@Override
 	public void acceptMessage(MessageI m) throws Exception {
 		this.logMessage(this.uri+" a reçu le message "+ m.getPayload());
 	}
 
+	/**
+	 * @param ms a list of message 
+	 * @throws Exeption
+	 */
 	@Override
 	public void acceptMessages(MessageI[] ms) throws Exception {
 		for(MessageI m : ms) {
