@@ -8,6 +8,7 @@ import interfaces.ManagementCI;
 import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import interfaces.SubscriptionImplementationI;
+import annexes.Chrono;
 import annexes.message.Properties;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
@@ -27,7 +28,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	/**-------------------- Variables ---------------------*/
 	protected final String                uri;
 	protected final String                receptionInboundPortURI;
-
+	
 	protected Subscriber(int nbThreads, int nbSchedulableThreads,
 							String uri, 	
 							String managementOutboundPortURI,
@@ -64,7 +65,12 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 		super.start() ;
 		this.logMessage("starting Subscriber component.") ;
 		
-		String [] topics = {"Automobile", "Voyage"};   //Pour que le Subscriber soit abonné aux topics avant la publication
+		String [] topics = {"Automobile", "Voyage","Sport","Nature&Decouvre"};   //Pour que le Subscriber soit abonné aux topics avant la publication
+		
+		//Chrono permet la preuve que les thread améliore le temps de calcul
+		Chrono chrono=new Chrono();
+		chrono.start();
+		
 		try {	
 			//Scenario 1 : voir URIPublisher
 			this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
@@ -81,12 +87,16 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 			
 			//Scenario 2 : Voir URIPublisher
 			this.subscribe(topics, receptionInboundPortURI);
+			this.subscribe("Informatique", receptionInboundPortURI);
 			this.logMessage("Subscriber subcribe to Automobile and Voyage.");
+			
 			
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;
 		}
+		chrono.stop();
+		this.logMessage("Chrono sub : "+chrono.getDureeMs()); 
 	}
 	
 	@Override
@@ -174,6 +184,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	@Override
 	public void acceptMessage(MessageI m) throws Exception {
 		this.logMessage(this.uri+" a reçu le message "+ m.getPayload());
+		
 	}
 
 	/**

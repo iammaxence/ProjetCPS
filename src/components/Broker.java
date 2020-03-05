@@ -21,6 +21,7 @@ import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
+import annexes.Chrono;
 import annexes.Client;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
@@ -46,7 +47,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected ArrayList<Client>                               subscribers;     // List of Subscriber
 	protected Map <String, ArrayList<Client> >                subscriptions;   //<Topics, List of Subscriber>
 	private int cpt;
-	private int indexRead;
+	private int threadPublication, threadSubscription;
 	
 	/**----------------------- MUTEX ----------------------*/
 	protected ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -73,6 +74,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		subscriptions = new HashMap <String, ArrayList<Client>>();  
 		subscribers = new ArrayList<Client>();
 		
+		/**---------------------- THREADS ---------------------*/
+		threadPublication = createNewExecutorService("threadPublication", 10, false);
+		threadSubscription = createNewExecutorService("threadSubscription", 10,false);
 		
 		/**----------------- ADD COMPONENTS -------------------*/
 		this.addOfferedInterface(ManagementCI.class);
@@ -81,8 +85,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		
 		/**---------------- PORTS CREATION --------------------*/
 		this.mipPublisher = new ManagementCInBoundPort(managInboundPortPublisher,this);
-		this.mipSubscriber = new ManagementCInBoundPort(managInboundPortSubscriber,this);
-		this.publicationInboundPort = new PublicationCInBoundPort(publicationInboundPortURI, this);
+		this.mipSubscriber = new ManagementCInBoundPort(managInboundPortSubscriber,this,threadSubscription);
+		this.publicationInboundPort = new PublicationCInBoundPort(publicationInboundPortURI, this, threadPublication);
 		
 		
 		/**-------------- PUBLISH PORT IN REGISTER ------------*/
@@ -91,8 +95,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.publicationInboundPort.publishPort();
 		
 		
-		/**---------------------- THREADS ---------------------*/
-		indexRead = createNewExecutorService("group-thread", 5, false);
+		
 		
 		
 	}
@@ -407,28 +410,44 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @throws Exception
 	 */
 	public void sendMessage(MessageI m, String topic) throws Exception {
+		
+		//Connaitre le nombre de thread actif à un moment donnée
+		this.logMessage("Nb thread actif: "+Thread.activeCount());
+		
+		for(Client sub : getSubscriptions(topic)) {
+			if(sub.hasFilter(topic)) {
+				MessageFilterI f = sub.getFilter(topic);
+				if (!f.filter(m))
+					sub.getPort().acceptMessage(m);
+			}else {
+				try {
+					sub.getPort().acceptMessage(m);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	
+	/**
+	 * Get a clone of list of subscibers for a topic 
+	 * @param topic in question
+	 * @return a clone of list of subscibers
+	 */
+	private ArrayList<Client> getSubscriptions(String topic) {
 		readLock.lock();
-
-		handleRequestAsync(indexRead,
-				owner -> {if(subscriptions.containsKey(topic)) { 
-					for(Client sub : subscriptions.get(topic)) {
-						if(sub.hasFilter(topic)) {
-							MessageFilterI f = sub.getFilter(topic);
-							if (!f.filter(m))
-								sub.getPort().acceptMessage(m);
-						}else {
-							try {
-								sub.getPort().acceptMessage(m);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				}; return null;}) ;
-
-
-		readLock.unlock();
-
+		try {
+			ArrayList<Client> sbs=new ArrayList<>();
+			if(subscriptions.containsKey(topic)) {
+				sbs=(ArrayList<Client>) subscriptions.get(topic).clone(); //A modifier si probleme
+			}
+			return sbs;
+		}finally {
+			readLock.unlock();
+		}
+		
 	}
 	
 }

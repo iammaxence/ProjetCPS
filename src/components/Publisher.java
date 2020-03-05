@@ -7,6 +7,7 @@ import interfaces.ManagementCI;
 import interfaces.ManagementImplementationI;
 import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
+import annexes.Chrono;
 import annexes.message.Message;
 import annexes.message.Properties;
 import annexes.message.TimeStamp;
@@ -66,10 +67,13 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 		String [] topics = {"Peche&Cuisine", "CPS"};
 		
 		try {
+			//Chrono permet la preuve que les thread améliore le temps de calcul
+			Chrono chrono=new Chrono();
+			chrono.start();
 			
 			//Scenario 1 : Publisher publie dans un Topic et un subsciber reçoit le message
 			this.logMessage("Publisher publit des messages dans Peche&Cuisine");
-			for(int i=0; i<10;i++) {
+			for(int i=0; i<10000;i++) {
 				this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine");
 			}
 			
@@ -94,6 +98,8 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 			Message msg = new Message("Non! Le thon c'est meilleur!", new TimeStamp(), props );
 			this.publish(msg, "Peche&Cuisine");
 			
+			chrono.stop();
+			this.logMessage("Chrono : "+chrono.getDureeMs()); 
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;
 		}
