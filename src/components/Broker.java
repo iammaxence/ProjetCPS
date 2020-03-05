@@ -21,7 +21,6 @@ import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
-import annexes.Chrono;
 import annexes.Client;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
@@ -104,9 +103,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	/**-----------------------------------------------------
 	 * -------------------- LIFE CYCLE ---------------------
 	 ------------------------------------------------------*/
-	/**
-	 * 
-	 */
 	@Override
 	public void	start() throws ComponentStartException {
 		super.start() ;
@@ -269,14 +265,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		if(!isSubscribe(topic, inboundPortURI)) {
 			ArrayList<Client> subs;
 			
-			readLock.lock();
-			if (subscriptions.containsKey(topic)) //Si le topic contiens déjà des subscibers
-				subs = subscriptions.get(topic);  //On les recupèrent (les abonnées)
-			else
-				subs = new ArrayList<>();	      //Sinon on crée une nouvelle liste associé au topic
-			readLock.unlock();
+			subs = getSubscriptions(topic); //Protegé par readLock   ! A VERIFER 
 			
-			Client monSub = getSubscriber(inboundPortURI);
+			Client monSub = getSubscriber(inboundPortURI); //Protegé par readLock
 			
 			if(monSub==null) { // Si le sub n'est pas dans la liste officiel des subscibers existants
 				String portURI = "uri-"+cpt++;
