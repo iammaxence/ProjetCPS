@@ -8,24 +8,28 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import annexes.Client;
-import annexes.message.interfaces.MessageFilterI;
-import annexes.message.interfaces.MessageI;
 import connectors.ReceptionConnector;
+import fr.sorbonne_u.components.AbstractComponent;
+import fr.sorbonne_u.components.annotations.OfferedInterfaces;
+import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
-import fr.sorbonne_u.components.pre.dcc.DynamicComponentCreator;
 import interfaces.ManagementCI;
 import interfaces.ManagementImplementationI;
 import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
 import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
+import annexes.message.interfaces.MessageFilterI;
+import annexes.message.interfaces.MessageI;
+import annexes.Client;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
 
+@OfferedInterfaces(offered= {ManagementCI.class,PublicationCI.class})
+@RequiredInterfaces(required = {ReceptionCI.class} )
 public class BrokerDynamic 
-extends DynamicComponentCreator
+extends AbstractComponent 
 implements ManagementImplementationI, SubscriptionImplementationI, PublicationsImplementationI{
 
 
@@ -36,13 +40,13 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	
 	/**------------------ VARIABLES ----------------------*/
-	protected final String                managInboundPortPublisher;
-	protected final String                managInboundPortSubscriber;
-	protected Map <String, ArrayList<MessageI> >                  topics;          //<Topics, List of messages>
-	protected ArrayList<Client>                                   subscribers;     // List of Subscriber
-	protected Map <String, ArrayList<Client> >                    subscriptions;   //<Topics, List of Subscriber>
+	protected final String              				   	  managInboundPortPublisher;
+	protected final String            					      managInboundPortSubscriber;
+	protected Map <String, ArrayList<MessageI> >              topics;          //<Topics, List of messages>
+	protected ArrayList<Client>                               subscribers;     // List of Subscriber
+	protected Map <String, ArrayList<Client> >                subscriptions;   //<Topics, List of Subscriber>
 	private int cpt;
-	private int indexWrite, indexRead;
+	private int indexRead;
 	
 	/**----------------------- MUTEX ----------------------*/
 	protected ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -50,13 +54,12 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected Lock writeLock = lock.writeLock();
 	
 	
-	protected BrokerDynamic(String dynamicComponentCreationInboundPortURI,
+	protected BrokerDynamic(int nbThreads, int nbSchedulableThreads, 
 							String uri, 
 							String managInboundPortPublisher,
 							String managInboundPortSubscriber, 
 							String publicationInboundPortURI) throws Exception {
-
-		super(dynamicComponentCreationInboundPortURI);
+		super(uri, nbThreads, nbSchedulableThreads);
 		
 		assert managInboundPortPublisher != null;
 		assert managInboundPortSubscriber != null;
@@ -89,8 +92,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		
 		
 		/**---------------------- THREADS ---------------------*/
-		indexWrite = createNewExecutorService("group1-thread", 5, true);
-		indexRead = createNewExecutorService("group2-thread", 5, false);
+		indexRead = createNewExecutorService("group-thread", 5, false);
 		
 		
 	}
@@ -125,9 +127,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.mipPublisher.unpublishPort(); 
 		this.mipSubscriber.unpublishPort(); 
 		this.publicationInboundPort.unpublishPort();
-		
-
-			
 		
 		super.finalise();
 	}
@@ -433,4 +432,3 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 	
 }
-

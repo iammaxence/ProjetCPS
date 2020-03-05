@@ -1,8 +1,8 @@
 package components;
 
+import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
-import fr.sorbonne_u.components.pre.dcc.DynamicComponentCreator;
 import interfaces.ManagementCI;
 import interfaces.ManagementImplementationI;
 import interfaces.PublicationCI;
@@ -14,19 +14,20 @@ import ports.PublicationCOutBoundPort;
 
 @RequiredInterfaces(required = {ManagementCI.class, PublicationCI.class})
 public class PublisherDynamic
-extends DynamicComponentCreator implements ManagementImplementationI, PublicationsImplementationI {
+extends AbstractComponent implements ManagementImplementationI, PublicationsImplementationI {
 
 	/**------------------- PORTS -------------------------*/
 	protected ManagementCOutBoundPort     managementOutboundPort;
 	protected PublicationCOutBoundPort    publicationOutboundPort;
 	
 	
-	protected PublisherDynamic(String dynamicComponentCreationInboundPortURI,
-								String managementOutboundPortURI,
-								String publicationOutboundPortURI) throws Exception{
-		super(dynamicComponentCreationInboundPortURI);
+	protected PublisherDynamic(int nbThreads, int nbSchedulableThreads,
+							String uri,
+							String managementOutboundPortURI,
+							String publicationOutboundPortURI) throws Exception{
+		super(uri, nbThreads, nbSchedulableThreads);
 		
-		assert dynamicComponentCreationInboundPortURI != null;
+		assert uri != null;
 		assert managementOutboundPortURI != null;
 		assert publicationOutboundPortURI != null;
 		

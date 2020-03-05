@@ -1,9 +1,9 @@
 package components;
 
+import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
-import fr.sorbonne_u.components.pre.dcc.DynamicComponentCreator;
 import interfaces.ManagementCI;
 import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
@@ -17,7 +17,7 @@ import ports.ReceptionCInBoundPort;
 @RequiredInterfaces(required = {ManagementCI.class})
 @OfferedInterfaces(offered = {ReceptionCI.class} )
 public class SubscriberDynamic
-extends DynamicComponentCreator implements ReceptionImplementationI, SubscriptionImplementationI {
+extends AbstractComponent implements ReceptionImplementationI, SubscriptionImplementationI {
 	
 	
 	/**-------------------- PORTS -------------------------*/
@@ -25,19 +25,20 @@ extends DynamicComponentCreator implements ReceptionImplementationI, Subscriptio
 	protected ManagementCOutBoundPort managementOutboundPort;
 	
 	/**-------------------- Variables ---------------------*/
-	protected final String                dynamicComponentCreationInboundPortURI;
+	protected final String                uri;
 	protected final String                receptionInboundPortURI;
 
-	protected SubscriberDynamic(String dynamicComponentCreationInboundPortURI, 	
-								String managementOutboundPortURI,
-								String receptionInboundPortURI) throws Exception{
-		super(dynamicComponentCreationInboundPortURI);
+	protected SubscriberDynamic(int nbThreads, int nbSchedulableThreads,
+							String uri, 	
+							String managementOutboundPortURI,
+							String receptionInboundPortURI) throws Exception{
+		super(nbThreads, nbSchedulableThreads);
 		
-		assert dynamicComponentCreationInboundPortURI != null;
+		assert uri != null;
 		assert receptionInboundPortURI != null;
 		assert managementOutboundPortURI != null;
 		
-		this.dynamicComponentCreationInboundPortURI = dynamicComponentCreationInboundPortURI;
+		this.uri = uri;
 		this.receptionInboundPortURI = receptionInboundPortURI;
 		
 		/**----------------- ADD COMPONENTS -------------------*/
@@ -172,7 +173,7 @@ extends DynamicComponentCreator implements ReceptionImplementationI, Subscriptio
 	 */
 	@Override
 	public void acceptMessage(MessageI m) throws Exception {
-		this.logMessage(this.dynamicComponentCreationInboundPortURI+" a reçu le message "+ m.getPayload());
+		this.logMessage(this.uri+" a reçu le message "+ m.getPayload());
 	}
 
 	/**
