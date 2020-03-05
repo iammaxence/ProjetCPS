@@ -1,8 +1,9 @@
-1583418595943|starting Publisher component.
-1583418595958|Publisher publit des messages dans Peche&Cuisine
-1583418595987|Publisher publit un message dans Peche&Cuisine et CPS
-1583418595988|Publisher creer le topic Automobile
-1583418595989|Publisher publit des messages dans Automobile
-1583418595989|Publisher publit des messages Peche&Cuisine et CPS
-1583418595990|Publisher publit des messages dans Peche&Cuisine
-1583418616019|stopping publisher component.
+1583426426161|starting Publisher component.
+1583426426171|Publisher publit des messages dans Peche&Cuisine
+1583426426200|Publisher publit un message dans Peche&Cuisine et CPS
+1583426426201|Publisher creer le topic Automobile
+1583426426202|Publisher publit des messages dans Automobile
+1583426426203|Publisher publit des messages Peche&Cuisine et CPS
+1583426426203|Publisher publit des messages dans Peche&Cuisine
+1583426426205|Chrono : 34
+1583426446273|stopping publisher component.

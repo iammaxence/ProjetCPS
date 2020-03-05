@@ -3,8 +3,6 @@ package launcher;
 import components.Broker;
 import components.Publisher;
 import components.Subscriber;
-import connectors.ManagementConnector;
-import connectors.PublicationConnector;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 
@@ -14,11 +12,10 @@ public class CVM extends AbstractCVM {
 	 * =================================== BROKER ===========================================
 	 =======================================================================================*/
 	protected String uriBrokerURI;
-	protected static final String BROKER_COMPONENT_URI = "my-URI-Broker" ;
-	protected static final String URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
-	public static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
-	public static final String    URIBrokerPublicationInboundPortURI = "bp-iport";
-	//protected static final String URIBrokerReceptionOutboundPortURI = "br-oport"; 
+	public static final String BROKER_COMPONENT_URI = "my-URI-Broker" ;
+	protected static final String    URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
+	protected static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
+	protected static final String    URIBrokerPublicationInboundPortURI = "bp-iport";
 
 	
 	
@@ -93,9 +90,7 @@ public class CVM extends AbstractCVM {
 					Publisher.class.getCanonicalName(),
 					new Object[]{1,
 								0,
-								PUBLISHER_COMPONENT_URI,
-								URIPublisherManagementOutboundPortURI,
-								URIPublisherPublicationOutboundPortURI}) ;
+								PUBLISHER_COMPONENT_URI}) ;
 		
 		assert	this.isDeployedComponent(this.uriPublisherURI) ;
 		this.toggleTracing(this.uriPublisherURI) ;
@@ -109,46 +104,11 @@ public class CVM extends AbstractCVM {
 					Subscriber.class.getCanonicalName(),
 					new Object[]{1,
 								0,
-								SUBSCRIBE_COMPONENT_URI,
-								URISubscriberManagementOutboundPortURI,
-								URISubscriberRecepetionInboundPortURI}) ;
+								SUBSCRIBE_COMPONENT_URI}) ;
 		
 		assert	this.isDeployedComponent(this.uriSubscriberURI) ;
 		this.toggleTracing(this.uriSubscriberURI) ;
 		this.toggleLogging(this.uriSubscriberURI) ;
-		
-
-		/**---------------------------------------------------------------------------------------
-		 * ------------------------------------ Connection Phase ---------------------------------
-		 ---------------------------------------------------------------------------------------*/
-
-		//publisher -> broker (Management)
-		this.doPortConnection(
-				this.uriPublisherURI,
-				URIPublisherManagementOutboundPortURI,
-				URIBrokerManagementInboundPortURI1,
-				ManagementConnector.class.getCanonicalName()) ;
-		
-		//publisher -> broker (Publication)
-		this.doPortConnection(
-				this.uriPublisherURI,
-				URIPublisherPublicationOutboundPortURI,
-				URIBrokerPublicationInboundPortURI,
-				PublicationConnector.class.getCanonicalName()) ;
-		
-		//subscriber -> broker( Management)
-		this.doPortConnection(
-				this.uriSubscriberURI,
-				URISubscriberManagementOutboundPortURI,
-				URIBrokerManagementInboundPortURI2,
-				ManagementConnector.class.getCanonicalName()) ;
-		
-//		//broker -> subscriber( Reception)
-//		this.doPortConnection(
-//				this.uriBrokerURI,
-//				URIBrokerReceptionOutboundPortURI,
-//				URISubscriberRecepetionInboundPortURI,
-//				ReceptionConnector.class.getCanonicalName()) ;
 		
 		
 		/**---------------------------------------------------------------------------------------
@@ -165,24 +125,7 @@ public class CVM extends AbstractCVM {
 	 * @see fr.sorbonne_u.components.cvm.AbstractCVM#finalise()
 	 */
 	@Override
-	public void	finalise() throws Exception
-	{
-		// Port disconnections can be done here for static architectures
-		// otherwise, they can be done in the finalise methods of components.
-		
-		this.doPortDisconnection(
-				this.uriPublisherURI,
-				URIPublisherManagementOutboundPortURI) ;
-		this.doPortDisconnection(
-				this.uriPublisherURI,
-				URIPublisherPublicationOutboundPortURI) ;
-		this.doPortDisconnection(
-				this.uriSubscriberURI,
-				URISubscriberManagementOutboundPortURI) ;
-//		this.doPortDisconnection(
-//				this.uriBrokerURI,
-//				URIBrokerReceptionOutboundPortURI) ;
-
+	public void	finalise() throws Exception {		
 		super.finalise();
 	}
 

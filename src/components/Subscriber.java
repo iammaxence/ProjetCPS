@@ -8,12 +8,12 @@ import interfaces.ManagementCI;
 import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import interfaces.SubscriptionImplementationI;
+import plugins.SubscriberPlugin;
+
 import annexes.Chrono;
 import annexes.message.Properties;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
-import ports.ManagementCOutBoundPort;
-import ports.ReceptionCInBoundPort;
 
 @RequiredInterfaces(required = {ManagementCI.class})
 @OfferedInterfaces(offered = {ReceptionCI.class} )
@@ -21,40 +21,24 @@ public class Subscriber
 extends AbstractComponent implements ReceptionImplementationI, SubscriptionImplementationI {
 	
 	
-	/**-------------------- PORTS -------------------------*/
-	protected ReceptionCInBoundPort recepetionInboundPort;
-	protected ManagementCOutBoundPort managementOutboundPort;
-	
 	/**-------------------- Variables ---------------------*/
-	protected final String                uri;
-	protected final String                receptionInboundPortURI;
+	protected final String                       uri;
+	protected final String                       receptionInboundPortURI;
+	protected SubscriberPlugin                   myplugin;
+	protected final static String mypluginURI = "subscriberPlugin";
 	
-	protected Subscriber(int nbThreads, int nbSchedulableThreads,
-							String uri, 	
-							String managementOutboundPortURI,
-							String receptionInboundPortURI) throws Exception{
-		super(nbThreads, nbSchedulableThreads);
-		
+	protected Subscriber(int nbThreads, int nbSchedulableThreads, String uri) throws Exception{
+		super(uri, nbThreads, nbSchedulableThreads);
 		assert uri != null;
-		assert receptionInboundPortURI != null;
-		assert managementOutboundPortURI != null;
 		
 		this.uri = uri;
-		this.receptionInboundPortURI = receptionInboundPortURI;
 		
-		/**----------------- ADD COMPONENTS -------------------*/
-		this.addRequiredInterface(ManagementCI.class);
-		this.addOfferedInterface(ReceptionCI.class);
-		
-		/**---------------- PORTS CREATION --------------------*/
-		this.managementOutboundPort=new ManagementCOutBoundPort(managementOutboundPortURI,this);
-		this.recepetionInboundPort=new ReceptionCInBoundPort(receptionInboundPortURI, this);
-		
-		/**-------------- PUBLISH PORT IN REGISTER ------------*/
-		this.managementOutboundPort.publishPort(); 
-		this.recepetionInboundPort.publishPort();
-	
-		
+		myplugin = new SubscriberPlugin();
+		myplugin.setPluginURI(mypluginURI);
+		this.installPlugin(myplugin);
+
+		this.receptionInboundPortURI = myplugin.getReceptionURI();
+		assert receptionInboundPortURI!=null;
 	}
 	
 	/**-----------------------------------------------------
@@ -109,10 +93,6 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	public void	finalise() throws Exception{
 		this.logMessage("stopping subscriber component.") ;
 		this.printExecutionLogOnFile("subscriber");
-		
-		/**------------------ DELETE PORTS --------------------*/
-		this.managementOutboundPort.unpublishPort(); 
-		this.recepetionInboundPort.unpublishPort();
 
 		super.finalise();
 	}
@@ -128,7 +108,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	 */
 	@Override
 	public void subscribe(String topic, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.subscribe(topic, inboundPortUri);
+		myplugin.subscribe(topic, inboundPortUri);
 	}
 
 	/**
@@ -138,7 +118,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	 */
 	@Override
 	public void subscribe(String[] topics, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.subscribe(topics, inboundPortUri);
+		myplugin.subscribe(topics, inboundPortUri);
 	}
 
 	/**
@@ -149,7 +129,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	 */
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.subscribe(topic, filter,inboundPortUri);
+		myplugin.subscribe(topic, filter,inboundPortUri);
 	}
 
 	/**
@@ -160,7 +140,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	 */
 	@Override
 	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.modifyFilter(topic, newFilter, inboundPortUri);
+		myplugin.modifyFilter(topic, newFilter, inboundPortUri);
 	}
 
 	/**
@@ -170,7 +150,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	 */
 	@Override
 	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
-		this.managementOutboundPort.unsubscribe(topic, inboundPortURI);
+		myplugin.unsubscribe(topic, inboundPortURI);
 	}
 
 	

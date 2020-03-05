@@ -14,6 +14,11 @@ extends AbstractInboundPort implements ReceptionCI{
 		super(uri, ReceptionCI.class, owner);
 		assert	uri != null && owner instanceof Subscriber ;
 	}
+	
+	public ReceptionCInBoundPort(ComponentI owner) throws Exception {
+		super(ReceptionCI.class, owner);
+		assert owner instanceof Subscriber ;
+	}
 
 	@Override
 	public void acceptMessage(MessageI m) throws Exception {

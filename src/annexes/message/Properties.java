@@ -103,7 +103,7 @@ public class Properties implements Serializable{
 				return (boolean)res;
 			throw new Exception("Properties: not a boolean");
 		}
-		throw new Exception("Properties: do not exist");
+		return false;
 	}
 
 	/**

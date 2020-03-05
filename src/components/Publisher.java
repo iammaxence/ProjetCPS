@@ -7,46 +7,30 @@ import interfaces.ManagementCI;
 import interfaces.ManagementImplementationI;
 import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
+import plugins.PublisherPlugin;
 import annexes.Chrono;
 import annexes.message.Message;
 import annexes.message.Properties;
 import annexes.message.TimeStamp;
 import annexes.message.interfaces.MessageI;
-import ports.ManagementCOutBoundPort;
-import ports.PublicationCOutBoundPort;
 
 
 @RequiredInterfaces(required = {ManagementCI.class, PublicationCI.class})
 public class Publisher 
 extends AbstractComponent implements ManagementImplementationI, PublicationsImplementationI {
-
-	/**------------------- PORTS -------------------------*/
-	protected ManagementCOutBoundPort     managementOutboundPort;
-	protected PublicationCOutBoundPort    publicationOutboundPort;
 	
+	protected final static String mypluginURI="publisherPlugin";
+	protected PublisherPlugin myplugin;
 	
-	protected Publisher(int nbThreads, int nbSchedulableThreads,
-							String uri,
-							String managementOutboundPortURI,
-							String publicationOutboundPortURI) throws Exception{
+	protected Publisher(int nbThreads, int nbSchedulableThreads, String uri) throws Exception{
 		super(uri, nbThreads, nbSchedulableThreads);
-		
 		assert uri != null;
-		assert managementOutboundPortURI != null;
-		assert publicationOutboundPortURI != null;
+		
+		myplugin=new PublisherPlugin();
+		myplugin.setPluginURI(mypluginURI);
+		this.installPlugin(myplugin);
 		
 		
-		/**----------------- ADD COMPONENTS -------------------*/
-		this.addRequiredInterface(ManagementCI.class);
-		this.addRequiredInterface(PublicationCI.class);
-		
-		/**---------------- PORTS CREATION --------------------*/
-		this.managementOutboundPort = new ManagementCOutBoundPort(managementOutboundPortURI,this);
-		this.publicationOutboundPort = new PublicationCOutBoundPort(publicationOutboundPortURI, this);
-		
-		/**-------------- PUBLISH PORT IN REGISTER ------------*/
-		this.managementOutboundPort.publishPort(); 
-		this.publicationOutboundPort.publishPort();
 	}
 	
 	/**-----------------------------------------------------
@@ -111,10 +95,6 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	public void	finalise() throws Exception{
 		this.logMessage("stopping publisher component.") ;
 		this.printExecutionLogOnFile("publisher");
-
-		/**------------------ DELETE PORTS --------------------*/
-		this.managementOutboundPort.unpublishPort(); 
-		this.publicationOutboundPort.unpublishPort();
 		
 		super.finalise();
 	}
@@ -126,27 +106,27 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	 ======================================================================================*/
 	@Override
 	public void createTopic(String topic) throws Exception {
-		this.managementOutboundPort.createTopic(topic);
+		myplugin.createTopic(topic);
 	}
 
 	@Override
 	public void createTopics(String[] topics) throws Exception {
-		this.managementOutboundPort.createTopics(topics);
+		myplugin.createTopics(topics);
 	}
 
 	@Override
 	public void destroyTopic(String topic) throws Exception {
-		this.managementOutboundPort.destroyTopic(topic);
+		myplugin.destroyTopic(topic);
 	}
 
 	@Override
 	public boolean isTopic(String topic) throws Exception {
-		return this.managementOutboundPort.isTopic(topic);
+		return myplugin.isTopic(topic);
 	}
 
 	@Override
 	public String[] getTopics() throws Exception {
-		return this.managementOutboundPort.getTopics();
+		return myplugin.getTopics();
 	}
 
 
@@ -156,22 +136,22 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	 ======================================================================================*/
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
-		this.publicationOutboundPort.publish(m, topic);
+		myplugin.publish(m, topic);
 	}
 
 	@Override
 	public void publish(MessageI m, String[] topics) throws Exception {
-		this.publicationOutboundPort.publish(m, topics);
+		myplugin.publish(m, topics);
 	}
 
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
-		this.publicationOutboundPort.publish(ms, topic);
+		myplugin.publish(ms, topic);
 	}
 
 	@Override
 	public void publish(MessageI[] ms, String[] topics) throws Exception {
-		this.publicationOutboundPort.publish(ms, topics);
+		myplugin.publish(ms, topics);
 	}
 
 }
