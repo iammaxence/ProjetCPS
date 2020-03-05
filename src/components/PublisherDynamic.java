@@ -1,36 +1,32 @@
 package components;
 
-import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
+import fr.sorbonne_u.components.pre.dcc.DynamicComponentCreator;
 import interfaces.ManagementCI;
 import interfaces.ManagementImplementationI;
 import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
-import annexes.message.Message;
-import annexes.message.Properties;
-import annexes.message.TimeStamp;
 import annexes.message.interfaces.MessageI;
 import ports.ManagementCOutBoundPort;
 import ports.PublicationCOutBoundPort;
 
 
 @RequiredInterfaces(required = {ManagementCI.class, PublicationCI.class})
-public class Publisher 
-extends AbstractComponent implements ManagementImplementationI, PublicationsImplementationI {
+public class PublisherDynamic
+extends DynamicComponentCreator implements ManagementImplementationI, PublicationsImplementationI {
 
 	/**------------------- PORTS -------------------------*/
 	protected ManagementCOutBoundPort     managementOutboundPort;
 	protected PublicationCOutBoundPort    publicationOutboundPort;
 	
 	
-	protected Publisher(int nbThreads, int nbSchedulableThreads,
-							String uri,
-							String managementOutboundPortURI,
-							String publicationOutboundPortURI) throws Exception{
-		super(uri, nbThreads, nbSchedulableThreads);
+	protected PublisherDynamic(String dynamicComponentCreationInboundPortURI,
+								String managementOutboundPortURI,
+								String publicationOutboundPortURI) throws Exception{
+		super(dynamicComponentCreationInboundPortURI);
 		
-		assert uri != null;
+		assert dynamicComponentCreationInboundPortURI != null;
 		assert managementOutboundPortURI != null;
 		assert publicationOutboundPortURI != null;
 		
@@ -61,42 +57,6 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	public void	execute() throws Exception{
 		super.execute();
 		
-		
-		MessageI[] messages = {new Message("Mon 1er message."), new Message("Mon second message.")};
-		String [] topics = {"Peche&Cuisine", "CPS"};
-		
-		try {
-			
-			//Scenario 1 : Publisher publie dans un Topic et un subsciber reçoit le message
-			this.logMessage("Publisher publit des messages dans Peche&Cuisine");
-			for(int i=0; i<10;i++) {
-				this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine");
-			}
-			
-			//Scenario 2: Publisher publie dans plusieurs Topic, seul les subs abonnées aux topics reçoivent les messages
-			this.logMessage("Publisher publit un message dans Peche&Cuisine et CPS");
-			this.publish(new Message("Hello World!"), topics);
-			
-			//Scenario 3: Publisher publie plusieurs messages dans un topic	creer a l'avance
-			this.logMessage("Publisher creer le topic Automobile");
-			this.createTopic("Automobile");
-			this.logMessage("Publisher publit des messages dans Automobile");
-			this.publish(messages, "Automobile");
-			
-			//Scenario 4: Publisher publie plusieurs messages dans plusieurs topics	
-			this.logMessage("Publisher publit des messages Peche&Cuisine et CPS");
-			this.publish(messages, topics);
-			
-			//Scenario 5: Publisher publie un message avec une propriété
-			this.logMessage("Publisher publit des messages dans Peche&Cuisine");
-			Properties props = new Properties();
-			props.putProp("thon", true);
-			Message msg = new Message("Non! Le thon c'est meilleur!", new TimeStamp(), props );
-			this.publish(msg, "Peche&Cuisine");
-			
-		} catch (Exception e) {
-			throw new RuntimeException(e) ;
-		}
 		
 	}
 	
