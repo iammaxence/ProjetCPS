@@ -135,7 +135,14 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	/**======================================================================================
 	 * ================================== PUBLICATIONCI =====================================
 	 ======================================================================================*/
-
+	
+	/**
+	 * 
+	 * @param m : The message to send
+	 * @param topic The topic that will contain the message
+	 * @return void
+	 * @throws Exception 
+	 */
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
 		ArrayList<MessageI> n;
@@ -154,6 +161,14 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.sendMessage(m, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
 	}
+	
+	/**
+	 * 
+	 * @param m : The message to send
+	 * @param listTopics The list of topic that will contain the message m
+	 * @return void
+	 * @throws Exception 
+	 */
 
 	@Override
 	public void publish(MessageI m, String[] listTopics) throws Exception {
@@ -161,13 +176,29 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			this.publish(m,t);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param ms : Messages to send
+	 * @param topic The topic that will contain the message
+	 * @return void
+	 * @throws Exception 
+	 */
 
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
 		for(MessageI m: ms)
 			this.publish(m, topic);
 	}
-
+	
+	
+	/**
+	 * @param ms : Messages to send
+	 * @param topic : The topic that will contain the message
+	 * @return void
+	 * @throws Exception 
+	 */
+	
 	@Override
 	public void publish(MessageI[] ms, String[] listTopics) throws Exception {
 		for(String t: listTopics) {  //listTopics: local donc pas besoin de lock
@@ -179,6 +210,12 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	/**======================================================================================
 	 * =================================== MANAGEMENTCI =====================================
 	 ======================================================================================*/
+	
+	/**
+	 * @param topic : The topic that will be created
+	 * @return void
+	 * @throws Exception 
+	 */
 	@Override
 	public void createTopic(String topic) throws Exception {
 		if(!isTopic(topic)) {
@@ -187,13 +224,24 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			writeLock.unlock();
 		}
 	}
-
+	
+	/**
+	 * @param listTopics : Topics that will be created
+	 * @return void
+	 * @throws Exception 
+	 */
 	@Override
 	public void createTopics(String[] listTopics) throws Exception {
 		for(String t : listTopics) //listTopics: local donc pas besoin de lock
 			createTopic(t);
 	}
-
+	
+	/**
+	 * @param topic : The topic that will be destroy
+	 * @return void
+	 * @throws Exception 
+	 */
+	
 	@Override
 	public void destroyTopic(String topic) throws Exception {
 		if(isTopic(topic)) {
@@ -203,7 +251,12 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			writeLock.unlock();
 		}
 	}
-
+	
+	/**
+	 * @param topic : The topic that we are looking for
+	 * @return void
+	 * @throws Exception 
+	 */
 	@Override
 	public boolean isTopic(String topic) throws Exception {
 		try {
@@ -213,6 +266,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			readLock.unlock();
 		}
 	}
+	
+	/**
+	 * @return A list of topics that already exist
+	 * @throws Exception 
+	 */
 
 	@Override
 	public String[] getTopics() throws Exception {

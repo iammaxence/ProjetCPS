@@ -9,7 +9,7 @@ import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import interfaces.SubscriptionImplementationI;
 import plugins.SubscriberPlugin;
-
+import ports.ReceptionCInBoundPort;
 import annexes.Chrono;
 import annexes.message.Properties;
 import annexes.message.interfaces.MessageFilterI;
@@ -56,24 +56,8 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 		chrono.start();
 		
 		try {	
-			//Scenario 1 : voir URIPublisher
-			this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
-			MessageFilterI filter = m -> 
-							{Properties props = m.getProperties(); 
-							try {
-								return props.getBooleanProp("thon");
-							} catch (Exception e) {
-								e.printStackTrace();
-								return false;
-							}} ;
-			this.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
-			
-			
-			//Scenario 2 : Voir URIPublisher
-			this.subscribe(topics, receptionInboundPortURI);
-			this.subscribe("Informatique", receptionInboundPortURI);
-			this.logMessage("Subscriber subcribe to Automobile and Voyage.");
-			
+			scenario1(topics);
+			scenario2(topics);
 			
 			
 		} catch (Exception e) {
@@ -177,5 +161,53 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 			this.acceptMessage(m);
 		}
 	}
+	
+	/**======================================================================================
+	 * =================================== SCENARIO =====================================
+	 ======================================================================================
+	  */
+	
+	/**
+	 * Subscribe to the topic "Peche&Cuisine". We use the filter "thon"
+	 * @throws Exception
+	 */
+	
+	public void scenario1(String[] topics) throws Exception {
+		
+		this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
+		MessageFilterI filter = m -> 
+						{Properties props = m.getProperties(); 
+						try {
+							return props.getBooleanProp("thon");
+						} catch (Exception e) {
+							e.printStackTrace();
+							return false;
+						}} ;
+		this.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
+	}
+	
+	/**
+	 * Subscribe to a list of topics
+	 * @param topics
+	 * @throws Exception
+	 */
+	
+	public void scenario2(String[] topics) throws Exception {
+	
+		this.subscribe(topics, receptionInboundPortURI);
+		this.logMessage("Subscriber subcribe to Automobile");
+	}
+	
+	/**
+	 * Subscribe to 100 topics
+	 * @throws Exception
+	 */
+	
+	public void scenario3() throws Exception {
+		for(int i=0;i<100;i++) {
+			this.subscribe("topic"+i, receptionInboundPortURI);
+		}
+	}
+	
 
 }
