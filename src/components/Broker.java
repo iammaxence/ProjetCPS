@@ -460,6 +460,25 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			readLock.unlock();
 		}
 	}
+	
+	/**
+	 * Get a clone of list of subscibers for a topic 
+	 * @param topic in question
+	 * @return a clone of list of subscibers
+	 */
+	private ArrayList<Client> getSubscriptions(String topic) {
+		readLock.lock();
+		try {
+			ArrayList<Client> sbs=new ArrayList<>();
+			if(subscriptions.containsKey(topic)) {
+				sbs=(ArrayList<Client>) subscriptions.get(topic).clone(); //A modifier si probleme
+			}
+			return sbs;
+		}finally {
+			readLock.unlock();
+		}
+		
+	}
 
 	/**=====================================================================================
 	 * =================================== RECEPTIONCI =====================================
@@ -491,25 +510,5 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		}
 		
 	}
-	
-	
-	/**
-	 * Get a clone of list of subscibers for a topic 
-	 * @param topic in question
-	 * @return a clone of list of subscibers
-	 */
-	private ArrayList<Client> getSubscriptions(String topic) {
-		readLock.lock();
-		try {
-			ArrayList<Client> sbs=new ArrayList<>();
-			if(subscriptions.containsKey(topic)) {
-				sbs=(ArrayList<Client>) subscriptions.get(topic).clone(); //A modifier si probleme
-			}
-			return sbs;
-		}finally {
-			readLock.unlock();
-		}
-		
-	}
-	
+
 }

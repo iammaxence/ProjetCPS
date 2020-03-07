@@ -183,7 +183,9 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 		MessageFilterI filter = m -> 
 						{Properties props = m.getProperties(); 
 						try {
-							return props.getBooleanProp("thon");
+							if(props.contains("thon"))
+								return props.getBooleanProp("thon");
+							return false;
 						} catch (Exception e) {
 							e.printStackTrace();
 							return false;

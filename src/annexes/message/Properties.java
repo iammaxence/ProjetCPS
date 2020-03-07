@@ -14,6 +14,17 @@ public class Properties implements Serializable{
 	private HashMap<String,Object> map = new HashMap<>();
 	
 	/**
+	 * Check if there is a property of this name
+	 * @param name of the property
+	 * @return if the property exist 
+	 */
+	public boolean contains(String name) {
+		if (map.containsKey(name))
+			return true;
+		return false;
+	}
+	
+	/**
 	 * Insert a property 
 	 * @param name: name of the property -> String
 	 * @param v: value -> boolean
