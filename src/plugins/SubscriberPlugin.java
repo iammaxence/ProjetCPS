@@ -128,7 +128,7 @@ extends AbstractPlugin implements SubscriptionImplementationI{
 
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.subscribe(topic, inboundPortUri);
+		this.managementOutboundPort.subscribe(topic, filter, inboundPortUri);
 	}
 
 	@Override

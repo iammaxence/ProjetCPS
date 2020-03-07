@@ -2,6 +2,7 @@ package annexes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import annexes.message.interfaces.MessageFilterI;
 import ports.ReceptionCOutBoundPort;
@@ -98,6 +99,18 @@ public class Client {
 				return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * @return a copy of a client
+	 */
+	public Client copy() {
+		Client copy = new Client(this.ReceptionCInBoundPort, this.port);
+		Set<String> topics = filters.keySet();
+		for(String topic: topics) {
+			copy.setFilter(filters.get(topic), topic);
+		}
+		return copy;
 	}
 		
 	

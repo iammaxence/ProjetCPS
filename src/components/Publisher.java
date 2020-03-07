@@ -210,7 +210,7 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	public void scenario1() throws Exception {
 		
 		this.logMessage("Publisher publit des messages dans Peche&Cuisine");
-		for(int i=0; i<10000;i++) {
+		for(int i=0; i<1000;i++) {
 			this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine");
 		}
 	}

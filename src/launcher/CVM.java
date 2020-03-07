@@ -13,10 +13,8 @@ import fr.sorbonne_u.components.cvm.AbstractCVM;
  */
 public class CVM extends AbstractCVM {
 
-	/**======================================================================================
-	 * =================================== BROKER ===========================================
-	 =======================================================================================*/
-	protected String uriBrokerURI;
+	/**=================================== BROKER ==========================================*/
+	protected String brokerURI;
 	public static final String BROKER_COMPONENT_URI = "my-URI-Broker" ;
 	protected static final String    URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
 	protected static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
@@ -24,22 +22,18 @@ public class CVM extends AbstractCVM {
 
 	
 	
-	/**=======================================================================================
-	 * ==================================== PUBLISHER ========================================
-	 ========================================================================================*/
-	protected String uriPublisherURI;
+	/** ==================================== PUBLISHER ======================================*/
+	protected String publisherURI;
 	protected static final String PUBLISHER_COMPONENT_URI = "my-URI-publisher" ;
-	protected static final String URIPublisherManagementOutboundPortURI = "pm-iport";
-	protected static final String URIPublisherPublicationOutboundPortURI = "pp-iport";
+//	protected static final String URIPublisherManagementOutboundPortURI = "pm-iport";
+//	protected static final String URIPublisherPublicationOutboundPortURI = "pp-iport";
 	
 	
-	/**========================================================================================
-	 * ===================================== SUBSCRIBER =======================================
-	 =========================================================================================*/
-	protected String uriSubscriberURI;
+	/** ===================================== SUBSCRIBER ======================================*/
+	protected String subscriberURI;
 	protected static final String SUBSCRIBE_COMPONENT_URI = "my-URI-subscribe" ;
-	protected static final String URISubscriberRecepetionInboundPortURI = "sr-iport"; 
-	protected static final String URISubscriberManagementOutboundPortURI = "sm-iport"; 
+//	protected static final String URISubscriberRecepetionInboundPortURI = "sr-iport"; 
+//	protected static final String URISubscriberManagementOutboundPortURI = "sm-iport"; 
 	
 	
 	/**
@@ -73,7 +67,7 @@ public class CVM extends AbstractCVM {
 		/**======================================================================================
 		 * =============================== BROKER COMPONENT =====================================
 		 ======================================================================================*/
-		this.uriBrokerURI =
+		this.brokerURI =
 			AbstractComponent.createComponent(
 					Broker.class.getCanonicalName(),
 					new Object[]{1,
@@ -83,37 +77,37 @@ public class CVM extends AbstractCVM {
 								 URIBrokerManagementInboundPortURI2,
 								 URIBrokerPublicationInboundPortURI}) ; 
 		
-		assert	this.isDeployedComponent(this.uriBrokerURI) ;
-		this.toggleTracing(this.uriBrokerURI) ;
-		this.toggleLogging(this.uriBrokerURI) ;
+		assert	this.isDeployedComponent(this.brokerURI) ;
+		this.toggleTracing(this.brokerURI) ;
+		this.toggleLogging(this.brokerURI) ;
 
 		/**========================================================================================
 		 * ============================== PUBLISHER COMPONENT =====================================
 		 ========================================================================================*/
-		this.uriPublisherURI =
+		this.publisherURI =
 			AbstractComponent.createComponent(
 					Publisher.class.getCanonicalName(),
 					new Object[]{1,
 								0,
 								PUBLISHER_COMPONENT_URI}) ;
 		
-		assert	this.isDeployedComponent(this.uriPublisherURI) ;
-		this.toggleTracing(this.uriPublisherURI) ;
-		this.toggleLogging(this.uriPublisherURI) ;
+		assert	this.isDeployedComponent(this.publisherURI) ;
+		this.toggleTracing(this.publisherURI) ;
+		this.toggleLogging(this.publisherURI) ;
 		
 		/**========================================================================================
 		 * ================================ SUBSCRIBER COMPONENT ==================================
 		 ==========================================================================================*/
-		this.uriSubscriberURI =
+		this.subscriberURI =
 			AbstractComponent.createComponent(
 					Subscriber.class.getCanonicalName(),
 					new Object[]{1,
 								0,
 								SUBSCRIBE_COMPONENT_URI}) ;
 		
-		assert	this.isDeployedComponent(this.uriSubscriberURI) ;
-		this.toggleTracing(this.uriSubscriberURI) ;
-		this.toggleLogging(this.uriSubscriberURI) ;
+		assert	this.isDeployedComponent(this.subscriberURI) ;
+		this.toggleTracing(this.subscriberURI) ;
+		this.toggleLogging(this.subscriberURI) ;
 		
 		
 		/**---------------------------------------------------------------------------------------

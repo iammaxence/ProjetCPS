@@ -152,7 +152,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	 */
 	@Override
 	public void acceptMessage(MessageI m) throws Exception {
-		this.logMessage(this.uri+" a reçu le message "+ m.getPayload());
+		this.logMessage(this.uri+" a reçu : "+ m.getPayload());
 		
 	}
 
@@ -183,9 +183,10 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 		MessageFilterI filter = m -> 
 						{Properties props = m.getProperties(); 
 						try {
-							if(props.contains("thon"))
+							if(props.contains("thon")) 
 								return props.getBooleanProp("thon");
-							return false;
+							else
+								return false;
 						} catch (Exception e) {
 							e.printStackTrace();
 							return false;

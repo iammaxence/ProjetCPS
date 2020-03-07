@@ -363,9 +363,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			subscriptions.put(topic, subs);
 			writeLock.unlock();
 			
-			this.logMessage("Subscriber "+inboundPortURI+" subscribe to topic "+topic);
+			this.logMessage("Subscriber subscribe to topic "+topic);
 		}else {
-			this.logMessage("Subscriber "+inboundPortURI+" already subscribe to topic "+topic);
+			this.logMessage("Subscriber already subscribe to topic "+topic);
 		}
 
 
@@ -471,7 +471,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		try {
 			ArrayList<Client> sbs=new ArrayList<>();
 			if(subscriptions.containsKey(topic)) {
-				sbs=(ArrayList<Client>) subscriptions.get(topic).clone(); //A modifier si probleme
+				for(Client client : subscriptions.get(topic)) {
+					sbs.add(client.copy()); 
+				}
 			}
 			return sbs;
 		}finally {
@@ -493,7 +495,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	public void sendMessage(MessageI m, String topic) throws Exception {
 		
 		//Connaitre le nombre de thread actif à un moment donnée
-		this.logMessage("Nb thread actif: "+Thread.activeCount());
+		//this.logMessage("Nb thread actif: "+Thread.activeCount());
 		
 		for(Client sub : getSubscriptions(topic)) {
 			if(sub.hasFilter(topic)) {
