@@ -14,7 +14,11 @@ import annexes.message.Properties;
 import annexes.message.TimeStamp;
 import annexes.message.interfaces.MessageI;
 
-
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 @RequiredInterfaces(required = {ManagementCI.class, PublicationCI.class})
 public class Publisher 
 extends AbstractComponent implements ManagementImplementationI, PublicationsImplementationI {
@@ -22,14 +26,21 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	protected final static String mypluginURI="publisherPlugin";
 	protected PublisherPlugin myplugin;
 	
+	/**
+	 * Constructor of Publisher Component
+	 * @param nbThreads is the number of thread s
+	 * @param nbSchedulableThreads is the number of schedulable threads
+	 * @param uri of the Component
+	 * @throws Exception
+	 */
 	protected Publisher(int nbThreads, int nbSchedulableThreads, String uri) throws Exception{
 		super(uri, nbThreads, nbSchedulableThreads);
 		assert uri != null;
 		
+		/**----------- PLUGIN INSTALLATION ------------**/
 		myplugin=new PublisherPlugin();
 		myplugin.setPluginURI(mypluginURI);
 		this.installPlugin(myplugin);
-		
 		
 	}
 	

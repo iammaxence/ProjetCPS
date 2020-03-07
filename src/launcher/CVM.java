@@ -6,6 +6,11 @@ import components.Subscriber;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class CVM extends AbstractCVM {
 
 	/**======================================================================================

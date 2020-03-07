@@ -6,15 +6,32 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
 import interfaces.ReceptionCI;
 import annexes.message.interfaces.MessageI;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class ReceptionCInBoundPort 
 extends AbstractInboundPort implements ReceptionCI{
+	
 	private static final long serialVersionUID = 1L;
 
-	public ReceptionCInBoundPort(String uri,ComponentI owner) throws Exception {
+	/**
+	 * Constructor of ReceptionCInBoundPort
+	 * @param uri of the port
+	 * @param owner of the port
+	 * @throws Exception
+	 */
+	public ReceptionCInBoundPort(String uri, ComponentI owner) throws Exception {
 		super(uri, ReceptionCI.class, owner);
-		assert	uri != null && owner instanceof Subscriber ;
+		assert uri!=null && owner instanceof Subscriber ;
 	}
 	
+	/**
+	 * Constructor of ReceptionCInBoundPort
+	 * @param owner of this port
+	 * @throws Exception
+	 */
 	public ReceptionCInBoundPort(ComponentI owner) throws Exception {
 		super(ReceptionCI.class, owner);
 		assert owner instanceof Subscriber ;

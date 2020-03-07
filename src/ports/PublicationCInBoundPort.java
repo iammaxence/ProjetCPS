@@ -6,11 +6,24 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
 import interfaces.PublicationCI;
 import annexes.message.interfaces.MessageI;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class PublicationCInBoundPort 
 extends AbstractInboundPort implements PublicationCI{
+	
 	private static final long serialVersionUID = 1L;
 	private int indexPool;
 
+	/**
+	 * Constructor of PublicationCInBoundPort
+	 * @param uri of the port
+	 * @param owner of the port
+	 * @param indexPool is the index of pool thread
+	 * @throws Exception
+	 */
 	public PublicationCInBoundPort(String uri, ComponentI owner, int indexPool) throws Exception {
 		super(uri, PublicationCI.class, owner);
 		assert	uri != null && owner instanceof Broker ;

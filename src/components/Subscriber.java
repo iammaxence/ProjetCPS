@@ -9,12 +9,16 @@ import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import interfaces.SubscriptionImplementationI;
 import plugins.SubscriberPlugin;
-import ports.ReceptionCInBoundPort;
 import annexes.Chrono;
 import annexes.message.Properties;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 @RequiredInterfaces(required = {ManagementCI.class})
 @OfferedInterfaces(offered = {ReceptionCI.class} )
 public class Subscriber 
@@ -29,10 +33,11 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	
 	protected Subscriber(int nbThreads, int nbSchedulableThreads, String uri) throws Exception{
 		super(uri, nbThreads, nbSchedulableThreads);
-		assert uri != null;
 		
+		assert uri != null;
 		this.uri = uri;
 		
+		/**----------- PLUGIN INSTALLATION ------------**/
 		myplugin = new SubscriberPlugin();
 		myplugin.setPluginURI(mypluginURI);
 		this.installPlugin(myplugin);

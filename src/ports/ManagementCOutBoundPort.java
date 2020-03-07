@@ -1,6 +1,5 @@
 package ports;
 
-
 import components.Publisher;
 import components.Subscriber;
 import fr.sorbonne_u.components.ComponentI;
@@ -8,20 +7,36 @@ import fr.sorbonne_u.components.ports.AbstractOutboundPort;
 import interfaces.ManagementCI;
 import annexes.message.interfaces.MessageFilterI;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class ManagementCOutBoundPort 
 extends AbstractOutboundPort implements ManagementCI{
+	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Constructor of ManagementCOutBoundPort
+	 * @param uri of the port
+	 * @param owner of the port
+	 * @throws Exception
+	 */
 	public ManagementCOutBoundPort(String uri,ComponentI owner) throws Exception {
 		super(uri, ManagementCI.class, owner);
 		assert	uri != null && (owner instanceof Subscriber || owner instanceof Publisher);
 	}
 
+	/**
+	 * Constructor of ManagementCOutBoundPort
+	 * @param owner of the port
+	 * @throws Exception
+	 */
 	public ManagementCOutBoundPort(ComponentI owner) throws Exception {
 		super(ManagementCI.class, owner);
 		assert (owner instanceof Subscriber || owner instanceof Publisher);
 	}
-	
 	
 
 	@Override

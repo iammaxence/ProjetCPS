@@ -4,6 +4,11 @@ import fr.sorbonne_u.components.connectors.AbstractConnector;
 import interfaces.ReceptionCI;
 import annexes.message.interfaces.MessageI;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class ReceptionConnector 
 extends AbstractConnector implements ReceptionCI {
 

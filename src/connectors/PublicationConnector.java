@@ -4,6 +4,11 @@ import fr.sorbonne_u.components.connectors.AbstractConnector;
 import interfaces.PublicationCI;
 import annexes.message.interfaces.MessageI;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class PublicationConnector 
 extends AbstractConnector implements PublicationCI{
 	

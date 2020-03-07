@@ -4,6 +4,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Instant;
 
+/**
+ * 
+ * @author Group LAMA
+ *
+ */
 public class TimeStamp {
 	protected long time;
 	protected String timestamper;

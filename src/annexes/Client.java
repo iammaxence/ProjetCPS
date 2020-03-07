@@ -1,12 +1,16 @@
 package annexes;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
 import annexes.message.interfaces.MessageFilterI;
 import ports.ReceptionCOutBoundPort;
 
+/**
+ * 
+ * @author Group LAMA
+ *
+ */
 public class Client {
 	private String ReceptionCInBoundPort;
 	private ReceptionCOutBoundPort port;

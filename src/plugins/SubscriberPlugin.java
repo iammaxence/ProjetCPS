@@ -15,6 +15,11 @@ import launcher.CVM;
 import ports.ManagementCOutBoundPort;
 import ports.ReceptionCInBoundPort;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class SubscriberPlugin 
 extends AbstractPlugin implements SubscriptionImplementationI{
 
@@ -99,6 +104,9 @@ extends AbstractPlugin implements SubscriptionImplementationI{
 	/**------------------------------------------------------------------
 	 * ---------------- PLUGIN SERVICES IMPLEMENTATION ------------------
 	 ------------------------------------------------------------------*/
+	/**
+	 * @return the URI of the ReceptionCInBoundPort
+	 */
 	public String getReceptionURI() {
 		try {
 			return recepetionInboundPort.getPortURI();

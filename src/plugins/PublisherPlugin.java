@@ -16,6 +16,11 @@ import launcher.CVM;
 import ports.ManagementCOutBoundPort;
 import ports.PublicationCOutBoundPort;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class PublisherPlugin 
 extends AbstractPlugin implements PublicationsImplementationI, ManagementImplementationI{
 

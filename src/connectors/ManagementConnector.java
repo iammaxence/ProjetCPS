@@ -4,6 +4,11 @@ import fr.sorbonne_u.components.connectors.AbstractConnector;
 import interfaces.ManagementCI;
 import annexes.message.interfaces.MessageFilterI;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class ManagementConnector 
 extends AbstractConnector implements ManagementCI{
 

@@ -3,6 +3,11 @@ package annexes.message;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Group LAMA
+ *
+ */
 public class Properties implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

@@ -6,17 +6,35 @@ import fr.sorbonne_u.components.ports.AbstractInboundPort;
 import interfaces.ManagementCI;
 import annexes.message.interfaces.MessageFilterI;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class ManagementCInBoundPort
 extends AbstractInboundPort implements ManagementCI {
+	
 	private static final long serialVersionUID = 1L;
 	private int indexPool=-1; 
 	
+	/**
+	 * Constructor of ManagementCInBoundPort
+	 * @param uri
+	 * @param owner
+	 * @throws Exception
+	 */
 	public ManagementCInBoundPort(String uri, ComponentI owner) throws Exception {
 		super(uri, ManagementCI.class, owner);
 		assert	uri != null && owner instanceof Broker;
 	}
 	
-	
+	/**
+	 * Constructor of ManagementCInBoundPort
+	 * @param uri
+	 * @param owner
+	 * @param indexPool
+	 * @throws Exception
+	 */
 	public ManagementCInBoundPort(String uri, ComponentI owner, int indexPool) throws Exception {
 		super(uri, ManagementCI.class, owner);
 		assert	uri != null && owner instanceof Broker;

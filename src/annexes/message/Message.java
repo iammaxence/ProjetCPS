@@ -6,6 +6,7 @@ import annexes.message.interfaces.MessageI;
 
 /**
  * 
+ * @author Group LAMA
  * Class that represent a Message in our system
  *
  */

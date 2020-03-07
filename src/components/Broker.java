@@ -26,6 +26,11 @@ import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
 
+/**
+ * 
+ * @author GROUP LAMA
+ *
+ */
 @OfferedInterfaces(offered= {ManagementCI.class,PublicationCI.class})
 @RequiredInterfaces(required = {ReceptionCI.class} )
 public class Broker 
@@ -40,8 +45,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	
 	/**------------------ VARIABLES ----------------------*/
-	protected final String              				   	  managInboundPortPublisher;
-	protected final String            					      managInboundPortSubscriber;
+	protected final String              				   	  managInboundPortPublisherURI;
+	protected final String            					      managInboundPortSubscriberURI;
 	protected Map <String, ArrayList<MessageI> >              topics;          //<Topics, List of messages>
 	protected ArrayList<Client>                               subscribers;     // List of Subscriber
 	protected Map <String, ArrayList<Client> >                subscriptions;   //<Topics, List of Subscriber>
@@ -53,20 +58,29 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected Lock readLock = lock.readLock();
 	protected Lock writeLock = lock.writeLock();
 	
-	
+	/**
+	 * Constructor of Broker Component
+	 * @param nbThreads is the number of threads
+	 * @param nbSchedulableThreads id the number of schedular threads
+	 * @param uri of the component
+	 * @param managInboundPortPublisher is the URI of the port connected to the Publisher (ManagementCI)
+	 * @param managInboundPortSubscriber is the URI of the port connected to the Subscriber
+	 * @param publicationInboundPortURI is the URI of the port connected to the Publisher (PublicationCI)
+	 * @throws Exception
+	 */
 	protected Broker(int nbThreads, int nbSchedulableThreads, 
 							String uri, 
-							String managInboundPortPublisher,
-							String managInboundPortSubscriber, 
+							String managInboundPortPublisherURI,
+							String managInboundPortSubscriberURI, 
 							String publicationInboundPortURI) throws Exception {
 		super(uri, nbThreads, nbSchedulableThreads);
 		
-		assert managInboundPortPublisher != null;
-		assert managInboundPortSubscriber != null;
+		assert managInboundPortPublisherURI != null;
+		assert managInboundPortSubscriberURI != null;
 		assert publicationInboundPortURI != null;
 		
-		this.managInboundPortPublisher = managInboundPortPublisher;
-		this.managInboundPortSubscriber = managInboundPortSubscriber;
+		this.managInboundPortPublisherURI = managInboundPortPublisherURI;
+		this.managInboundPortSubscriberURI = managInboundPortSubscriberURI;
 		cpt=0;
 		
 		topics = new HashMap <String, ArrayList<MessageI>>();  
@@ -83,8 +97,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.addRequiredInterface(ReceptionCI.class);
 		
 		/**---------------- PORTS CREATION --------------------*/
-		this.mipPublisher = new ManagementCInBoundPort(managInboundPortPublisher,this);
-		this.mipSubscriber = new ManagementCInBoundPort(managInboundPortSubscriber,this,threadSubscription);
+		this.mipPublisher = new ManagementCInBoundPort(managInboundPortPublisherURI,this);
+		this.mipSubscriber = new ManagementCInBoundPort(managInboundPortSubscriberURI,this,threadSubscription);
 		this.publicationInboundPort = new PublicationCInBoundPort(publicationInboundPortURI, this, threadPublication);
 		
 		
@@ -92,7 +106,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.mipPublisher.publishPort(); 
 		this.mipSubscriber.publishPort(); 
 		this.publicationInboundPort.publishPort();
-		
 		
 		
 		
