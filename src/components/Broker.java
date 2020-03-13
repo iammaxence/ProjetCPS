@@ -63,8 +63,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @param nbThreads is the number of threads
 	 * @param nbSchedulableThreads id the number of schedular threads
 	 * @param uri of the component
-	 * @param managInboundPortPublisher is the URI of the port connected to the Publisher (ManagementCI)
-	 * @param managInboundPortSubscriber is the URI of the port connected to the Subscriber
+	 * @param managInboundPortPublisherURI is the URI of the port connected to the Publisher (ManagementCI)
+	 * @param managInboundPortSubscriberURI is the URI of the port connected to the Subscriber
 	 * @param publicationInboundPortURI is the URI of the port connected to the Publisher (PublicationCI)
 	 * @throws Exception
 	 */
@@ -150,10 +150,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 ======================================================================================*/
 	
 	/**
-	 * 
+	 * Method of PublicationCI: publish a message for a topic
 	 * @param m : The message to send
-	 * @param topic The topic that will contain the message
-	 * @return void
+	 * @param topic : The topic that will contain the message
 	 * @throws Exception 
 	 */
 	@Override
@@ -176,13 +175,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 	
 	/**
-	 * 
+	 * Method of PublicationCI: publish a message for a list of topics
 	 * @param m : The message to send
-	 * @param listTopics The list of topic that will contain the message m
-	 * @return void
+	 * @param listTopics : The list of topic that will contain the message m
 	 * @throws Exception 
 	 */
-
 	@Override
 	public void publish(MessageI m, String[] listTopics) throws Exception {
 		for(String t: listTopics) {
@@ -191,13 +188,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 	
 	/**
-	 * 
+	 * Method of PublicationCI: publish messages for a topic
 	 * @param ms : Messages to send
 	 * @param topic The topic that will contain the message
-	 * @return void
 	 * @throws Exception 
 	 */
-
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
 		for(MessageI m: ms)
@@ -206,12 +201,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	
 	/**
+	 * Method of PublicationCI: publish messages for a list of topics
 	 * @param ms : Messages to send
 	 * @param topic : The topic that will contain the message
-	 * @return void
 	 * @throws Exception 
 	 */
-	
 	@Override
 	public void publish(MessageI[] ms, String[] listTopics) throws Exception {
 		for(String t: listTopics) {  //listTopics: local donc pas besoin de lock
@@ -225,8 +219,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 ======================================================================================*/
 	
 	/**
+	 * Method of ManagementCI
 	 * @param topic : The topic that will be created
-	 * @return void
 	 * @throws Exception 
 	 */
 	@Override
@@ -239,8 +233,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 	
 	/**
+	 * Method of ManagementCI
 	 * @param listTopics : Topics that will be created
-	 * @return void
 	 * @throws Exception 
 	 */
 	@Override
@@ -250,11 +244,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 	
 	/**
+	 * Method of ManagementCI
 	 * @param topic : The topic that will be destroy
-	 * @return void
 	 * @throws Exception 
 	 */
-	
 	@Override
 	public void destroyTopic(String topic) throws Exception {
 		if(isTopic(topic)) {
@@ -266,8 +259,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 	
 	/**
+	 * Method of ManagementCI
 	 * @param topic : The topic that we are looking for
-	 * @return void
+	 * @return if the topic exist
 	 * @throws Exception 
 	 */
 	@Override
@@ -281,10 +275,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 	
 	/**
-	 * @return A list of topics that already exist
+	 * Method of ManagementCI
+	 * @return The list of topics that already exist
 	 * @throws Exception 
 	 */
-
 	@Override
 	public String[] getTopics() throws Exception {
 		try {
@@ -302,6 +296,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * ----------------- (UN)SUBSCRIBE ----------------------
 	 -------------------------------------------------------*/
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to subscribe
 	 * @param inboundPortURI of the Subscriber
 	 * @throws Exception 
@@ -312,6 +307,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param listTopics where the subscriber want to subscribe
 	 * @param inboundPortURI of the Subscriber
 	 * @throws Exception 
@@ -323,6 +319,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to subscribe
 	 * @param filter of the topic
 	 * @param inboundPortURI of the Subscriber
@@ -372,6 +369,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to modify his filter
 	 * @param newFilter is the new filter 
 	 * @param inboundPortURI of the Subscriber
@@ -390,6 +388,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to unsubscribe
 	 * @param inboundPortURI of the Subscriber
 	 * @throws Exception 

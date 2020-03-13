@@ -41,8 +41,8 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 		myplugin=new PublisherPlugin();
 		myplugin.setPluginURI(mypluginURI);
 		this.installPlugin(myplugin);
-		
 	}
+	
 	
 	/**-----------------------------------------------------
 	 * -------------------- LIFE CYCLE ---------------------
@@ -57,30 +57,61 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	public void	execute() throws Exception{
 		super.execute();
 		
-		
-		MessageI[] messages = {new Message("Mon 1er message."), new Message("Mon second message.")};
-		String [] topics = {"Peche&Cuisine", "CPS"};
-		
+		/**------------------- Scenarios in order to tests of the methods ---------------**/
 		try {
-			//Chrono permet la preuve que les thread améliore le temps de calcul
-			Chrono chrono=new Chrono();
+			MessageI[] messages = {new Message("Mon 1er message."), new Message("Mon second message.")};
+			String [] topics = {"Peche&Cuisine", "CPS"};
+			
+			/**
+			 * Choose scenario that you want (1 to 5):
+			 */
+			int[] scenario = {2, 3, 4, 5};
+			
+			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 			chrono.start();
-			
-			scenario1();
-			scenario2(topics);
-			scenario3(messages);
-			scenario4(messages, topics);
-			scenario5();
-			
+			for(int i=0; i<scenario.length; i++) {
+				switch (scenario[i]) {
+					case 1: /** Scenario 1: Publication of 10 000 in the topic Peche&Cuisine**/
+						this.logMessage("Publisher publit des messages dans Peche&Cuisine");
+						for(int y=0; y<10000; y++) {
+							this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine"); }
+						break;
+						
+					case 2: /** Scenario 2: Publish a message in 2 topics **/
+						this.logMessage("Publisher publit un message dans Peche&Cuisine et CPS");
+						this.publish(new Message("Hello World!"), topics);
+						break;
+						
+					case 3: /** Scenario 3: Create the topic Automobile and publish messages **/
+						this.logMessage("Publisher creer le topic Automobile");
+						this.createTopic("Automobile");
+						this.logMessage("Publisher publit des messages dans Automobile");
+						this.publish(messages, "Automobile");
+						break;
+						
+					case 4: /** Scenario 4: publish messages in  Peche&Cuisine and CPS  **/
+						this.logMessage("Publisher publit des messages Peche&Cuisine et CPS");
+						this.publish(messages, topics);
+						break;
+						
+					case 5: /** Scenario 5: Publish a message with properties in  Peche&Cuisine **/
+						this.logMessage("Publisher publit des messages dans Peche&Cuisine");
+						Properties props = new Properties();
+						props.putProp("thon", true);
+						Message msg = new Message("Non! Le thon c'est meilleur!", new TimeStamp(), props );
+						this.publish(msg, "Peche&Cuisine");
+						break;
+						
+					default: break;	
+				}
+			}
 			chrono.stop();
 			this.logMessage("Chrono : "+chrono.getDureeMs()); 
-		} catch (Exception e) {
-			throw new RuntimeException(e) ;
-		}
+		} catch (Exception e) { throw new RuntimeException(e) ; }
+		/**------------------------------ End of Scenarios -----------------------------**/
 		
 	}
 	
-
 	@Override
 	public void	finalise() throws Exception{
 		this.logMessage("stopping publisher component.") ;
@@ -90,14 +121,12 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	}
 	
 	
-	
 	/**======================================================================================
 	 * =================================== MANAGEMENTCI =====================================
 	 ======================================================================================*/
-	
 	/**
+	 * Method of ManagementCI
 	 * @param topic : The topic that will be created
-	 * @return void
 	 * @throws Exception 
 	 */
 	@Override
@@ -106,8 +135,8 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	}
 	
 	/**
+	 * Method of ManagementCI
 	 * @param listTopics : Topics that will be created
-	 * @return void
 	 * @throws Exception 
 	 */
 	@Override
@@ -116,8 +145,8 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	}
 	
 	/**
+	 * Method of ManagementCI
 	 * @param topic : The topic that will be destroy
-	 * @return void
 	 * @throws Exception 
 	 */
 	@Override
@@ -126,8 +155,9 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	}
 	
 	/**
+	 * Method of ManagementCI
 	 * @param topic : The topic that we are looking for
-	 * @return void
+	 * @return if the topic exist
 	 * @throws Exception 
 	 */
 	@Override
@@ -136,7 +166,8 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	}
 	
 	/**
-	 * @return A list of topics that already exist
+	 * Method of ManagementCI
+	 * @return The list of topics that already exist
 	 * @throws Exception 
 	 */
 	@Override
@@ -145,15 +176,13 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	}
 
 
-
 	/**======================================================================================
 	 * ================================== PUBLICATIONCI =====================================
 	 ======================================================================================*/
-	
 	/**
+	 * Method of PublicationCI: publish a message for a topic
 	 * @param m : The message to send
-	 * @param topic The topic that will contain the message
-	 * @return void
+	 * @param topic : The topic that will contain the message
 	 * @throws Exception 
 	 */
 	@Override
@@ -163,13 +192,11 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	
 	
 	/**
-	 * 
+	 * Method of PublicationCI: publish a message for a list of topics
 	 * @param m : The message to send
-	 * @param listTopics The list of topic that will contain the message m
-	 * @return void
+	 * @param listTopics : The list of topic that will contain the message m
 	 * @throws Exception 
 	 */
-
 	@Override
 	public void publish(MessageI m, String[] topics) throws Exception {
 		myplugin.publish(m, topics);
@@ -177,9 +204,9 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	
 	
 	/**
+	 * Method of PublicationCI: publish messages for a topic
 	 * @param ms : Messages to send
 	 * @param topic The topic that will contain the message
-	 * @return void
 	 * @throws Exception 
 	 */
 	@Override
@@ -188,78 +215,14 @@ extends AbstractComponent implements ManagementImplementationI, PublicationsImpl
 	}
 	
 	/**
-	 * 
+	 * Method of PublicationCI: publish messages for a list of topics
 	 * @param ms : Messages to send
-	 * @param topic : The topic that will contain the message
-	 * @return void
+	 * @param topic The topic that will contain the message
 	 * @throws Exception 
 	 */
 	@Override
 	public void publish(MessageI[] ms, String[] topics) throws Exception {
 		myplugin.publish(ms, topics);
 	}
-	
-	/**======================================================================================
-	 * ================================== SCENARIO =====================================
-	 ======================================================================================*/
-	
-	/**
-	 * Publish 10 000 messages
-	 * @throws Exception
-	 */
-	public void scenario1() throws Exception {
-		
-		this.logMessage("Publisher publit des messages dans Peche&Cuisine");
-		for(int i=0; i<1000;i++) {
-			this.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine");
-		}
-	}
-	
-	/**
-	 * Publish a message in Peche&Cuisine and CPS
-	 * @param topics
-	 * @throws Exception
-	 */
-	public void scenario2(String[] topics) throws Exception {
-		this.logMessage("Publisher publit un message dans Peche&Cuisine et CPS");
-		this.publish(new Message("Hello World!"), topics);
-	}
-	
-	/**
-	 * Create a Topic and  publish a message in it
-	 * @param messages
-	 * @throws Exception
-	 */
-	public void scenario3(MessageI[] messages) throws Exception {
-		this.logMessage("Publisher creer le topic Automobile");
-		this.createTopic("Automobile");
-		this.logMessage("Publisher publit des messages dans Automobile");
-		this.publish(messages, "Automobile");
-	}
-	
-	/**
-	 * Publish lots of messages in diferents topics 
-	 * @param messages
-	 * @param topics
-	 * @throws Exception
-	 */
-	public void scenario4(MessageI[] messages,String[] topics) throws Exception {
-		this.logMessage("Publisher publit des messages Peche&Cuisine et CPS");
-		this.publish(messages, topics);
-	}
-	
-	/**
-	 * Publish a message in "Peche&Cuisine" with the filter "thon"
-	 * @throws Exception
-	 */
-	public void scenario5() throws Exception {
-		this.logMessage("Publisher publit des messages dans Peche&Cuisine");
-		Properties props = new Properties();
-		props.putProp("thon", true);
-		Message msg = new Message("Non! Le thon c'est meilleur!", new TimeStamp(), props );
-		this.publish(msg, "Peche&Cuisine");
-	}
-	
-	
 
 }

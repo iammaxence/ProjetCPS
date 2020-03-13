@@ -37,7 +37,7 @@ public class Client {
 	}
 	
 	/**
-	 * @param topic
+	 * @param topic in question
 	 * @return check if the topic has a filter
 	 */
 	public boolean hasFilter(String topic) {
@@ -45,9 +45,9 @@ public class Client {
 	}
 
 	/**
-	 * 
-	 * @param topic
-	 * @return
+	 * Get the MessageFilterI
+	 * @param topic in question
+	 * @return the filter put for this topic
 	 */
 	public MessageFilterI getFilter(String topic) {
 		if(hasFilter(topic))
@@ -86,7 +86,7 @@ public class Client {
 	}
 	
 	/**
-	 * @param Object to compare 
+	 * @param obj is the object to compare 
 	 * @return if the object is equal to our client 
 	 */
 	@Override

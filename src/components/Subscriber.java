@@ -54,22 +54,55 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 		super.start() ;
 		this.logMessage("starting Subscriber component.") ;
 		
-		String [] topics = {"Automobile", "Voyage","Sport","Nature&Decouvre"};   //Pour que le Subscriber soit abonné aux topics avant la publication
-		
-		//Chrono permet la preuve que les thread améliore le temps de calcul
-		Chrono chrono=new Chrono();
-		chrono.start();
-		
+	
+		/**------------------- Scenarios in order to tests of the methods ---------------**/
 		try {	
-			scenario1(topics);
-			scenario2(topics);
+			String [] topics = {"Automobile", "Voyage","Sport","Nature&Decouvre"};   //Pour que le Subscriber soit abonné aux topics avant la publication
 			
+			/**
+			 * Choose scenario that you want (1 to 3):
+			 */
+			int[] scenario = {1, 2, 3};
 			
+			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
+			chrono.start();
+			
+			for(int i=0; i<scenario.length; i++) {
+				switch (scenario[i]) {
+					case 1: /** Scenario 1: Subscribe to the topic "Peche&Cuisine". We use the filter "thon" **/
+						this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
+						MessageFilterI filter = m -> {Properties props = m.getProperties(); 
+													try {
+														if(props.contains("thon")) 
+															return props.getBooleanProp("thon");
+														else
+															return false;
+													} catch (Exception e) { e.printStackTrace(); return false; }} ;
+						this.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
+						break;
+						
+					case 2: /** Scenario 2: Subscribe to a list of topics**/
+						this.subscribe(topics, receptionInboundPortURI);
+						this.logMessage("Subscriber subcribe to Automobile");
+						break;
+						
+					case 3: /** Scenario 3: Subscribe to 100 topics**/
+						for(int y=0;y<100;y++) {
+							this.subscribe("topic"+y, receptionInboundPortURI);
+						}
+						break;
+						
+					default: break;	
+				}
+			}
+			
+			chrono.stop();
+			this.logMessage("Chrono sub : "+chrono.getDureeMs()); 
 		} catch (Exception e) {
 			throw new RuntimeException(e) ;
 		}
-		chrono.stop();
-		this.logMessage("Chrono sub : "+chrono.getDureeMs()); 
+		/**------------------------------ End of Scenarios -----------------------------**/
+		
 	}
 	
 	@Override
@@ -91,6 +124,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	 * =================================== MANAGEMENTCI =====================================
 	 ======================================================================================*/
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to subscribe
 	 * @param inboundPortURI of the Subscriber
 	 * @throws Exception 
@@ -101,6 +135,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	}
 
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param listTopics where the subscriber want to subscribe
 	 * @param inboundPortURI of the Subscriber
 	 * @throws Exception 
@@ -111,6 +146,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	}
 
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to subscribe
 	 * @param filter of the topic
 	 * @param inboundPortURI of the Subscriber
@@ -122,6 +158,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	}
 
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to modify his filter
 	 * @param newFilter is the new filter 
 	 * @param inboundPortURI of the Subscriber
@@ -133,6 +170,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	}
 
 	/**
+	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to unsubscribe
 	 * @param inboundPortURI of the Subscriber
 	 * @throws Exception 
@@ -157,7 +195,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 	}
 
 	/**
-	 * @param ms a list of message 
+	 * @param ms a list of messages to accept
 	 * @throws Exeption
 	 */
 	@Override
@@ -166,56 +204,5 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 			this.acceptMessage(m);
 		}
 	}
-	
-	/**======================================================================================
-	 * =================================== SCENARIO =====================================
-	 ======================================================================================
-	  */
-	
-	/**
-	 * Subscribe to the topic "Peche&Cuisine". We use the filter "thon"
-	 * @throws Exception
-	 */
-	
-	public void scenario1(String[] topics) throws Exception {
-		
-		this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
-		MessageFilterI filter = m -> 
-						{Properties props = m.getProperties(); 
-						try {
-							if(props.contains("thon")) 
-								return props.getBooleanProp("thon");
-							else
-								return false;
-						} catch (Exception e) {
-							e.printStackTrace();
-							return false;
-						}} ;
-		this.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
-	}
-	
-	/**
-	 * Subscribe to a list of topics
-	 * @param topics
-	 * @throws Exception
-	 */
-	
-	public void scenario2(String[] topics) throws Exception {
-	
-		this.subscribe(topics, receptionInboundPortURI);
-		this.logMessage("Subscriber subcribe to Automobile");
-	}
-	
-	/**
-	 * Subscribe to 100 topics
-	 * @throws Exception
-	 */
-	
-	public void scenario3() throws Exception {
-		for(int i=0;i<100;i++) {
-			this.subscribe("topic"+i, receptionInboundPortURI);
-		}
-	}
-	
 
 }

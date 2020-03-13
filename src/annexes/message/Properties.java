@@ -26,8 +26,8 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> boolean
+	 * @param name of the property -> String
+	 * @param value -> boolean
 	 */
 	public void putProp(String name, boolean v) {
 		map.put(name, v);
@@ -35,8 +35,8 @@ public class Properties implements Serializable{
 
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> byte
+	 * @param name of the property -> String
+	 * @param value -> byte
 	 */
 	public void putProp(String name, byte v) {
 		map.put(name, v);
@@ -44,8 +44,8 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> char
+	 * @param name of the property -> String
+	 * @param value -> char
 	 */
 	public void putProp(String name, char v) {
 		map.put(name, v);
@@ -53,8 +53,8 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> double
+	 * @param name of the property -> String
+	 * @param value -> double
 	 */
 	public void putProp(String name, double v) {
 		map.put(name, v);
@@ -62,8 +62,8 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> float
+	 * @param name of the property -> String
+	 * @param value -> float
 	 */
 	public void putProp(String name, float v) {
 		map.put(name, v);
@@ -71,8 +71,8 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> int
+	 * @param name of the property -> String
+	 * @param value -> int
 	 */
 	public void putProp(String name, int v) {
 		map.put(name, v);
@@ -80,8 +80,8 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> long
+	 * @param name of the property -> String
+	 * @param value -> long
 	 */
 	public void putProp(String name, long v) {
 		map.put(name, v);
@@ -89,8 +89,8 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> short
+	 * @param name of the property -> String
+	 * @param value -> short
 	 */
 	public void putProp(String name, short v) {
 		map.put(name, v);
@@ -98,8 +98,8 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Insert a property 
-	 * @param name: name of the property -> String
-	 * @param v: value -> String
+	 * @param name of the property -> String
+	 * @param value -> String
 	 */
 	public void putProp(String name, String v) {
 		map.put(name, v);
@@ -108,7 +108,7 @@ public class Properties implements Serializable{
 	
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param  name of the property -> String
 	 * @return the value of the property -> boolean
 	 * @throws Exception
 	 */
@@ -124,7 +124,7 @@ public class Properties implements Serializable{
 
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param  name of the property -> String
 	 * @return the value of the property -> byte
 	 * @throws Exception
 	 */
@@ -140,7 +140,7 @@ public class Properties implements Serializable{
 
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param  name of the property -> String
 	 * @return the value of the property -> char
 	 * @throws Exception
 	 */
@@ -156,7 +156,7 @@ public class Properties implements Serializable{
 
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param  name of the property -> String
 	 * @return the value of the property -> double
 	 * @throws Exception
 	 */
@@ -172,7 +172,7 @@ public class Properties implements Serializable{
 
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param  name of the property -> String
 	 * @return the value of the property -> float
 	 * @throws Exception
 	 */
@@ -189,7 +189,7 @@ public class Properties implements Serializable{
 
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param  name of the property -> String
 	 * @return the value of the property -> int
 	 * @throws Exception
 	 */
@@ -205,7 +205,7 @@ public class Properties implements Serializable{
 
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param  name of the property -> String
 	 * @return the value of the property -> long
 	 * @throws Exception
 	 */
@@ -221,7 +221,7 @@ public class Properties implements Serializable{
 
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param  name of the property -> String
 	 * @return the value of the property -> short
 	 * @throws Exception
 	 */
@@ -237,7 +237,7 @@ public class Properties implements Serializable{
 
 	/**
 	 * Get the property describe by the name
-	 * @param name: name of the property -> String
+	 * @param name of the property -> String
 	 * @return the value of the property -> String
 	 * @throws Exception
 	 */

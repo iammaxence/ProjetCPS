@@ -33,9 +33,9 @@ implements MessageI{
 	
 	/**
 	 * Constructor of Message
-	 * @param contenue: here a message -> Serializable
-	 * @param ts: describe time and guest -> TimeStamp
-	 * @param props: map of properties -> Properties
+	 * @param contenue is here a message -> Serializable
+	 * @param ts describe time and guest -> TimeStamp
+	 * @param props is a map of properties -> Properties
 	 */
 	public Message(Serializable contenue, TimeStamp ts, Properties props) {
 		uri="MESSAGE_"+cpt++; 
