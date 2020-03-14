@@ -22,7 +22,7 @@ implements MessageI{
 	
 	/**
 	 * Constructor of Message
-	 * @param contenue: here a message -> Serializable
+	 * @param contenue : here a message -> Serializable
 	 */
 	public Message(Serializable contenue) {
 		uri = "MESSAGE_"+cpt++;       //ex: MESSAGE_1 qui est donc unique

@@ -203,7 +203,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	/**
 	 * Method of PublicationCI: publish messages for a list of topics
 	 * @param ms : Messages to send
-	 * @param topic : The topic that will contain the message
+	 * @param listTopics : The topic that will contain the message
 	 * @throws Exception 
 	 */
 	@Override

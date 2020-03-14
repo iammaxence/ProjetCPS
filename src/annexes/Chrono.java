@@ -34,7 +34,7 @@ public class Chrono {
 	}
 
 	/**
-	 * 
+	 * Resume the Chrono
 	 */
 	public void resume(){
 		if(tempsDepart == 0) 

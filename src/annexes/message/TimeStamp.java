@@ -15,8 +15,8 @@ public class TimeStamp {
 	
 	/**
 	 * Constructor of TimeStamp with argument
-	 * @param time: time system of Unix -> long
-	 * @param timestamper: identification of the guest -> String 
+	 * @param time : time system of Unix -> long
+	 * @param timestamper : identification of the guest -> String 
 	 */
 	public TimeStamp(long time, String timestamper) {
 		this.time = time;
@@ -53,7 +53,7 @@ public class TimeStamp {
 	
 	/**
 	 * Set the time of the timeStamp
-	 * @param time: time system of Unix -> long
+	 * @param time : time system of Unix -> long
 	 */
 	public void setTime(long time) {
 		this.time=time;
@@ -68,7 +68,7 @@ public class TimeStamp {
 	
 	/**
 	 * Set the timeStamper
-	 * @param timestamper: name of the guest -> String
+	 * @param timestamper : name of the guest -> String
 	 */
 	public void setTimeStamper(String timestamper) {
 		this.timestamper=timestamper;

@@ -7,7 +7,6 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import interfaces.ManagementCI;
 import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
-import interfaces.SubscriptionImplementationI;
 import plugins.SubscriberPlugin;
 import annexes.Chrono;
 import annexes.message.Properties;
@@ -22,7 +21,7 @@ import annexes.message.interfaces.MessageI;
 @RequiredInterfaces(required = {ManagementCI.class})
 @OfferedInterfaces(offered = {ReceptionCI.class} )
 public class Subscriber 
-extends AbstractComponent implements ReceptionImplementationI, SubscriptionImplementationI {
+extends AbstractComponent implements ReceptionImplementationI{
 	
 	
 	/**-------------------- Variables ---------------------*/
@@ -78,17 +77,17 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 														else
 															return false;
 													} catch (Exception e) { e.printStackTrace(); return false; }} ;
-						this.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
+						myplugin.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
 						break;
 						
 					case 2: /** Scenario 2: Subscribe to a list of topics**/
-						this.subscribe(topics, receptionInboundPortURI);
+						myplugin.subscribe(topics, receptionInboundPortURI);
 						this.logMessage("Subscriber subcribe to Automobile");
 						break;
 						
 					case 3: /** Scenario 3: Subscribe to 100 topics**/
 						for(int y=0;y<100;y++) {
-							this.subscribe("topic"+y, receptionInboundPortURI);
+							myplugin.subscribe("topic"+y, receptionInboundPortURI);
 						}
 						break;
 						
@@ -102,14 +101,14 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 			throw new RuntimeException(e) ;
 		}
 		/**------------------------------ End of Scenarios -----------------------------**/
-		
 	}
+	
 	
 	@Override
 	public void	execute() throws Exception{
 		super.execute();
-
 	}
+	
 	
 	@Override
 	public void	finalise() throws Exception{
@@ -119,68 +118,7 @@ extends AbstractComponent implements ReceptionImplementationI, SubscriptionImple
 		super.finalise();
 	}
 	
-	
-	/**======================================================================================
-	 * =================================== MANAGEMENTCI =====================================
-	 ======================================================================================*/
-	/**
-	 * Method of SubsciptionImplementationI
-	 * @param topic where the subscriber want to subscribe
-	 * @param inboundPortURI of the Subscriber
-	 * @throws Exception 
-	 */
-	@Override
-	public void subscribe(String topic, String inboundPortUri) throws Exception {
-		myplugin.subscribe(topic, inboundPortUri);
-	}
 
-	/**
-	 * Method of SubsciptionImplementationI
-	 * @param listTopics where the subscriber want to subscribe
-	 * @param inboundPortURI of the Subscriber
-	 * @throws Exception 
-	 */
-	@Override
-	public void subscribe(String[] topics, String inboundPortUri) throws Exception {
-		myplugin.subscribe(topics, inboundPortUri);
-	}
-
-	/**
-	 * Method of SubsciptionImplementationI
-	 * @param topic where the subscriber want to subscribe
-	 * @param filter of the topic
-	 * @param inboundPortURI of the Subscriber
-	 * @throws Exception 
-	 */
-	@Override
-	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
-		myplugin.subscribe(topic, filter,inboundPortUri);
-	}
-
-	/**
-	 * Method of SubsciptionImplementationI
-	 * @param topic where the subscriber want to modify his filter
-	 * @param newFilter is the new filter 
-	 * @param inboundPortURI of the Subscriber
-	 * @throws Exception 
-	 */
-	@Override
-	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortUri) throws Exception {
-		myplugin.modifyFilter(topic, newFilter, inboundPortUri);
-	}
-
-	/**
-	 * Method of SubsciptionImplementationI
-	 * @param topic where the subscriber want to unsubscribe
-	 * @param inboundPortURI of the Subscriber
-	 * @throws Exception 
-	 */
-	@Override
-	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
-		myplugin.unsubscribe(topic, inboundPortURI);
-	}
-
-	
 	/**=====================================================================================
 	 * =================================== RECEPTIONCI =====================================
 	 ======================================================================================*/

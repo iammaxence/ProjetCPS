@@ -37,6 +37,7 @@ extends AbstractPlugin implements PublicationsImplementationI, ManagementImpleme
 	@Override
 	public void installOn(ComponentI owner) throws Exception {
 		super.installOn(owner) ;
+		assert owner != null;
 
 		/**----------------- ADD COMPONENTS -------------------*/
 		this.addRequiredInterface(PublicationCI.class) ;

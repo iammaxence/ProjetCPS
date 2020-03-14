@@ -27,7 +27,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> boolean
+	 * @param v the value -> boolean
 	 */
 	public void putProp(String name, boolean v) {
 		map.put(name, v);
@@ -36,7 +36,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> byte
+	 * @param v the value -> byte
 	 */
 	public void putProp(String name, byte v) {
 		map.put(name, v);
@@ -45,7 +45,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> char
+	 * @param v the value -> char
 	 */
 	public void putProp(String name, char v) {
 		map.put(name, v);
@@ -54,7 +54,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> double
+	 * @param v the value -> double
 	 */
 	public void putProp(String name, double v) {
 		map.put(name, v);
@@ -63,7 +63,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> float
+	 * @param v the value -> float
 	 */
 	public void putProp(String name, float v) {
 		map.put(name, v);
@@ -72,7 +72,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> int
+	 * @param v the value -> int
 	 */
 	public void putProp(String name, int v) {
 		map.put(name, v);
@@ -81,7 +81,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> long
+	 * @param v the value -> long
 	 */
 	public void putProp(String name, long v) {
 		map.put(name, v);
@@ -90,7 +90,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> short
+	 * @param v the value -> short
 	 */
 	public void putProp(String name, short v) {
 		map.put(name, v);
@@ -99,7 +99,7 @@ public class Properties implements Serializable{
 	/**
 	 * Insert a property 
 	 * @param name of the property -> String
-	 * @param value -> String
+	 * @param v the value -> String
 	 */
 	public void putProp(String name, String v) {
 		map.put(name, v);

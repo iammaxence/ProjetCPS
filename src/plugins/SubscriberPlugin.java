@@ -127,19 +127,19 @@ extends AbstractPlugin implements SubscriptionImplementationI, ReceptionImplemen
 	 * @throws Exception 
 	 */
 	@Override
-	public void subscribe(String topic, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.subscribe(topic, inboundPortUri);
+	public void subscribe(String topic, String inboundPortURI) throws Exception {
+		this.managementOutboundPort.subscribe(topic, inboundPortURI);
 	}
 
 	/**
 	 * Method of SubsciptionImplementationI
-	 * @param listTopics where the subscriber want to subscribe
+	 * @param topics where the subscriber want to subscribe
 	 * @param inboundPortURI of the Subscriber
 	 * @throws Exception 
 	 */
 	@Override
-	public void subscribe(String[] topics, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.subscribe(topics, inboundPortUri);
+	public void subscribe(String[] topics, String inboundPortURI) throws Exception {
+		this.managementOutboundPort.subscribe(topics, inboundPortURI);
 	}
 
 	/**
@@ -150,8 +150,8 @@ extends AbstractPlugin implements SubscriptionImplementationI, ReceptionImplemen
 	 * @throws Exception 
 	 */
 	@Override
-	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.subscribe(topic, filter, inboundPortUri);
+	public void subscribe(String topic, MessageFilterI filter, String inboundPortURI) throws Exception {
+		this.managementOutboundPort.subscribe(topic, filter, inboundPortURI);
 	}
 
 	/**
@@ -162,8 +162,8 @@ extends AbstractPlugin implements SubscriptionImplementationI, ReceptionImplemen
 	 * @throws Exception 
 	 */
 	@Override
-	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortUri) throws Exception {
-		this.managementOutboundPort.modifyFilter(topic, newFilter, inboundPortUri);
+	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortURI) throws Exception {
+		this.managementOutboundPort.modifyFilter(topic, newFilter, inboundPortURI);
 	}
 
 	/**
