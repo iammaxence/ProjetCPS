@@ -45,7 +45,7 @@ extends AbstractInboundPort implements ManagementCI {
 	@Override
 	public void subscribe(String topic, String inboundPortUri) throws Exception {
 		if(indexPool == -1) {
-			this.getOwner().handleRequestSync(
+			this.getOwner().handleRequestAsync(
 					owner -> {((Broker)owner).subscribe(topic, inboundPortUri); return null;}) ;
 		}else {
 			this.getOwner().handleRequestSync(indexPool,
@@ -57,7 +57,7 @@ extends AbstractInboundPort implements ManagementCI {
 	@Override
 	public void subscribe(String[] topics, String inboundPortUri) throws Exception {
 		if(indexPool == -1) {
-			this.getOwner().handleRequestSync(
+			this.getOwner().handleRequestAsync(
 					owner -> {((Broker)owner).subscribe(topics, inboundPortUri); return null;}) ;
 		}else {
 			this.getOwner().handleRequestSync(indexPool,
@@ -68,7 +68,7 @@ extends AbstractInboundPort implements ManagementCI {
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
 		if(indexPool == -1) {
-			this.getOwner().handleRequestSync(
+			this.getOwner().handleRequestAsync(
 					owner -> {((Broker)owner).subscribe(topic, filter, inboundPortUri); return null;}) ;
 		}else {
 			this.getOwner().handleRequestSync(indexPool,
@@ -86,7 +86,7 @@ extends AbstractInboundPort implements ManagementCI {
 	@Override
 	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
 		if(indexPool == -1) {
-			this.getOwner().handleRequestSync(
+			this.getOwner().handleRequestAsync(
 					owner -> {((Broker)owner).unsubscribe(topic, inboundPortURI); return null;}) ;
 		}else {
 			this.getOwner().handleRequestSync(indexPool,
@@ -97,24 +97,25 @@ extends AbstractInboundPort implements ManagementCI {
 
 	@Override
 	public void createTopic(String topic) throws Exception {
-		this.getOwner().handleRequestSync(
+		this.getOwner().handleRequestAsync(
 					owner -> {((Broker)owner).createTopic(topic); return null;}) ;
 		
 	}
 
 	@Override
 	public void createTopics(String[] topics)throws Exception  {
-		this.getOwner().handleRequestSync(
+		this.getOwner().handleRequestAsync(
 					owner -> {((Broker)owner).createTopics(topics); return null;}) ;
 		
 	}
-
+	
 	@Override
 	public void destroyTopic(String topic) throws Exception  {
 		this.getOwner().handleRequestSync(
 				owner ->{ ((Broker)owner).destroyTopic(topic); return null;}) ;
 	}
-
+	
+	//Ici pas de Async car on attends un resultat
 	@Override
 	public boolean isTopic(String topic) throws Exception { 
 		return this.getOwner().handleRequestSync(
