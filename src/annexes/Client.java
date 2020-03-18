@@ -15,7 +15,7 @@ import ports.ReceptionCOutBoundPort;
 public class Client {
 	private String ReceptionCInBoundPort;
 	private ReceptionCOutBoundPort port;
-	private Map <String, MessageFilterI> filters;
+	private Map <String, MessageFilterI> filters; //<Topic, Filter>
 	
 	/**
 	 * Constructor Client 

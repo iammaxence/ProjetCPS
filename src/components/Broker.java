@@ -108,8 +108,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.publicationInboundPort.publishPort();
 		
 		
-		
-		
 	}
 	
 	
@@ -499,7 +497,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		for(Client sub : getSubscriptions(topic)) {
 			if(sub.hasFilter(topic)) {
 				MessageFilterI f = sub.getFilter(topic);
-				if (!f.filter(m))
+				if (f.filter(m))
 					sub.getPort().acceptMessage(m);
 			}else {
 				try {

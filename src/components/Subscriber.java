@@ -72,10 +72,9 @@ extends AbstractComponent implements ReceptionImplementationI{
 						this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
 						MessageFilterI filter = m -> {Properties props = m.getProperties(); 
 													try {
-														if(props.contains("thon")) 
-															return props.getBooleanProp("thon");
-														else
-															return false;
+														if(!props.getBooleanProp("thon")) //Don't want a message with the word "thon" inside
+															return true;
+														return false;
 													} catch (Exception e) { e.printStackTrace(); return false; }} ;
 						myplugin.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
 						break;
