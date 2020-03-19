@@ -8,6 +8,9 @@ import annexes.message.TimeStamp;
 
 public class TimeStampTest {
 
+	/**
+	 * Test all methods of TimeSTamp
+	 */
 	@Test
 	public void test() {
 		TimeStamp ts = new TimeStamp(-1,null);

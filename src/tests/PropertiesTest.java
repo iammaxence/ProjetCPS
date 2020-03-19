@@ -9,6 +9,10 @@ import annexes.message.Properties;
 public class PropertiesTest {
 	protected Properties props = new Properties();
 	protected String[] names = {"boolean", "byte", "char", "double","float", "int", "long", "short","string"};
+	
+	/**
+	 * Check all methods of properties 
+	 */
 	@Test
 	public void test() {
 		boolean bool = true;
@@ -39,6 +43,7 @@ public class PropertiesTest {
 		props.putProp(names[8], str);
 		
 		try {
+			assertTrue(props.contains(names[0]));
 			assertTrue(props.getBooleanProp(names[0]));
 			assertEquals(b, props.getByteProp(names[1]));
 			assertEquals(c, props.getCharProp(names[2]));
