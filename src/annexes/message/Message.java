@@ -29,6 +29,7 @@ implements MessageI{
 		ts = new TimeStamp(); 
 		this.contenue = contenue;
 		properties = new Properties();
+		initializeProps();
 	}
 	
 	/**
@@ -74,6 +75,18 @@ implements MessageI{
 	@Override
 	public Serializable getPayload() {
 		return contenue;
+	}
+	
+	/**
+	 * Initialize the properties with the toString of the serializable
+	 */
+	private void initializeProps() {
+		String str = contenue.toString();
+		String[] mots = str.split("[, ?.@!]+"); 
+		for(String mot: mots) {
+			properties.putProp(mot,true);
+		}
+		
 	}
 
 }

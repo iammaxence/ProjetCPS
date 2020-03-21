@@ -49,15 +49,32 @@ public class MessageTest {
 	
 	/**
 	 * Chech if getProperties return the properties
+	 * with the properties put in the constructor
 	 */
 	@Test
-	 public final void testProperties() {
+	 public final void testProperties1() {
 		String msg = "Hello Word";
 		Properties props = new Properties();
 		props.putProp("Hello", true);
 		Message m = new Message(msg,null,props);
 		assertNotNull(m.getProperties());
 		assertEquals(props, m.getProperties());
+		try {
+			assertTrue(m.getProperties().getBooleanProp("Hello"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Chech if getProperties return the properties
+	 * without the properties put in the constructor
+	 */
+	@Test
+	 public final void testProperties2() {
+		String msg = "Hello Word";
+		Message m = new Message(msg);
+		assertNotNull(m.getProperties());
 		try {
 			assertTrue(m.getProperties().getBooleanProp("Hello"));
 		} catch (Exception e) {
