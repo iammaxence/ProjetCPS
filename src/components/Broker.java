@@ -250,9 +250,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	public void destroyTopic(String topic) throws Exception {
 		if(isTopic(topic)) {
 			writeLock.lock();
-			topics.remove(topic); // /!\ être sur d'avoir délivrer les messages avant la destruction du topic. 
-			subscriptions.remove(topic);
+			topics.remove(topic); 
 			writeLock.unlock();
+			this.logMessage("Le topic << "+topic+" >> a été supprimé.");
 		}
 	}
 	

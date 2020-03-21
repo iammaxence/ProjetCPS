@@ -63,7 +63,7 @@ extends AbstractComponent {
 			/**
 			 * Choose scenario that you want (1 to 5):
 			 */
-			int[] scenario = {1, 2, 3, 4, 5};
+			int[] scenario = { 2, 3, 4, 5};
 			
 			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 			chrono.start();
@@ -75,9 +75,11 @@ extends AbstractComponent {
 							myplugin.publish( new Message("Le saumon c'est trop bon!"), "Peche&Cuisine"); }
 						break;
 						
-					case 2: /** Scenario 2: Publish a message in 2 topics **/
+					case 2: /** Scenario 2: Publish a message in 2 topics then multiple messages in those topics**/
 						this.logMessage("Publisher publit un message dans Peche&Cuisine et CPS");
 						myplugin.publish(new Message("Hello World!"), topics);
+						this.logMessage("Publisher publit des messages Peche&Cuisine et CPS");
+						myplugin.publish(messages, topics);
 						break;
 						
 					case 3: /** Scenario 3: Create the topic Automobile and publish messages **/
@@ -87,9 +89,9 @@ extends AbstractComponent {
 						myplugin.publish(messages, "Automobile");
 						break;
 						
-					case 4: /** Scenario 4: publish messages in  Peche&Cuisine and CPS  **/
-						this.logMessage("Publisher publit des messages Peche&Cuisine et CPS");
-						myplugin.publish(messages, topics);
+					case 4: /** Scenario 4: destroy a topic  **/
+						this.logMessage("Demande de suppresion du topic: Automobile");
+						myplugin.destroyTopic("Automobile");;
 						break;
 						
 					case 5: /** Scenario 5: Publish a message with properties in  Peche&Cuisine **/
