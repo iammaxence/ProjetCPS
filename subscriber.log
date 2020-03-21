@@ -1,10 +1,10 @@
-1584815502659|starting Subscriber component.
-1584815502662|Subscriber subcribe to the topic Peche&Cuisine.
-1584815502667|Subscriber subcribe to Automobile
-1584815502672|Chrono sub : 10
-1584815502680|my-URI-subscribe a reçu : Hello World!
-1584815502682|my-URI-subscribe a reçu : Mon 1er message.
-1584815502684|my-URI-subscribe a reçu : Mon 1er message.
-1584815502686|my-URI-subscribe a reçu : Mon second message.
-1584815502692|my-URI-subscribe a reçu : Mon second message.
-1584815522686|stopping subscriber component.
+1584817570481|starting Subscriber component.
+1584817570482|Subscriber subcribe to the topic Peche&Cuisine.
+1584817570486|Subscriber subcribe to Automobile
+1584817570488|Chrono sub : 6
+1584817570497|my-URI-subscribe a reçu : Hello World!
+1584817570497|my-URI-subscribe a reçu : Mon 1er message.
+1584817570498|my-URI-subscribe a reçu : Mon second message.
+1584817570499|my-URI-subscribe a reçu : Mon 1er message.
+1584817570502|my-URI-subscribe a reçu : Mon second message.
+1584817590497|stopping subscriber component.

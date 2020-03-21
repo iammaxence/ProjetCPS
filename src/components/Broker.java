@@ -193,8 +193,22 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
+		ArrayList<MessageI> n;
+		if(isTopic(topic)) {   
+			readLock.lock();
+			n = topics.get(topic);
+			readLock.unlock();
+		}else {
+			n = new ArrayList<>();
+		}
+		writeLock.lock();
 		for(MessageI m: ms)
-			this.publish(m, topic);
+			n.add(m);
+		topics.put(topic, n);
+		writeLock.unlock();
+
+		this.sendMessages(ms, topic);
+		this.logMessage("Broker: Message publié dans "+topic);
 	}
 	
 	
@@ -502,6 +516,34 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			}else {
 				try {
 					sub.getPort().acceptMessage(m);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * Notify Subscribers and send them messages
+	 * @param ms list of messages to send
+	 * @param topic where the message is publish
+	 * @throws Exception
+	 */
+	public void sendMessages(MessageI[] ms, String topic) throws Exception {
+		for(Client sub : getSubscriptions(topic)) {
+			if(sub.hasFilter(topic)) {
+				MessageFilterI f = sub.getFilter(topic);
+				for(MessageI m : ms) {
+					if (f.filter(m))
+						sub.getPort().acceptMessage(m);
+				}
+				
+			}else {
+				try {
+					for(MessageI m : ms) {
+						sub.getPort().acceptMessage(m);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
