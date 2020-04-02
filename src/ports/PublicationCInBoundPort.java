@@ -24,33 +24,33 @@ extends AbstractInboundPort implements PublicationCI{
 	 * @param indexPool is the index of pool thread
 	 * @throws Exception
 	 */
-	public PublicationCInBoundPort(String uri, ComponentI owner, int indexPool) throws Exception {
-		super(uri, PublicationCI.class, owner);
-		assert	uri != null && owner instanceof Broker ;
+	public PublicationCInBoundPort(ComponentI owner, int indexPool) throws Exception {
+		super(PublicationCI.class, owner);
+		assert owner instanceof Broker ;
 		this.indexPool=indexPool;
 	}
 
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
-		this.getOwner().handleRequestAsync(indexPool,
+		this.getOwner().handleRequestSync(indexPool,
 					owner -> {((Broker)owner).publish(m, topic); return null;}) ;
 	}
 
 	@Override
 	public void publish(MessageI m, String[] topics) throws Exception {
-		this.getOwner().handleRequestAsync(indexPool,
+		this.getOwner().handleRequestSync(indexPool,
 					owner -> {((Broker)owner).publish(m, topics); return null;}) ;
 	}
 
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
-		this.getOwner().handleRequestAsync(indexPool,
+		this.getOwner().handleRequestSync(indexPool,
 					owner -> {((Broker)owner).publish(ms, topic); return null;}) ;
 	}
 
 	@Override
 	public void publish(MessageI[] ms, String[] topics) throws Exception {
-		this.getOwner().handleRequestAsync(indexPool,
+		this.getOwner().handleRequestSync(indexPool,
 					owner -> {((Broker)owner).publish(ms, topics); return null;}) ;
 		
 	}

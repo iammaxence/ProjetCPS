@@ -16,25 +16,20 @@ public class CVM extends AbstractCVM {
 	/**=================================== BROKER ==========================================*/
 	protected String brokerURI;
 	public static final String BROKER_COMPONENT_URI = "my-URI-Broker" ;
-	protected static final String    URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
-	protected static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
-	protected static final String    URIBrokerPublicationInboundPortURI = "bp-iport";
+//	protected static final String    URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
+//	protected static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
+//	protected static final String    URIBrokerPublicationInboundPortURI = "bp-iport";
 
 	
 	
 	/** ==================================== PUBLISHER ======================================*/
 	protected String publisherURI;
 	protected static final String PUBLISHER_COMPONENT_URI = "my-URI-publisher" ;
-//	protected static final String URIPublisherManagementOutboundPortURI = "pm-iport";
-//	protected static final String URIPublisherPublicationOutboundPortURI = "pp-iport";
-	
 	
 	/** ===================================== SUBSCRIBER ======================================*/
 	protected String subscriberURI;
 	protected static final String SUBSCRIBE_COMPONENT_URI = "my-URI-subscribe" ;
-//	protected static final String URISubscriberRecepetionInboundPortURI = "sr-iport"; 
-//	protected static final String URISubscriberManagementOutboundPortURI = "sm-iport"; 
-	
+
 	
 	/**
 	 * Constructor CVM
@@ -72,14 +67,11 @@ public class CVM extends AbstractCVM {
 					Broker.class.getCanonicalName(),
 					new Object[]{1,
 								 0,
-								 BROKER_COMPONENT_URI,
-								 URIBrokerManagementInboundPortURI1,
-								 URIBrokerManagementInboundPortURI2,
-								 URIBrokerPublicationInboundPortURI}) ; 
+								 BROKER_COMPONENT_URI}) ; 
 		
-		assert	this.isDeployedComponent(this.brokerURI) ;
-		this.toggleTracing(this.brokerURI) ;
-		this.toggleLogging(this.brokerURI) ;
+//		assert	this.isDeployedComponent(this.brokerURI) ;
+//		this.toggleTracing(this.brokerURI) ;
+//		this.toggleLogging(this.brokerURI) ;
 
 		/**========================================================================================
 		 * ============================== PUBLISHER COMPONENT =====================================
@@ -89,11 +81,12 @@ public class CVM extends AbstractCVM {
 					Publisher.class.getCanonicalName(),
 					new Object[]{1,
 								0,
-								PUBLISHER_COMPONENT_URI}) ;
+								PUBLISHER_COMPONENT_URI,
+								BROKER_COMPONENT_URI}) ;
 		
-		assert	this.isDeployedComponent(this.publisherURI) ;
-		this.toggleTracing(this.publisherURI) ;
-		this.toggleLogging(this.publisherURI) ;
+//		assert	this.isDeployedComponent(this.publisherURI) ;
+//		this.toggleTracing(this.publisherURI) ;
+//		this.toggleLogging(this.publisherURI) ;
 		
 		/**========================================================================================
 		 * ================================ SUBSCRIBER COMPONENT ==================================
@@ -103,11 +96,12 @@ public class CVM extends AbstractCVM {
 					Subscriber.class.getCanonicalName(),
 					new Object[]{1,
 								0,
-								SUBSCRIBE_COMPONENT_URI}) ;
+								SUBSCRIBE_COMPONENT_URI,
+								BROKER_COMPONENT_URI}) ;
 		
-		assert	this.isDeployedComponent(this.subscriberURI) ;
-		this.toggleTracing(this.subscriberURI) ;
-		this.toggleLogging(this.subscriberURI) ;
+//		assert	this.isDeployedComponent(this.subscriberURI) ;
+//		this.toggleTracing(this.subscriberURI) ;
+//		this.toggleLogging(this.subscriberURI) ;
 		
 		
 		/**---------------------------------------------------------------------------------------

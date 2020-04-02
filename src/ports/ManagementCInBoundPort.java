@@ -23,9 +23,9 @@ extends AbstractInboundPort implements ManagementCI {
 	 * @param owner
 	 * @throws Exception
 	 */
-	public ManagementCInBoundPort(String uri, ComponentI owner) throws Exception {
-		super(uri, ManagementCI.class, owner);
-		assert	uri != null && owner instanceof Broker;
+	public ManagementCInBoundPort(ComponentI owner) throws Exception {
+		super(ManagementCI.class, owner);
+		assert owner instanceof Broker;
 	}
 	
 	/**
@@ -35,9 +35,9 @@ extends AbstractInboundPort implements ManagementCI {
 	 * @param indexPool
 	 * @throws Exception
 	 */
-	public ManagementCInBoundPort(String uri, ComponentI owner, int indexPool) throws Exception {
-		super(uri, ManagementCI.class, owner);
-		assert	uri != null && owner instanceof Broker;
+	public ManagementCInBoundPort(ComponentI owner, int indexPool) throws Exception {
+		super( ManagementCI.class, owner);
+		assert owner instanceof Broker;
 		this.indexPool=indexPool;
 	}
 	
@@ -45,7 +45,7 @@ extends AbstractInboundPort implements ManagementCI {
 	@Override
 	public void subscribe(String topic, String inboundPortUri) throws Exception {
 		if(indexPool == -1) {
-			this.getOwner().handleRequestAsync(
+			this.getOwner().handleRequestSync(
 					owner -> {((Broker)owner).subscribe(topic, inboundPortUri); return null;}) ;
 		}else {
 			this.getOwner().handleRequestSync(indexPool,
@@ -57,7 +57,7 @@ extends AbstractInboundPort implements ManagementCI {
 	@Override
 	public void subscribe(String[] topics, String inboundPortUri) throws Exception {
 		if(indexPool == -1) {
-			this.getOwner().handleRequestAsync(
+			this.getOwner().handleRequestSync(
 					owner -> {((Broker)owner).subscribe(topics, inboundPortUri); return null;}) ;
 		}else {
 			this.getOwner().handleRequestSync(indexPool,
@@ -68,7 +68,7 @@ extends AbstractInboundPort implements ManagementCI {
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortUri) throws Exception {
 		if(indexPool == -1) {
-			this.getOwner().handleRequestAsync(
+			this.getOwner().handleRequestSync(
 					owner -> {((Broker)owner).subscribe(topic, filter, inboundPortUri); return null;}) ;
 		}else {
 			this.getOwner().handleRequestSync(indexPool,
@@ -86,7 +86,7 @@ extends AbstractInboundPort implements ManagementCI {
 	@Override
 	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
 		if(indexPool == -1) {
-			this.getOwner().handleRequestAsync(
+			this.getOwner().handleRequestSync(
 					owner -> {((Broker)owner).unsubscribe(topic, inboundPortURI); return null;}) ;
 		}else {
 			this.getOwner().handleRequestSync(indexPool,
@@ -97,14 +97,14 @@ extends AbstractInboundPort implements ManagementCI {
 
 	@Override
 	public void createTopic(String topic) throws Exception {
-		this.getOwner().handleRequestAsync(
+		this.getOwner().handleRequestSync(
 					owner -> {((Broker)owner).createTopic(topic); return null;}) ;
 		
 	}
 
 	@Override
 	public void createTopics(String[] topics)throws Exception  {
-		this.getOwner().handleRequestAsync(
+		this.getOwner().handleRequestSync(
 					owner -> {((Broker)owner).createTopics(topics); return null;}) ;
 		
 	}

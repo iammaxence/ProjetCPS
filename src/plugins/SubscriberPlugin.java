@@ -13,7 +13,6 @@ import interfaces.PublicationCI;
 import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import interfaces.SubscriptionImplementationI;
-import launcher.CVM;
 import ports.ManagementCOutBoundPort;
 import ports.ReceptionCInBoundPort;
 
@@ -26,9 +25,13 @@ public class SubscriberPlugin
 extends AbstractPlugin implements SubscriptionImplementationI, ReceptionImplementationI{
 
 	private static final long serialVersionUID = 1L;
+	protected String URI_BROKER;
 	protected ManagementCOutBoundPort managementOutboundPort;
 	protected ReceptionCInBoundPort recepetionInboundPort;
 	
+	public SubscriberPlugin(String URI_BROKER) {
+		this.URI_BROKER=URI_BROKER;
+	}
 	
 	/**-----------------------------------------------------
 	 * ------------------ CYCLE OF LIFE --------------------
@@ -62,7 +65,7 @@ extends AbstractPlugin implements SubscriptionImplementationI, ReceptionImplemen
 		/**-------------- BrokerManagementCI --------------------*/
 		this.owner.doPortConnection(
 				rop.getPortURI(),
-				CVM.BROKER_COMPONENT_URI,
+				URI_BROKER,
 				ReflectionConnector.class.getCanonicalName()) ;
 		String[] uris = rop.findPortURIsFromInterface(ManagementCI.class) ;
 		assert	uris != null && uris.length == 1 ;

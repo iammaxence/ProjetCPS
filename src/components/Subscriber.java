@@ -30,19 +30,26 @@ extends AbstractComponent implements ReceptionImplementationI{
 	protected SubscriberPlugin                   myplugin;
 	protected final static String mypluginURI = "subscriberPlugin";
 	
-	protected Subscriber(int nbThreads, int nbSchedulableThreads, String uri) throws Exception{
+	protected Subscriber(int nbThreads, int nbSchedulableThreads, String uri, String URI_BROKER) throws Exception{
 		super(uri, nbThreads, nbSchedulableThreads);
 		
 		assert uri != null;
 		this.uri = uri;
 		
 		/**----------- PLUGIN INSTALLATION ------------**/
-		myplugin = new SubscriberPlugin();
+		myplugin = new SubscriberPlugin(URI_BROKER);
 		myplugin.setPluginURI(mypluginURI);
 		this.installPlugin(myplugin);
+		assert	this.isInstalled(mypluginURI);
 
 		this.receptionInboundPortURI = myplugin.getReceptionURI();
 		assert receptionInboundPortURI!=null;
+		
+		
+		/**----------------- TRACE --------------------**/
+		this.tracer.setTitle(uri) ;
+		this.tracer.setRelativePosition(0, 1) ;
+		this.toggleTracing() ;
 	}
 	
 	/**-----------------------------------------------------
@@ -89,6 +96,11 @@ extends AbstractComponent implements ReceptionImplementationI{
 							myplugin.subscribe("topic"+y, receptionInboundPortURI);
 						}
 						break;
+					case 4: /** Le composant subsciber1 s'abonne à Test **/
+                        if (this.uri.equals("my-URI-subscribe1")) {
+                            myplugin.subscribe("Test", receptionInboundPortURI);  
+                        }
+                        break;
 						
 					default: break;	
 				}

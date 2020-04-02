@@ -26,8 +26,13 @@ extends AbstractPlugin implements PublicationsImplementationI, ManagementImpleme
 
 	private static final long serialVersionUID = 1L;
 	
+	protected String URI_BROKER;
 	protected ManagementCOutBoundPort     managementOutboundPort;
 	protected PublicationCOutBoundPort publicationOutboundPort;
+	
+	public PublisherPlugin(String URI_BROKER) {
+		this.URI_BROKER=URI_BROKER;
+	}
 	
 
 	/**-----------------------------------------------------
@@ -64,7 +69,7 @@ extends AbstractPlugin implements PublicationsImplementationI, ManagementImpleme
 		/**-------------- BrokerPublicationCI --------------------*/
 		this.owner.doPortConnection(
 				rop.getPortURI(),
-				CVM.BROKER_COMPONENT_URI,
+				URI_BROKER, // Changement pour DCVM
 				ReflectionConnector.class.getCanonicalName()) ;
 		
 		String[] urip = rop.findPortURIsFromInterface(PublicationCI.class) ;

@@ -45,8 +45,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	
 	/**------------------ VARIABLES ----------------------*/
-	protected final String              				   	  managInboundPortPublisherURI;
-	protected final String            					      managInboundPortSubscriberURI;
 	protected Map <String, ArrayList<MessageI> >              topics;          //<Topics, List of messages>
 	protected ArrayList<Client>                               subscribers;     // List of Subscriber
 	protected Map <String, ArrayList<Client> >                subscriptions;   //<Topics, List of Subscriber>
@@ -68,19 +66,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @param publicationInboundPortURI is the URI of the port connected to the Publisher (PublicationCI)
 	 * @throws Exception
 	 */
-	protected Broker(int nbThreads, int nbSchedulableThreads, 
-							String uri, 
-							String managInboundPortPublisherURI,
-							String managInboundPortSubscriberURI, 
-							String publicationInboundPortURI) throws Exception {
+	protected Broker(int nbThreads, int nbSchedulableThreads, String uri) throws Exception {
 		super(uri, nbThreads, nbSchedulableThreads);
-		
-		assert managInboundPortPublisherURI != null;
-		assert managInboundPortSubscriberURI != null;
-		assert publicationInboundPortURI != null;
-		
-		this.managInboundPortPublisherURI = managInboundPortPublisherURI;
-		this.managInboundPortSubscriberURI = managInboundPortSubscriberURI;
 		cpt=0;
 		
 		topics = new HashMap <String, ArrayList<MessageI>>();  
@@ -97,9 +84,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.addRequiredInterface(ReceptionCI.class);
 		
 		/**---------------- PORTS CREATION --------------------*/
-		this.mipPublisher = new ManagementCInBoundPort(managInboundPortPublisherURI,this);
-		this.mipSubscriber = new ManagementCInBoundPort(managInboundPortSubscriberURI,this,threadSubscription);
-		this.publicationInboundPort = new PublicationCInBoundPort(publicationInboundPortURI, this, threadPublication);
+		this.mipPublisher = new ManagementCInBoundPort(this);
+		this.mipSubscriber = new ManagementCInBoundPort(this,threadSubscription);
+		this.publicationInboundPort = new PublicationCInBoundPort(this, threadPublication);
 		
 		
 		/**-------------- PUBLISH PORT IN REGISTER ------------*/
@@ -108,6 +95,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.publicationInboundPort.publishPort();
 		
 		
+		/**----------------- TRACE --------------------**/
+		this.tracer.setTitle(uri) ;
+		this.tracer.setRelativePosition(0, 0) ;
+		this.toggleTracing() ;	
 	}
 	
 	
@@ -137,6 +128,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.mipPublisher.unpublishPort(); 
 		this.mipSubscriber.unpublishPort(); 
 		this.publicationInboundPort.unpublishPort();
+		
+		/**----------------------------------------------------*/
+//		for(Client c : subscribers) {
+//			this.doPortDisconnection(c.getOutBoundPortURI());
+//		}
 		
 		super.finalise();
 	}

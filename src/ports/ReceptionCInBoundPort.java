@@ -39,13 +39,13 @@ extends AbstractInboundPort implements ReceptionCI{
 
 	@Override
 	public void acceptMessage(MessageI m) throws Exception {
-		this.getOwner().handleRequestAsync(
+		this.getOwner().handleRequestSync(
 					owner -> {((Subscriber)owner).acceptMessage(m); return null;}) ;
 	}
 
 	@Override
 	public void acceptMessages(MessageI[] ms) throws Exception {
-		this.getOwner().handleRequestAsync(
+		this.getOwner().handleRequestSync(
 					owner -> {((Subscriber)owner).acceptMessages(ms); return null;}) ;
 	}
 
