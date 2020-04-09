@@ -10,6 +10,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import connectors.ReceptionConnector;
 import fr.sorbonne_u.components.AbstractComponent;
+import fr.sorbonne_u.components.annotations.AddPlugin;
 import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
@@ -25,6 +26,7 @@ import annexes.Client;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
+import plugins.BrokerManagementDynamicPlugin;
 
 /**
  * 
@@ -33,6 +35,8 @@ import ports.ReceptionCOutBoundPort;
  */
 @OfferedInterfaces(offered= {ManagementCI.class,PublicationCI.class})
 @RequiredInterfaces(required = {ReceptionCI.class} )
+@AddPlugin(pluginClass = BrokerManagementDynamicPlugin.class,
+		   pluginURI = Broker.SUBS_DYNAMIC_CONNECTION_PLUGIN_URI)
 public class Broker 
 extends AbstractComponent 
 implements ManagementImplementationI, SubscriptionImplementationI, PublicationsImplementationI{
@@ -50,11 +54,14 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected Map <String, ArrayList<Client> >                subscriptions;   //<Topics, List of Subscriber>
 	private int cpt;
 	private int threadPublication, threadSubscription;
+	public final static String	SUBS_DYNAMIC_CONNECTION_PLUGIN_URI = "brokerManagementPluginURI" ;
 	
 	/**----------------------- MUTEX ----------------------*/
 	protected ReadWriteLock lock = new ReentrantReadWriteLock();
 	protected Lock readLock = lock.readLock();
 	protected Lock writeLock = lock.writeLock();
+	
+	
 	
 	/**
 	 * Constructor of Broker Component

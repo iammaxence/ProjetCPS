@@ -14,7 +14,7 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import fr.sorbonne_u.components.pre.dcc.connectors.DynamicComponentCreationConnector;
 import fr.sorbonne_u.components.pre.dcc.interfaces.DynamicComponentCreationI;
 import fr.sorbonne_u.components.pre.dcc.ports.DynamicComponentCreationOutboundPort;
-import launcher.CVM2;
+import launcher.CVMDynamicCreationLife;
 
 @RequiredInterfaces(required = {DynamicComponentCreationI.class})
 public class DynamicAssembler 
@@ -73,7 +73,7 @@ extends AbstractComponent {
 					new Object[] {
 							nbThread,
 							nbSchedulableThreads,
-							CVM2.BROKER_COMPONENT_URI}) ;
+							CVMDynamicCreationLife.BROKER_COMPONENT_URI}) ;
 		this.deployerURIs.add(brokerURI) ;
 
 		
@@ -86,8 +86,8 @@ extends AbstractComponent {
 					new Object[] {
 							nbThread,
 							nbSchedulableThreads,
-							CVM2.PUBLISHER_COMPONENT_URI,
-							CVM2.BROKER_COMPONENT_URI}) ;
+							CVMDynamicCreationLife.PUBLISHER_COMPONENT_URI,
+							CVMDynamicCreationLife.BROKER_COMPONENT_URI}) ;
 		this.deployerURIs.add(publisherURI) ;
 		
 		/**---------------
@@ -99,8 +99,8 @@ extends AbstractComponent {
 					new Object[] {
 							nbThread,
 							nbSchedulableThreads,
-							CVM2.SUBSCRIBE_COMPONENT_URI,
-							CVM2.BROKER_COMPONENT_URI}) ;
+							CVMDynamicCreationLife.SUBSCRIBE_COMPONENT_URI,
+							CVMDynamicCreationLife.BROKER_COMPONENT_URI}) ;
 		this.deployerURIs.add(subscriberURI) ;
 		
 		

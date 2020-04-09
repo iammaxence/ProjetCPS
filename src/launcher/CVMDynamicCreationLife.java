@@ -9,7 +9,7 @@ import fr.sorbonne_u.components.cvm.AbstractCVM;
  * @author GROUP LAMA
  *
  */
-public class CVM2 extends AbstractCVM {
+public class CVMDynamicCreationLife extends AbstractCVM {
 	public static final String BROKER_COMPONENT_URI = "my-URI-Broker" ;
 	public static final String PUBLISHER_COMPONENT_URI = "my-URI-Publisher" ;
 	public static final String SUBSCRIBE_COMPONENT_URI = "my-URI-Subscribe" ;
@@ -18,7 +18,7 @@ public class CVM2 extends AbstractCVM {
 	/**
 	 * Constructor CVM
 	 */
-	public CVM2() throws Exception {
+	public CVMDynamicCreationLife() throws Exception {
 		super() ;
 	}
 
@@ -71,7 +71,7 @@ public class CVM2 extends AbstractCVM {
 	public static void	main(String[] args){
 		try {
 			// Create an instance of the defined component virtual machine.
-			CVM2 a = new CVM2() ;
+			CVMDynamicCreationLife a = new CVMDynamicCreationLife() ;
 			// Execute the application.
 			a.startStandardLifeCycle(20000L) ;
 			Thread.sleep(5000L) ;

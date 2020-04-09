@@ -12,7 +12,6 @@ import interfaces.ManagementCI;
 import interfaces.ManagementImplementationI;
 import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
-import launcher.CVM;
 import ports.ManagementCOutBoundPort;
 import ports.PublicationCOutBoundPort;
 
