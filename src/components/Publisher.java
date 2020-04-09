@@ -31,15 +31,16 @@ extends AbstractComponent {
 	 * @param uri of the Component
 	 * @throws Exception
 	 */
-	protected Publisher(int nbThreads, int nbSchedulableThreads, String uri,String URI_BROKER) throws Exception{
+	protected Publisher(int nbThreads, int nbSchedulableThreads, String uri, String URI_BROKER) throws Exception{
 		super(uri, nbThreads, nbSchedulableThreads);
 		assert uri != null;
+		assert URI_BROKER != null;
 		
 		/**----------- PLUGIN INSTALLATION ------------**/
-		myplugin=new PublisherPlugin(URI_BROKER);
+		myplugin = new PublisherPlugin(URI_BROKER);
 		myplugin.setPluginURI(mypluginURI);
 		this.installPlugin(myplugin);
-		assert	this.isInstalled(mypluginURI);
+		assert this.isInstalled(mypluginURI);
 		
 		/**----------------- TRACE --------------------**/
 		this.tracer.setTitle(uri) ;

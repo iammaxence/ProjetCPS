@@ -34,13 +34,14 @@ extends AbstractComponent implements ReceptionImplementationI{
 		super(uri, nbThreads, nbSchedulableThreads);
 		
 		assert uri != null;
+		assert URI_BROKER != null;
 		this.uri = uri;
 		
 		/**----------- PLUGIN INSTALLATION ------------**/
 		myplugin = new SubscriberPlugin(URI_BROKER);
 		myplugin.setPluginURI(mypluginURI);
 		this.installPlugin(myplugin);
-		assert	this.isInstalled(mypluginURI);
+		assert this.isInstalled(mypluginURI);
 
 		this.receptionInboundPortURI = myplugin.getReceptionURI();
 		assert receptionInboundPortURI!=null;

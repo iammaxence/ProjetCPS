@@ -23,6 +23,7 @@ import interfaces.SubscriptionImplementationI;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import annexes.Client;
+import annexes.TopicKeeper;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
@@ -49,10 +50,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	
 	/**------------------ VARIABLES ----------------------*/
-	protected Map <String, ArrayList<MessageI> >              topics;          //<Topics, List of messages>
+	protected TopicKeeper                                     topics;          //<Topics, List of messages>
 	protected ArrayList<Client>                               subscribers;     // List of Subscriber
 	protected Map <String, ArrayList<Client> >                subscriptions;   //<Topics, List of Subscriber>
-	private int cpt;
+	private int cpt = 0;
 	private int threadPublication, threadSubscription;
 	public final static String	SUBS_DYNAMIC_CONNECTION_PLUGIN_URI = "brokerManagementPluginURI" ;
 	
@@ -75,9 +76,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	protected Broker(int nbThreads, int nbSchedulableThreads, String uri) throws Exception {
 		super(uri, nbThreads, nbSchedulableThreads);
-		cpt=0;
 		
-		topics = new HashMap <String, ArrayList<MessageI>>();  
+		topics = new TopicKeeper();  
 		subscriptions = new HashMap <String, ArrayList<Client>>();  
 		subscribers = new ArrayList<Client>();
 		
@@ -158,16 +158,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
-		ArrayList<MessageI> n = new ArrayList<>();
-		boolean hastopic = isTopic(topic);
-
-		try {
-			writeLock.lock();
-			if (hastopic)
-				n = topics.get(topic);
-			n.add(m);
-			topics.put(topic, n);
-		}finally{ writeLock.unlock();}
+		topics.addMessage(topic, m);
 
 		this.sendMessage(m, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
@@ -181,30 +172,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI m, String[] listTopics) throws Exception {
-		ArrayList<MessageI> n;
-		String topic; 
-		
-		boolean hastopics [] = new boolean [listTopics.length];
-		for(int i=0; i < listTopics.length; i++) {
-			hastopics[i] = isTopic(listTopics[i]);
-		}
-
-		try {
-			writeLock.lock();
-			for(int i=0; i < listTopics.length; i++) {
-				topic = listTopics[i]; 
-				if (hastopics[i])
-					n = topics.get(topic);
-				else
-					n = new ArrayList<>();
-				n.add(m);
-				topics.put(topic, n);
-				
-				//******************A MODIFIER*********************//
-				this.sendMessage(m, topic);
-			}
-				
-		}finally{ writeLock.unlock();}
+		for(String topic: listTopics)
+			publish(m, topic);
 	}
 	
 	/**
@@ -215,18 +184,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
-		ArrayList<MessageI> n = new ArrayList<>();
-		boolean hastopic = isTopic(topic);
-
-		try {
-			writeLock.lock();
-			if (hastopic)
-				n = topics.get(topic);
-			for(MessageI m: ms)
-				n.add(m);
-			topics.put(topic, n);
-		}finally{ writeLock.unlock();}
-
+		topics.addMessages(topic, ms);
 		this.sendMessages(ms, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
 	}
@@ -240,33 +198,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI[] ms, String[] listTopics) throws Exception {
-		ArrayList<MessageI> n;
-		String topic; 
-		
-		boolean hastopics [] = new boolean [listTopics.length];
-		for(int i=0; i < listTopics.length; i++) {
-			hastopics[i] = isTopic(listTopics[i]);
-		}
-		
-		try {
-			writeLock.lock();
-			for(int i=0; i < listTopics.length; i++) {
-				topic = listTopics[i]; 
-				if (hastopics[i])
-					n = topics.get(topic);
-				else
-					n = new ArrayList<>();
-				
-				for(MessageI m: ms) {
-					n.add(m);
-				}
-				topics.put(topic, n);
-				
-				//******************A MODIFIER*********************//
-				this.sendMessages(ms, topic);
-			}
-			
-		}finally{ writeLock.unlock();}
+		for(String topic: listTopics)
+			publish(ms, topic);
 	}
 
 	
@@ -281,11 +214,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void createTopic(String topic) throws Exception {
-		if(!isTopic(topic)) {
-			writeLock.lock();
-			topics.put(topic, new ArrayList<MessageI>());
-			writeLock.unlock();
-		}
+		topics.createTopic(topic);
 	}
 	
 	/**
@@ -295,8 +224,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void createTopics(String[] listTopics) throws Exception {
-		for(String t : listTopics) //listTopics: local donc pas besoin de lock
-			createTopic(t);
+		topics.createTopics(listTopics);
 	}
 	
 	/**
@@ -306,12 +234,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void destroyTopic(String topic) throws Exception {
-		if(isTopic(topic)) {
-			writeLock.lock();
-			topics.remove(topic); 
-			writeLock.unlock();
-			this.logMessage("Le topic << "+topic+" >> a été supprimé.");
-		}
+		topics.removeTopic(topic);
+		this.logMessage("Le topic << "+topic+" >> a été supprimé.");
 	}
 	
 	/**
@@ -322,12 +246,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public boolean isTopic(String topic) throws Exception {
-		try {
-			readLock.lock();
-			return topics.containsKey(topic);
-		}finally {
-			readLock.unlock();
-		}
+		return topics.isTopic(topic);
 	}
 	
 	/**
@@ -337,14 +256,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public String[] getTopics() throws Exception {
-		try {
-			readLock.lock();
-			Set<String> keys = topics.keySet();
-			String[] tops = keys.toArray(new String[0]);
-			return tops;
-		}finally {
-			readLock.unlock();
-		}
+		return topics.getTopics();
 	}
 
 
