@@ -107,6 +107,7 @@ extends AbstractComponent {
 						Message msg = new Message("Non! Le thon c'est meilleur!", new TimeStamp(), props );
 						myplugin.publish(msg, "Peche&Cuisine");
 						break;
+						
 					case 6: /** Scenario 6: Test multi-component  **/
                         this.logMessage("Publisher publit un message dans Test");
                         myplugin.publish(new Message("--------- TEST ---------"), "Test");
