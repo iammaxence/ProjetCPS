@@ -13,7 +13,7 @@ import annexes.message.interfaces.MessageI;
 public class Message 
 implements MessageI{
 	private static final long serialVersionUID = 1L;
-	private static int cpt=1;
+	private static int cpt = 1;
 	
 	private final String uri;
 	private Serializable contenue;
@@ -25,7 +25,7 @@ implements MessageI{
 	 * @param contenue : here a message -> Serializable
 	 */
 	public Message(Serializable contenue) {
-		uri = "MESSAGE_"+cpt++;       //ex: MESSAGE_1 qui est donc unique
+		uri = generateURI();       //ex: MESSAGE_1 qui est donc unique
 		ts = new TimeStamp(); 
 		this.contenue = contenue;
 		properties = new Properties();
@@ -39,10 +39,18 @@ implements MessageI{
 	 * @param props is a map of properties -> Properties
 	 */
 	public Message(Serializable contenue, TimeStamp ts, Properties props) {
-		uri="MESSAGE_"+cpt++; 
+		uri = generateURI();       //ex: MESSAGE_1 qui est donc unique
 		this.contenue=contenue;
 		this.ts=ts;
 		properties=props;
+	}
+	
+	/**
+	 * Generate an unique message's URI (only access to cpt)
+	 * @return URI of the message
+	 */
+	private synchronized String generateURI() {
+		return "MESSAGE_"+ cpt++;
 	}
 	
 	/**
