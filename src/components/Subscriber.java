@@ -66,9 +66,9 @@ extends AbstractComponent implements ReceptionImplementationI{
 			String [] topics = {"Automobile", "Voyage","Sport","Nature&Decouvre"};   //Pour que le Subscriber soit abonné aux topics avant la publication
 			
 			/**
-			 * Choose scenario that you want (1 to 3):
+			 * Choose scenario that you want (1 to 4):
 			 */
-			int[] scenario = {1, 2, 3};
+			int[] scenario = {1, 2, 3, 4};
 			
 			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 			chrono.start();
@@ -92,7 +92,7 @@ extends AbstractComponent implements ReceptionImplementationI{
 						break;
 						
 					case 3: /** Scenario 3: Subscribe to 100 topics**/
-						for(int y=0;y<100;y++) {
+						for(int y=0; y<100; y++) {
 							myplugin.subscribe("topic"+y, receptionInboundPortURI);
 						}
 						break;

@@ -67,9 +67,9 @@ extends AbstractComponent {
 			String [] topics = {"Peche&Cuisine", "CPS"};
 			
 			/**
-			 * Choose scenario that you want (1 to 5):
+			 * Choose scenario that you want (1 to 6):
 			 */
-			int[] scenario = {2, 3, 4, 5};
+			int[] scenario = {2, 3, 4, 5, 6};
 			
 			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 			chrono.start();
@@ -109,7 +109,7 @@ extends AbstractComponent {
 						break;
 					case 6: /** Scenario 6: Test multi-component  **/
                         this.logMessage("Publisher publit un message dans Test");
-                        myplugin.publish(new Message("Hello World!"), "Test");
+                        myplugin.publish(new Message("--------- TEST ---------"), "Test");
                         break;
 						
 					default: break;	

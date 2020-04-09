@@ -158,18 +158,16 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
-		ArrayList<MessageI> n;
-		if(isTopic(topic)) {   
-			readLock.lock();
-			n = topics.get(topic);
-			readLock.unlock();
-		}else {
-			n = new ArrayList<>();
-		}
-		writeLock.lock();
-		n.add(m);
-		topics.put(topic, n);
-		writeLock.unlock();
+		ArrayList<MessageI> n = new ArrayList<>();
+		boolean hastopic = isTopic(topic);
+
+		try {
+			writeLock.lock();
+			if (hastopic)
+				n = topics.get(topic);
+			n.add(m);
+			topics.put(topic, n);
+		}finally{ writeLock.unlock();}
 
 		this.sendMessage(m, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
@@ -183,9 +181,30 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI m, String[] listTopics) throws Exception {
-		for(String t: listTopics) {
-			this.publish(m,t);
+		ArrayList<MessageI> n;
+		String topic; 
+		
+		boolean hastopics [] = new boolean [listTopics.length];
+		for(int i=0; i < listTopics.length; i++) {
+			hastopics[i] = isTopic(listTopics[i]);
 		}
+
+		try {
+			writeLock.lock();
+			for(int i=0; i < listTopics.length; i++) {
+				topic = listTopics[i]; 
+				if (hastopics[i])
+					n = topics.get(topic);
+				else
+					n = new ArrayList<>();
+				n.add(m);
+				topics.put(topic, n);
+				
+				//******************A MODIFIER*********************//
+				this.sendMessage(m, topic);
+			}
+				
+		}finally{ writeLock.unlock();}
 	}
 	
 	/**
@@ -196,19 +215,17 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
-		ArrayList<MessageI> n;
-		if(isTopic(topic)) {   
-			readLock.lock();
-			n = topics.get(topic);
-			readLock.unlock();
-		}else {
-			n = new ArrayList<>();
-		}
-		writeLock.lock();
-		for(MessageI m: ms)
-			n.add(m);
-		topics.put(topic, n);
-		writeLock.unlock();
+		ArrayList<MessageI> n = new ArrayList<>();
+		boolean hastopic = isTopic(topic);
+
+		try {
+			writeLock.lock();
+			if (hastopic)
+				n = topics.get(topic);
+			for(MessageI m: ms)
+				n.add(m);
+			topics.put(topic, n);
+		}finally{ writeLock.unlock();}
 
 		this.sendMessages(ms, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
@@ -223,9 +240,33 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI[] ms, String[] listTopics) throws Exception {
-		for(String t: listTopics) {  //listTopics: local donc pas besoin de lock
-			this.publish(ms,t);
+		ArrayList<MessageI> n;
+		String topic; 
+		
+		boolean hastopics [] = new boolean [listTopics.length];
+		for(int i=0; i < listTopics.length; i++) {
+			hastopics[i] = isTopic(listTopics[i]);
 		}
+		
+		try {
+			writeLock.lock();
+			for(int i=0; i < listTopics.length; i++) {
+				topic = listTopics[i]; 
+				if (hastopics[i])
+					n = topics.get(topic);
+				else
+					n = new ArrayList<>();
+				
+				for(MessageI m: ms) {
+					n.add(m);
+				}
+				topics.put(topic, n);
+				
+				//******************A MODIFIER*********************//
+				this.sendMessages(ms, topic);
+			}
+			
+		}finally{ writeLock.unlock();}
 	}
 
 	
