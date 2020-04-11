@@ -21,7 +21,8 @@ import ports.PublicationCOutBoundPort;
  *
  */
 public class PublisherPlugin 
-extends AbstractPlugin implements PublicationsImplementationI, ManagementImplementationI{
+extends AbstractPlugin 
+implements PublicationsImplementationI, ManagementImplementationI{
 
 	private static final long serialVersionUID = 1L;
 	

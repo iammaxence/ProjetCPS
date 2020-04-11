@@ -15,72 +15,72 @@ import annexes.message.interfaces.MessageI;
  */
 public class TopicKeeper {
 	
-	private volatile ConcurrentHashMap <String, Vector<MessageI>> topics;
+	private volatile ConcurrentHashMap <String, Vector<MessageI>> topics; //key: topic   value: list of message
 	
 	
 	/**
-	 * 
+	 * Constructor of the concurrent hasmap that represent the storage of message for each topic
 	 */
 	public TopicKeeper() {
 		topics = new ConcurrentHashMap <String, Vector<MessageI>>();
 	}
 	
 	/**
-	 * 
-	 * @param sujet
+	 * Create a new topic 
+	 * @param sujet to create in the hasmap
 	 */
-	public void createTopic(String sujet) {
-		if(!topics.contains(sujet))
+	public synchronized void createTopic(String sujet) {
+		if(!topics.containsKey(sujet))
 			topics.put(sujet, new Vector<MessageI>());
 	}
 	
 	/**
-	 * 
-	 * @param sujet
-	 * @return
+	 * Check if it's a topic that already exist
+	 * @param sujet in question 
+	 * @return if the topic exist in TopicKeeper
 	 */
-	public boolean isTopic(String sujet) {
-		return topics.contains(sujet);
+	public synchronized boolean isTopic(String sujet) {
+		return topics.containsKey(sujet);
 	}
 
 	/**
-	 * 
-	 * @param sujets
+	 * Create multiple new topics
+	 * @param sujets the list of topic to create
 	 */
-	public void createTopics(String[] sujets) {
+	public synchronized void createTopics(String[] sujets) {
 		for(String sujet: sujets) {
-			if(!topics.contains(sujet))
+			if(!topics.containsKey(sujet))
 				topics.put(sujet, new Vector<MessageI>());
 		}	
 	}
 	
 	/**
-	 * 
-	 * @param sujet
+	 * Remove a topic and all the messages of this topic
+	 * @param sujet in question
 	 */
-	public void removeTopic(String sujet) {
-		if(topics.contains(sujet))
+	public synchronized void removeTopic(String sujet) {
+		if(topics.containsKey(sujet))
 			topics.remove(sujet);
 	}
 	
 	/**
-	 * 
-	 * @param sujet
-	 * @param m
+	 * Add a message in a specific topic
+	 * @param sujet where to add the message
+	 * @param m : a message
 	 */
 	public void addMessage(String sujet, MessageI m) {
-		if(!topics.contains(sujet)) 
+		if(!topics.containsKey(sujet)) 
 			topics.put(sujet, new Vector<MessageI>());
 		topics.get(sujet).add(m);
 	}
 	
 	/**
-	 * 
-	 * @param sujet
-	 * @param ms
+	 * Add a list of message in a specific topic
+	 * @param sujet where to add the messages
+	 * @param ms : the list of messages
 	 */
 	public void addMessages(String sujet, MessageI[] ms) {
-		if(!topics.contains(sujet)) 
+		if(!topics.containsKey(sujet)) 
 			topics.put(sujet, new Vector<MessageI>());
 		
 		for(MessageI m : ms)
@@ -88,8 +88,8 @@ public class TopicKeeper {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Getter of the list of topics that exist
+	 * @return the list of all the topics
 	 */
 	public String[] getTopics() {
 		Set<String> keys = topics.keySet();

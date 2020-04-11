@@ -22,7 +22,8 @@ import ports.ReceptionCInBoundPort;
  *
  */
 public class SubscriberPlugin 
-extends AbstractPlugin implements SubscriptionImplementationI, ReceptionImplementationI{
+extends AbstractPlugin 
+implements SubscriptionImplementationI, ReceptionImplementationI{
 
 	private static final long serialVersionUID = 1L;
 	protected String URI_BROKER;

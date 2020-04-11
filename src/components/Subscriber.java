@@ -41,10 +41,11 @@ extends AbstractComponent implements ReceptionImplementationI{
 		myplugin = new SubscriberPlugin(URI_BROKER);
 		myplugin.setPluginURI(mypluginURI);
 		this.installPlugin(myplugin);
+		
 		assert this.isInstalled(mypluginURI);
 
 		this.receptionInboundPortURI = myplugin.getReceptionURI();
-		assert receptionInboundPortURI!=null;
+		assert receptionInboundPortURI != null;
 		
 		
 		/**----------------- TRACE --------------------**/
@@ -69,7 +70,7 @@ extends AbstractComponent implements ReceptionImplementationI{
 			/**
 			 * Choose scenario that you want (1 to 4):
 			 */
-			int[] scenario = {1, 2, 3, 4};
+			int[] scenario = {1, 2};
 			
 			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 			chrono.start();

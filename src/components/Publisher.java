@@ -40,6 +40,7 @@ extends AbstractComponent {
 		myplugin = new PublisherPlugin(URI_BROKER);
 		myplugin.setPluginURI(mypluginURI);
 		this.installPlugin(myplugin);
+		
 		assert this.isInstalled(mypluginURI);
 		
 		/**----------------- TRACE --------------------**/
