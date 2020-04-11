@@ -40,7 +40,7 @@ public class GestionClient {
 				subscribers.get(inboundPortURI).setFilter(filter, topic);
 			
 			//Create a topic if it's not exist
-			if(!souscriptions.contains(topic))
+			if(!souscriptions.containsKey(topic))
 				souscriptions.put(topic, new Vector<String>());
 			
 			// if the subscriber already subscribe, it'll not be added 
@@ -69,6 +69,7 @@ public class GestionClient {
 	public synchronized void addClient(String inboundPortURI, Client client) {
 		if(!subscribers.containsKey(inboundPortURI)) {
 			subscribers.put(inboundPortURI, client);
+			System.out.println("-- create client : "+client.getOutBoundPortURI());
 		}
 	}
 	
@@ -100,9 +101,12 @@ public class GestionClient {
 	 */
 	public ArrayList<Client> getSubscribersOfTopic(String topic){
 		ArrayList<Client> res = new ArrayList<Client>();
-		for(String uri: souscriptions.get(topic)) {
-			res.add(subscribers.get(uri).copy());
+		if(souscriptions.containsKey(topic)) {
+			for(String uri: souscriptions.get(topic)) {
+				res.add(subscribers.get(uri).copy());
+			}
 		}
+		System.out.println("-- getSubscribers of "+topic+" : "+res.size());
 		return res;
 	}
 
@@ -113,7 +117,7 @@ public class GestionClient {
 	 * @return
 	 */
 	public boolean isSubscribe(String topic, String inboundPortURI) {
-		if (souscriptions.contains(topic))
+		if (souscriptions.containsKey(topic))
 			return souscriptions.get(topic).contains(inboundPortURI);
 		return false;
 	}

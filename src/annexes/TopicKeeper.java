@@ -59,8 +59,10 @@ public class TopicKeeper {
 	 * @param sujet in question
 	 */
 	public synchronized void removeTopic(String sujet) {
-		if(topics.containsKey(sujet))
+		if(topics.containsKey(sujet)) {
 			topics.remove(sujet);
+			System.out.println("-- delete topic : "+sujet);
+		}
 	}
 	
 	/**
@@ -69,9 +71,12 @@ public class TopicKeeper {
 	 * @param m : a message
 	 */
 	public void addMessage(String sujet, MessageI m) {
-		if(!topics.containsKey(sujet)) 
+		if(!topics.containsKey(sujet)) {
 			topics.put(sujet, new Vector<MessageI>());
+			System.out.println("-- create topic : "+sujet);
+		}
 		topics.get(sujet).add(m);
+		System.out.println("-- add message : "+m.getPayload()+" to topic : "+sujet);
 	}
 	
 	/**
@@ -80,11 +85,15 @@ public class TopicKeeper {
 	 * @param ms : the list of messages
 	 */
 	public void addMessages(String sujet, MessageI[] ms) {
-		if(!topics.containsKey(sujet)) 
+		if(!topics.containsKey(sujet)) {
 			topics.put(sujet, new Vector<MessageI>());
+			System.out.println("-- create topic : "+sujet);
+		}
 		
-		for(MessageI m : ms)
+		for(MessageI m : ms) {
 			topics.get(sujet).add(m);
+			System.out.println("-- add message : "+m.getPayload()+" to topic : "+sujet);
+		}
 	}
 	
 	/**

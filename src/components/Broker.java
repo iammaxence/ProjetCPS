@@ -1,11 +1,7 @@
 package components;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.Collection;
 
 import connectors.ReceptionConnector;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -21,6 +17,7 @@ import interfaces.SubscriptionImplementationI;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import annexes.Client;
+import annexes.GestionClient;
 import annexes.TopicKeeper;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
@@ -45,15 +42,14 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	
 	/**------------------ VARIABLES ----------------------*/
-	protected TopicKeeper                                     topics;          //<Topics, List of messages>
-	protected ArrayList<Client>                               subscribers;     // List of Subscriber
-	protected Map <String, ArrayList<Client> >                subscriptions;   //<Topics, List of Subscriber>
+	protected TopicKeeper                                     topics;        
+	protected GestionClient                                   subscriptions;   
 	private int threadPublication, threadSubscription;
 	
 	/**----------------------- MUTEX ----------------------*/
-	protected ReadWriteLock lock = new ReentrantReadWriteLock();
-	protected Lock readLock = lock.readLock();
-	protected Lock writeLock = lock.writeLock();
+//	protected ReadWriteLock lock = new ReentrantReadWriteLock();
+//	protected Lock readLock = lock.readLock();
+//	protected Lock writeLock = lock.writeLock();
 	
 	
 	
@@ -71,8 +67,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		super(uri, nbThreads, nbSchedulableThreads);
 		
 		topics = new TopicKeeper();  
-		subscriptions = new HashMap <String, ArrayList<Client>>();  
-		subscribers = new ArrayList<Client>();
+		subscriptions = new GestionClient();
 		
 		/**---------------------- THREADS ---------------------*/
 		threadPublication = createNewExecutorService("threadPublication", 10, false);
@@ -130,9 +125,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.publicationInboundPort.unpublishPort();
 		
 		/**----------------------------------------------------*/
-//		for(Client c : subscribers) {
-//			this.doPortDisconnection(c.getOutBoundPortURI());
-//		}
+		Collection<Client> clients = subscriptions.getAllSubscribers();
+		for(Client c : clients) {
+			c.unpublish();
+			this.doPortDisconnection(c.getOutBoundPortURI());
+		}
 		
 		super.finalise();
 	}
@@ -279,6 +276,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			this.subscribe(t, null, inboundPortURI);
 	}
 
+
 	/**
 	 * Method of SubsciptionImplementationI
 	 * @param topic where the subscriber want to subscribe
@@ -288,45 +286,23 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortURI) throws Exception {
-		if(!isTopic(topic))
-			this.createTopic(topic);
-
-		if(!isSubscribe(topic, inboundPortURI)) {
-			ArrayList<Client> subs;
+		//Creation of the Client if it's the first time 
+		if(!subscriptions.isClient(inboundPortURI)) {
+			Client c = new  Client(inboundPortURI, new ReceptionCOutBoundPort(this));
+			this.doPortConnection(c.getOutBoundPortURI(), 
+								  inboundPortURI, 
+								  ReceptionConnector.class.getCanonicalName());
 			
-			subs = getSubscriptions(topic); //Protegé par readLock   ! A VERIFER 
-			
-			Client monSub = getSubscriber(inboundPortURI); //Protegé par readLock
-			
-			if(monSub==null) { // Si le sub n'est pas dans la liste officiel des subscibers existants
-				monSub = new Client(inboundPortURI, new ReceptionCOutBoundPort(this));  // Je crée le sub avec un port unique
-				monSub.getPort().publishPort();
-				this.doPortConnection(
-						monSub.getOutBoundPortURI(),
-						inboundPortURI, 
-						ReceptionConnector.class.getCanonicalName()) ;
-				
-				writeLock.lock();
-				subscribers.add(monSub); // J'ajoute le sub nouvellement crée dans la liste officiel des subscibers
-				writeLock.unlock();
-			}
-			
-			if(filter != null)
-				monSub.setFilter(filter,topic); 
-			
-			// Je l'ajoute dans la liste de ceux abonnée au topic
-			writeLock.lock();
-			subs.add(monSub);
-			subscriptions.put(topic, subs);
-			writeLock.unlock();
-			
+			subscriptions.addClient(inboundPortURI, c);
+		}
+		
+		if(subscriptions.addSouscription(topic, inboundPortURI, filter)) {
 			this.logMessage("Subscriber subscribe to topic "+topic);
 		}else {
 			this.logMessage("Subscriber already subscribe to topic "+topic);
 		}
-
-
 	}
+		
 
 	/**
 	 * Method of SubsciptionImplementationI
@@ -337,14 +313,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void modifyFilter(String topic, MessageFilterI newFilter, String inboundPortURI) throws Exception {
-		writeLock.lock();
-		for(Client s : subscriptions.get(topic)) {
-			if(s.getInBoundPortURI().equals(inboundPortURI)) {
-				s.setFilter(newFilter, topic);
-				break;
-			}
-		}	
-		writeLock.unlock();
+		subscriptions.modifyFilterOf(inboundPortURI, topic, newFilter);
 	}
 
 	/**
@@ -355,92 +324,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void unsubscribe(String topic, String inboundPortURI) throws Exception {
-
-		Client trouve = null;
-		readLock.lock();
-		ArrayList<Client> clients = subscriptions.get(topic);
-		for(Client s : clients) {
-			if(s.getInBoundPortURI().equals(inboundPortURI)) {
-				trouve = s;
-				break;
-			}
-		}
-		readLock.unlock();
-
-		if(trouve != null) {
-			this.logMessage("Unsubscribe of "+trouve.getOutBoundPortURI()+" for the topic "+topic);
-			writeLock.lock();
-			clients.remove(trouve);
-			subscriptions.put(topic, clients);
-			writeLock.unlock();
-		}else {
-			this.logMessage(inboundPortURI+" already unsubscribe");
-		}
-
+		subscriptions.unsubscribe(inboundPortURI, topic);
 	}
 	
-	/**---------------------------------------------*/
-	
-	/**
-	 * @param topic : the name of the topic
-	 * @param inboundPortURI : the name of the inboundPortURI
-	 * @return Check if the subscriber is already in the hashmap subs
-	 * @throws Exception 
-	 */
-	private boolean isSubscribe(String topic, String inboundPortURI) throws Exception {
-		try {
-			readLock.lock();
-			if(subscriptions.containsKey(topic)) {
-				for(Client s : subscriptions.get(topic)) {
-					if(s.getInBoundPortURI().equals(inboundPortURI))
-						return true;
-				}
-			}
-			return false;
-		}finally {
-			readLock.unlock();
-		}
-	}
-	
-	/**
-	 * @param inboundPortURI : the name of the  inboundPortURI
-	 * @return the subscriber if he exists else null
-	 * @throws Exception 
-	 */
-	private Client getSubscriber(String inboundPortURI) throws Exception { 
-		try {
-			readLock.lock();
-			for(Client sub: subscribers) {
-				if(sub.getInBoundPortURI().equals(inboundPortURI))
-					return sub;
-			}	
-			return null;
-		}finally {
-			readLock.unlock();
-		}
-	}
-	
-	/**
-	 * Get a clone of list of subscibers for a topic 
-	 * @param topic in question
-	 * @return a clone of list of subscibers
-	 */
-	private ArrayList<Client> getSubscriptions(String topic) {
-		readLock.lock();
-		try {
-			ArrayList<Client> sbs=new ArrayList<>();
-			if(subscriptions.containsKey(topic)) {
-				for(Client client : subscriptions.get(topic)) {
-					sbs.add(client.copy()); 
-				}
-			}
-			return sbs;
-		}finally {
-			readLock.unlock();
-		}
-		
-	}
-
 	/**=====================================================================================
 	 * =================================== RECEPTIONCI =====================================
 	 ======================================================================================*/
@@ -456,7 +342,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		//Connaitre le nombre de thread actif à un moment donnée
 		//this.logMessage("Nb thread actif: "+Thread.activeCount());
 		
-		for(Client sub : getSubscriptions(topic)) {
+		ArrayList<Client> clients = subscriptions.getSubscribersOfTopic(topic);
+		for(Client sub : clients) {
 			if(sub.hasFilter(topic)) {
 				MessageFilterI f = sub.getFilter(topic);
 				if (f.filter(m))
@@ -479,7 +366,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @throws Exception
 	 */
 	public void sendMessages(MessageI[] ms, String topic) throws Exception {
-		for(Client sub : getSubscriptions(topic)) {
+		ArrayList<Client> clients = subscriptions.getSubscribersOfTopic(topic);
+		for(Client sub : clients) {
 			if(sub.hasFilter(topic)) {
 				MessageFilterI f = sub.getFilter(topic);
 				for(MessageI m : ms) {
