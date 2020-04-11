@@ -21,10 +21,12 @@ extends AbstractOutboundPort implements ReceptionCI{
 	 * @param owner of this port
 	 * @throws Exception
 	 */
-	public ReceptionCOutBoundPort(String uri, ComponentI owner) throws Exception {
-		super(uri, ReceptionCI.class, owner);
-		assert	uri != null && owner instanceof Broker ;
+	public ReceptionCOutBoundPort(ComponentI owner) throws Exception {
+		super(ReceptionCI.class, owner);
+		assert owner instanceof Broker ;
 	}
+
+	
 
 	@Override
 	public void acceptMessage(MessageI m) throws Exception {

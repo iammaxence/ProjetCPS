@@ -3,14 +3,12 @@ package components;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import connectors.ReceptionConnector;
 import fr.sorbonne_u.components.AbstractComponent;
-import fr.sorbonne_u.components.annotations.AddPlugin;
 import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
@@ -27,7 +25,6 @@ import annexes.TopicKeeper;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
-import plugins.BrokerManagementDynamicPlugin;
 
 /**
  * 
@@ -36,8 +33,6 @@ import plugins.BrokerManagementDynamicPlugin;
  */
 @OfferedInterfaces(offered= {ManagementCI.class,PublicationCI.class})
 @RequiredInterfaces(required = {ReceptionCI.class} )
-@AddPlugin(pluginClass = BrokerManagementDynamicPlugin.class,
-		   pluginURI = Broker.SUBS_DYNAMIC_CONNECTION_PLUGIN_URI)
 public class Broker 
 extends AbstractComponent 
 implements ManagementImplementationI, SubscriptionImplementationI, PublicationsImplementationI{
@@ -53,9 +48,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected TopicKeeper                                     topics;          //<Topics, List of messages>
 	protected ArrayList<Client>                               subscribers;     // List of Subscriber
 	protected Map <String, ArrayList<Client> >                subscriptions;   //<Topics, List of Subscriber>
-	private int cpt = 0;
 	private int threadPublication, threadSubscription;
-	public final static String	SUBS_DYNAMIC_CONNECTION_PLUGIN_URI = "brokerManagementPluginURI" ;
 	
 	/**----------------------- MUTEX ----------------------*/
 	protected ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -306,8 +299,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			Client monSub = getSubscriber(inboundPortURI); //Protegé par readLock
 			
 			if(monSub==null) { // Si le sub n'est pas dans la liste officiel des subscibers existants
-				String portURI = "uri-"+cpt++;
-				monSub = new Client(inboundPortURI, new ReceptionCOutBoundPort(portURI, this));  // Je crée le sub avec un port unique
+				monSub = new Client(inboundPortURI, new ReceptionCOutBoundPort(this));  // Je crée le sub avec un port unique
 				monSub.getPort().publishPort();
 				this.doPortConnection(
 						monSub.getOutBoundPortURI(),
