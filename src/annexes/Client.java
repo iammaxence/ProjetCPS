@@ -1,8 +1,7 @@
 package annexes;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import annexes.message.interfaces.MessageFilterI;
 import ports.ReceptionCOutBoundPort;
@@ -13,9 +12,9 @@ import ports.ReceptionCOutBoundPort;
  *
  */
 public class Client {
-	private String ReceptionCInBoundPort;
-	private ReceptionCOutBoundPort port;
-	private Map <String, MessageFilterI> filters; //<Topic, Filter>
+	private String                                                ReceptionCInBoundPortURI;     //inBountPortURI of the Subscriber
+	private ReceptionCOutBoundPort                                port;                         //outBoundPort between the Broker and the Subscriber
+	private ConcurrentHashMap <String, MessageFilterI>            filters;                      //key: topic value: filter for the topic
 	
 	/**
 	 * Constructor Client 
@@ -23,9 +22,15 @@ public class Client {
 	 * @param port is the Broker's port linked to the Subscriber
 	 */
 	public Client(String inBoundPortURI, ReceptionCOutBoundPort port) {
-		ReceptionCInBoundPort = inBoundPortURI;
+		ReceptionCInBoundPortURI = inBoundPortURI;
 		this.port = port;
-		filters = new HashMap<String, MessageFilterI>();
+		filters = new ConcurrentHashMap<String, MessageFilterI>();
+		try {
+			this.port.publishPort();
+			assert port.isPublished();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -61,7 +66,16 @@ public class Client {
 	 * @param topic where the client want to put a filter 
 	 */
 	public void setFilter(MessageFilterI filter, String topic) {
-		filters.put( topic, filter);
+		filters.put(topic, filter);
+	}
+	
+	/**
+	 * Remove the filter of a topic
+	 * @param topic of question
+	 */
+	public void removeFilterOfTopic(String topic) {
+		if(filters.containsKey(topic))
+			filters.remove(topic);
 	}
 	
 	/**
@@ -82,7 +96,7 @@ public class Client {
 	 * @return the URI of the Subscriber's port
 	 */
 	public String getInBoundPortURI() {
-		return ReceptionCInBoundPort;
+		return ReceptionCInBoundPortURI;
 	}
 	
 	/**
@@ -105,12 +119,23 @@ public class Client {
 	 * @return a copy of a client
 	 */
 	public Client copy() {
-		Client copy = new Client(this.ReceptionCInBoundPort, this.port);
+		Client copy = new Client(this.ReceptionCInBoundPortURI, this.port);
 		Set<String> topics = filters.keySet();
 		for(String topic: topics) {
 			copy.setFilter(filters.get(topic), topic);
 		}
 		return copy;
+	}
+	
+	/**
+	 * Unpublish the ReceptionCOutBoundPort
+	 */
+	public void unpublish() {
+		try {
+			port.unpublishPort();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 		
 	
