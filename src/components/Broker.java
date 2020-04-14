@@ -73,6 +73,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		threadPublication = createNewExecutorService("threadPublication", 10, false);
 		threadSubscription = createNewExecutorService("threadSubscription", 10,false);
 		
+		
 		/**----------------- ADD COMPONENTS -------------------*/
 		this.addOfferedInterface(ManagementCI.class);
 		this.addOfferedInterface(PublicationCI.class);
@@ -287,7 +288,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void subscribe(String topic, MessageFilterI filter, String inboundPortURI) throws Exception {
 		//Creation of the Client if it's the first time 
-		if(!subscriptions.isClient(inboundPortURI)) {
+		if(!subscriptions.isClient(inboundPortURI)) {                  // /!\ NE PAS OUBLIER DE LOCK
 			Client c = new  Client(inboundPortURI, new ReceptionCOutBoundPort(this));
 			this.doPortConnection(c.getOutBoundPortURI(), 
 								  inboundPortURI, 

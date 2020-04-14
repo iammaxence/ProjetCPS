@@ -57,7 +57,7 @@ public class GestionClient {
 	 * @param inboundPortURI
 	 * @return
 	 */
-	public synchronized boolean isClient(String inboundPortURI) {
+	public boolean isClient(String inboundPortURI) {
 		return subscribers.containsKey(inboundPortURI);
 	}
 	
@@ -66,7 +66,7 @@ public class GestionClient {
 	 * @param inboundPortURI
 	 * @param client
 	 */
-	public synchronized void addClient(String inboundPortURI, Client client) {
+	public void addClient(String inboundPortURI, Client client) {
 		if(!subscribers.containsKey(inboundPortURI)) {
 			subscribers.put(inboundPortURI, client);
 			System.out.println("-- create client : "+client.getOutBoundPortURI());
