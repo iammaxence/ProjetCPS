@@ -19,9 +19,8 @@ extends AbstractInboundPort implements PublicationCI{
 
 	/**
 	 * Constructor of PublicationCInBoundPort
-	 * @param uri of the port
 	 * @param owner of the port
-	 * @param indexPool is the index of pool thread
+	 * @param indexPool is the index of pool thread for the handleRequest
 	 * @throws Exception
 	 */
 	public PublicationCInBoundPort(ComponentI owner, int indexPool) throws Exception {
@@ -30,6 +29,11 @@ extends AbstractInboundPort implements PublicationCI{
 		this.indexPool=indexPool;
 	}
 	
+	/**
+	 * Constructor of PublicationCInBoundPort
+	 * @param owner of the port
+	 * @throws Exception
+	 */
 	public PublicationCInBoundPort(ComponentI owner) throws Exception {
 		super(PublicationCI.class, owner);
 		assert owner instanceof Broker ;

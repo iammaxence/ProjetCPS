@@ -17,7 +17,6 @@ extends AbstractOutboundPort implements ReceptionCI{
 
 	/**
 	 * Constructor of ReceptionCOutBoundPort
-	 * @param uri of the port 
 	 * @param owner of this port
 	 * @throws Exception
 	 */

@@ -44,7 +44,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	/**------------------ VARIABLES ----------------------*/
 	protected TopicKeeper                                     topics;        
 	protected GestionClient                                   subscriptions;   
-	private int threadPublication, threadSubscription;
+	private int threadPublication, threadSubscription, threadEnvoi;
 	
 	/**----------------------- MUTEX ----------------------*/
 //	protected ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -71,7 +71,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		
 		/**---------------------- THREADS ---------------------*/
 		threadPublication = createNewExecutorService("threadPublication", 10, false);
-		threadSubscription = createNewExecutorService("threadSubscription", 10,false);
+		threadSubscription = createNewExecutorService("threadSubscription", 10, false);
+		threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
 		
 		
 		/**----------------- ADD COMPONENTS -------------------*/
@@ -176,6 +177,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
 		topics.addMessages(topic, ms);
+		
 		this.sendMessages(ms, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
 	}
@@ -338,26 +340,37 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @param topic where the message is publish
 	 * @throws Exception
 	 */
-	public void sendMessage(MessageI m, String topic) throws Exception {
-		
+	public void sendMessage(MessageI m, String topic) throws Exception {	
 		//Connaitre le nombre de thread actif à un moment donnée
 		//this.logMessage("Nb thread actif: "+Thread.activeCount());
 		
 		ArrayList<Client> clients = subscriptions.getSubscribersOfTopic(topic);
-		for(Client sub : clients) {
-			if(sub.hasFilter(topic)) {
-				MessageFilterI f = sub.getFilter(topic);
-				if (f.filter(m))
-					sub.getPort().acceptMessage(m);
-			}else {
-				try {
-					sub.getPort().acceptMessage(m);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
 		
+		
+		//Creation of a task: filter and send message
+		AbstractComponent.AbstractService<Void> task = new AbstractComponent.AbstractService<Void>() {
+
+			@Override
+			public Void call() throws Exception {
+				boolean envoyer;
+				for(Client sub : clients) {
+					envoyer = true;
+					if(sub.hasFilter(topic)) {
+						MessageFilterI f = sub.getFilter(topic);
+						envoyer = f.filter(m);
+					}
+					try {
+						if(envoyer)
+							sub.getPort().acceptMessage(m);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+				}
+				return null;
+			}
+		};
+		this.handleRequest(threadEnvoi, task);		
 	}
 	
 	/**
@@ -367,25 +380,37 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @throws Exception
 	 */
 	public void sendMessages(MessageI[] ms, String topic) throws Exception {
+		//Get the list of subscriber for the topic;
 		ArrayList<Client> clients = subscriptions.getSubscribersOfTopic(topic);
-		for(Client sub : clients) {
-			if(sub.hasFilter(topic)) {
-				MessageFilterI f = sub.getFilter(topic);
-				for(MessageI m : ms) {
-					if (f.filter(m))
-						sub.getPort().acceptMessage(m);
-				}
-				
-			}else {
-				try {
-					for(MessageI m : ms) {
-						sub.getPort().acceptMessage(m);
+
+		//Creation of a task: filter and send message
+		AbstractComponent.AbstractService<Void> task = new AbstractComponent.AbstractService<Void>() {
+
+			@Override
+			public Void call() throws Exception {
+				for(Client sub : clients) {
+					try {
+						//Get the filter if there is one
+						if(sub.hasFilter(topic)) {
+							MessageFilterI f = sub.getFilter(topic);
+							for(MessageI m : ms) {
+								if (f.filter(m))
+									sub.getPort().acceptMessage(m);
+							}
+						}else {
+							for(MessageI m : ms) {
+									sub.getPort().acceptMessage(m);
+							}
+						}
+					}catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+
 				}
+				return null;
 			}
-		}
+		};
+		this.handleRequest(threadEnvoi, task);	
 		
 	}
 

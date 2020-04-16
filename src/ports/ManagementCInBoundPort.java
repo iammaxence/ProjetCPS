@@ -19,8 +19,7 @@ extends AbstractInboundPort implements ManagementCI {
 	
 	/**
 	 * Constructor of ManagementCInBoundPort
-	 * @param uri
-	 * @param owner
+	 * @param owner of this port
 	 * @throws Exception
 	 */
 	public ManagementCInBoundPort(ComponentI owner) throws Exception {
@@ -30,9 +29,8 @@ extends AbstractInboundPort implements ManagementCI {
 	
 	/**
 	 * Constructor of ManagementCInBoundPort
-	 * @param uri
-	 * @param owner
-	 * @param indexPool
+	 * @param owner of this port
+	 * @param indexPool : index that defined the pool thread for the handleRequest
 	 * @throws Exception
 	 */
 	public ManagementCInBoundPort(ComponentI owner, int indexPool) throws Exception {

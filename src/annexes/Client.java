@@ -1,9 +1,7 @@
 package annexes;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
-
+import java.util.concurrent.ConcurrentHashMap;
 import annexes.message.interfaces.MessageFilterI;
 import ports.ReceptionCOutBoundPort;
 
@@ -13,9 +11,9 @@ import ports.ReceptionCOutBoundPort;
  *
  */
 public class Client {
-	private String                                                ReceptionCInBoundPortURI;     //inBountPortURI of the Subscriber
-	private ReceptionCOutBoundPort                                port;                         //outBoundPort between the Broker and the Subscriber
-	private Map <String, MessageFilterI>            filters;                      //key: topic value: filter for the topic
+	private String                                             ReceptionCInBoundPortURI;     //inBountPortURI of the Subscriber
+	private ReceptionCOutBoundPort                             port;                         //outBoundPort between the Broker and the Subscriber
+	private ConcurrentHashMap <String, MessageFilterI>             filters;                      //key: topic value: filter for the topic
 	
 	/**
 	 * Constructor Client 
@@ -25,7 +23,7 @@ public class Client {
 	public Client(String inBoundPortURI, ReceptionCOutBoundPort port) {
 		ReceptionCInBoundPortURI = inBoundPortURI;
 		this.port = port;
-		filters = new HashMap<String, MessageFilterI>();
+		filters = new ConcurrentHashMap <String, MessageFilterI>();
 		try {
 			this.port.publishPort();
 			assert port.isPublished();
@@ -56,7 +54,7 @@ public class Client {
 	 * @return the filter put for this topic
 	 */
 	public MessageFilterI getFilter(String topic) {
-		if(hasFilter(topic))
+		if(filters.containsKey(topic))
 			return filters.get(topic);
 		return null;
 	}
