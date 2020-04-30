@@ -7,6 +7,9 @@ import interfaces.ReceptionCI;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * This class <code>ReceptionCInBoundPort</code>
+ * represent the in bound port that implement 
+ * ReceptionCI 
  * 
  * @author GROUP LAMA
  *
@@ -16,19 +19,12 @@ extends AbstractInboundPort implements ReceptionCI{
 	
 	private static final long serialVersionUID = 1L;
 
+
 	/**
 	 * Constructor of ReceptionCInBoundPort
-	 * @param uri of the port
-	 * @param owner of the port
-	 * @throws Exception
-	 */
-	public ReceptionCInBoundPort(String uri, ComponentI owner) throws Exception {
-		super(uri, ReceptionCI.class, owner);
-		assert uri!=null && owner instanceof Subscriber ;
-	}
-	
-	/**
-	 * Constructor of ReceptionCInBoundPort
+	 * 
+	 * pre owner instanceof Subscriber
+	 * 
 	 * @param owner of this port
 	 * @throws Exception
 	 */

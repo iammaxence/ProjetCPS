@@ -3,6 +3,8 @@ package interfaces;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * Interface <code>PublicationsImplementationI</code>
+ * all methods for management of publication
  * 
  * @author GROUP LAMA
  *

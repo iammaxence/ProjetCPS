@@ -3,6 +3,9 @@ package interfaces;
 import annexes.message.interfaces.MessageFilterI;
 
 /**
+ * Interface <code>SubscriptionImplementationI</code>
+ * all methods for management of subscription
+ * 
  * 
  * @author GROUP LAMA
  *

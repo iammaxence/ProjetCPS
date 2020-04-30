@@ -5,6 +5,8 @@ import interfaces.PublicationCI;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * This class <code>PublicationConnector</code> represent 
+ * the connector between two ports that implement PublicationCI
  * 
  * @author GROUP LAMA
  *

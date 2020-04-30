@@ -5,13 +5,15 @@ import java.io.Serializable;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * This class <code>Message</code> represent
+ * a message by a serializable content with
+ * properties and an unique id.
  * 
  * @author Group LAMA
- * Class that represent a Message in our system
  *
  */
-public class Message 
-implements MessageI{
+public class Message implements MessageI{
+	
 	private static final long serialVersionUID = 1L;
 	private static int cpt = 1;
 	
@@ -34,11 +36,18 @@ implements MessageI{
 	
 	/**
 	 * Constructor of Message
+	 * 
+	 * pre properties != null
+	 * pre timestamp != null
+	 * 
+	 * 
 	 * @param contenue is here a message -> Serializable
 	 * @param ts describe time and guest -> TimeStamp
 	 * @param props is a map of properties -> Properties
 	 */
 	public Message(Serializable contenue, TimeStamp ts, Properties props) {
+		assert ts!= null && props != null;
+				
 		uri = generateURI();       //ex: MESSAGE_1 qui est donc unique
 		this.contenue=contenue;
 		this.ts=ts;

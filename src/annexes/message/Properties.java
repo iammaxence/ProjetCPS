@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
+ * This class <code>Properties</code> represent
+ * the properties of a message (in a hashmap)
  * 
  * @author Group LAMA
  *

@@ -7,10 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * This class <code>TopicKeeper </code> represent 
+ * the storage of all the messages of a Broker
+ * (a concurrent hashmap with topic as key and 
+ * vector of message as value) 
  * 
  * @author Group LAMA
- * This class represent the storage of all the messages of a Broker
- * (a concurrent hashmap with topic as key and vector of message as value) 
  *
  */
 public class TopicKeeper {

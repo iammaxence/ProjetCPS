@@ -5,6 +5,8 @@ import interfaces.ManagementCI;
 import annexes.message.interfaces.MessageFilterI;
 
 /**
+ * This class <code>ManagementConnector</code> represent 
+ * the connector between two ports that implement ManagementCI
  * 
  * @author GROUP LAMA
  *

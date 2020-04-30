@@ -7,6 +7,9 @@ import interfaces.ReceptionCI;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * This class <code>ReceptionCOutBoundPort</code>
+ * represent the out bound port that implement 
+ * ReceptionCI 
  * 
  * @author GROUP LAMA
  *
@@ -17,6 +20,9 @@ extends AbstractOutboundPort implements ReceptionCI{
 
 	/**
 	 * Constructor of ReceptionCOutBoundPort
+	 * 
+	 * pre owner instanceof Subscriber
+	 * 
 	 * @param owner of this port
 	 * @throws Exception
 	 */

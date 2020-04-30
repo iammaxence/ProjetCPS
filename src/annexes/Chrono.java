@@ -1,6 +1,8 @@
 package annexes;
 
 /**
+ * This class <code>Chrono</code> represent
+ * a chrono in order to calculate time.
  * 
  * @author Group LAMA
  *

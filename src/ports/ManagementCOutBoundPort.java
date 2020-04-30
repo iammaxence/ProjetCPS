@@ -8,6 +8,9 @@ import interfaces.ManagementCI;
 import annexes.message.interfaces.MessageFilterI;
 
 /**
+ * This class <code>ManagementCOutBoundPort</code>
+ * represent the out bound port that implement 
+ * ManagementCI 
  * 
  * @author GROUP LAMA
  *
@@ -19,17 +22,9 @@ extends AbstractOutboundPort implements ManagementCI{
 
 	/**
 	 * Constructor of ManagementCOutBoundPort
-	 * @param uri of the port
-	 * @param owner of the port
-	 * @throws Exception
-	 */
-	public ManagementCOutBoundPort(String uri,ComponentI owner) throws Exception {
-		super(uri, ManagementCI.class, owner);
-		assert	uri != null && (owner instanceof Subscriber || owner instanceof Publisher);
-	}
-
-	/**
-	 * Constructor of ManagementCOutBoundPort
+	 * 
+	 * pre (owner instanceof Subscriber || owner instanceof Publisher)
+	 * 
 	 * @param owner of the port
 	 * @throws Exception
 	 */

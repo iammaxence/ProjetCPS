@@ -5,6 +5,10 @@ import java.net.UnknownHostException;
 import java.time.Instant;
 
 /**
+ * This class <code>TimeStamp</code> represent
+ * the  identification of the guest and the time
+ * where the message was created
+ * 
  * 
  * @author Group LAMA
  *
@@ -15,10 +19,15 @@ public class TimeStamp {
 	
 	/**
 	 * Constructor of TimeStamp with argument
+	 * 
+	 * pre time >= 0
+	 * pre timestamper != ""
+	 * 
 	 * @param time : time system of Unix -> long
 	 * @param timestamper : identification of the guest -> String 
 	 */
 	public TimeStamp(long time, String timestamper) {
+		assert time >= 0 && timestamper != "";
 		this.time = time;
 		this.timestamper = timestamper;
 	}

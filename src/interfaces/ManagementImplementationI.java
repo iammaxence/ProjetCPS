@@ -1,6 +1,8 @@
 package interfaces;
 
 /**
+ * Interface <code>ManagementImplementationI</code>
+ * all methods for management of topic
  * 
  * @author GROUP LAMA
  *

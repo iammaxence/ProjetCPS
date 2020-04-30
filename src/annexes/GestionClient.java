@@ -9,9 +9,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import annexes.message.interfaces.MessageFilterI;
 
 /**
- * This class <code> </code> manage all subscriptions
- * of the Broker, it's confine in this class and it 
- * use a concurrent hashmap.
+ * This class <code> GestionClient </code> manage 
+ * all subscriptions of the Broker, it's confine in 
+ * this class and it use a concurrent hashmap in 
+ * order to access the client information.
  * 
  * @author Group LAMA
  *

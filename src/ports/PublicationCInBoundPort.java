@@ -7,6 +7,9 @@ import interfaces.PublicationCI;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * This class <code>PublicationCInBoundPort</code>
+ * represent the in bound port that implement 
+ * PublicationCI 
  * 
  * @author GROUP LAMA
  *
@@ -19,6 +22,9 @@ extends AbstractInboundPort implements PublicationCI{
 
 	/**
 	 * Constructor of PublicationCInBoundPort
+	 * 
+	 * pre owner instanceof Broker
+	 * 
 	 * @param owner of the port
 	 * @param indexPool is the index of pool thread for the handleRequest
 	 * @throws Exception
@@ -31,6 +37,9 @@ extends AbstractInboundPort implements PublicationCI{
 	
 	/**
 	 * Constructor of PublicationCInBoundPort
+	 * 
+	 * pre owner instanceof Broker
+	 * 
 	 * @param owner of the port
 	 * @throws Exception
 	 */

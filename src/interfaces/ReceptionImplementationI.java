@@ -3,6 +3,8 @@ package interfaces;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * Interface <code>ReceptionImplementationI</code>
+ * all methods for management of reception message
  * 
  * @author GROUP LAMA
  *

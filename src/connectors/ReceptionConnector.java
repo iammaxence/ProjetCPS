@@ -5,6 +5,8 @@ import interfaces.ReceptionCI;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * This class <code>ReceptionConnector</code> represent 
+ * the connector between two ports that implement ReceptionCI
  * 
  * @author GROUP LAMA
  *

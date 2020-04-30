@@ -5,6 +5,8 @@ import fr.sorbonne_u.components.interfaces.RequiredI;
 
 
 /**
+ * Interface <code>PublicationCI</code>
+ * for management of publication
  * 
  * @author GROUP LAMA
  *

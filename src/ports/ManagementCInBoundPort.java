@@ -7,6 +7,9 @@ import interfaces.ManagementCI;
 import annexes.message.interfaces.MessageFilterI;
 
 /**
+ * This class <code>ManagementCInBoundPort</code>
+ * represent the in bound port that implement 
+ * ManagementCI 
  * 
  * @author GROUP LAMA
  *
@@ -19,6 +22,9 @@ extends AbstractInboundPort implements ManagementCI {
 	
 	/**
 	 * Constructor of ManagementCInBoundPort
+	 * 
+	 * pre owner instanceof Broker
+	 * 
 	 * @param owner of this port
 	 * @throws Exception
 	 */
@@ -29,6 +35,9 @@ extends AbstractInboundPort implements ManagementCI {
 	
 	/**
 	 * Constructor of ManagementCInBoundPort
+	 *	
+	 * pre owner instanceof Broker
+	 * 
 	 * @param owner of this port
 	 * @param indexPool : index that defined the pool thread for the handleRequest
 	 * @throws Exception

@@ -7,6 +7,9 @@ import interfaces.PublicationCI;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * This class <code>PublicationCOutBoundPort</code>
+ * represent the out bound port that implement 
+ * PublicationCI 
  * 
  * @author GROUP LAMA
  *
@@ -18,17 +21,9 @@ extends AbstractOutboundPort implements PublicationCI{
 
 	/**
 	 * Constructor of PublicationCOutBoundPort
-	 * @param uri of the port
-	 * @param owner of the port
-	 * @throws Exception
-	 */
-	public PublicationCOutBoundPort(String uri, ComponentI owner) throws Exception {
-		super(uri, PublicationCI.class, owner);
-		assert	uri != null && owner instanceof Publisher;
-	}
-	
-	/**
-	 * Constructor of PublicationCOutBoundPort
+	 * 
+	 * pre  owner instanceof Publisher
+	 * 
 	 * @param owner of the port
 	 * @throws Exception
 	 */

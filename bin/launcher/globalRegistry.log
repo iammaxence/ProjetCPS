@@ -1,0 +1,15 @@
+1588258602871|Registry up and running!
+1588258619533|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-80523890-a510-4659-a56c-3b2c807cedd5 rmi=localhost
+1588258619596|GlobalRegistry processing put jvm_broker_1-dcc rmi=localhost
+1588258619802|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-256596f4-18d0-406d-a93b-878abc43a81d rmi=localhost
+1588258619811|All connected!
+1588258619815|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-5ffd41c5-1dac-4a16-a0b9-ef7ceeb9e5f6 rmi=localhost
+1588258619880|GlobalRegistry processing put jvm_broker_2-dcc rmi=localhost
+1588258770340|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-80523890-a510-4659-a56c-3b2c807cedd5
+1588258770344|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-5ffd41c5-1dac-4a16-a0b9-ef7ceeb9e5f6
+1588258770348|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-256596f4-18d0-406d-a93b-878abc43a81d
+1588258770432|GlobalRegistry processing remove jvm_broker_2-dcc
+1588258770432|GlobalRegistry processing remove jvm_broker_3-dcc
+1588258770524|GlobalRegistry processing shutdown
+1588258770524|GlobalRegistry processing shutdown
+1588258770531|Global registry shuts down!
