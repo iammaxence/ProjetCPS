@@ -24,6 +24,7 @@ import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
 
 /**
+ * The class Broker 
  * 
  * @author GROUP LAMA
  *

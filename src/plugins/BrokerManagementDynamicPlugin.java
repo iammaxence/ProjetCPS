@@ -6,6 +6,11 @@ import interfaces.ManagementCI;
 import ports.ManagementCInBoundPort;
 
 /**
+ * The class <code>SubscriberReceptionDynamicPlugin</code>
+ * represent the dynamic plug-in of the client: a 
+ * Subscriber/Publisher (which have to add this plug-in),
+ * it will be connected with the server: the Broker in 
+ * order to communicate.
  * 
  * @author Group LAMA
  *

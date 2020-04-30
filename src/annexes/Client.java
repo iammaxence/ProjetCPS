@@ -6,6 +6,11 @@ import annexes.message.interfaces.MessageFilterI;
 import ports.ReceptionCOutBoundPort;
 
 /**
+ * This class <code>Client </code> represent the
+ * subscription of a Subscriber indeed this class
+ * gather all filters for each topic that the
+ * subscriber subscribe, the ReceptionCOutBoundPort
+ * and the URI of the ReceptionCInBoundPort.
  * 
  * @author Group LAMA
  *
@@ -16,12 +21,19 @@ public class Client {
 	private ConcurrentHashMap <String, MessageFilterI>             filters;                      //key: topic value: filter for the topic
 	
 	/**
-	 * Constructor Client 
+	 * Constructor of a Client 
+	 * 
+	 * pre	port != null
+	 * pre  inBoundPortURI != ""
+	 * post port.isPublish()
+	 * 
 	 * @param inBoundPortURI is the URI of Subscriber's port
 	 * @param port is the Broker's port linked to the Subscriber
 	 */
 	public Client(String inBoundPortURI, ReceptionCOutBoundPort port) {
-		ReceptionCInBoundPortURI = inBoundPortURI;
+		assert inBoundPortURI != "" && port!=null;
+		
+		this.ReceptionCInBoundPortURI = inBoundPortURI;
 		this.port = port;
 		filters = new ConcurrentHashMap <String, MessageFilterI>();
 		try {
