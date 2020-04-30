@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<deployment>
+   <hosts>
+    <host name="localhost"
+          dir="/home/maxlamenace/eclipse-workspace/ProjetCPS/src/launcher"/>
+  </hosts>
+  <cyclicBarrier   hostname="localhost" port="55253"/>
+  <globalRegistry  hostname="localhost" port="55252"/>
+  <rmiRegistryPort no="55999"/>
+  <jvms2hostnames>
+    <jvm2hostname jvmuri="jvm_1"
+        rmiRegistryCreator="true"
+        hostname="localhost"
+        mainclass="src.launcher.DCVM"/>
+    <jvm2hostname jvmuri="jvm_2"
+        rmiRegistryCreator="false"
+        	hostname="localhost"
+        mainclass="src.launcher.DCVM"/>
+    <jvm2hostname jvmuri="jvm_3"
+        rmiRegistryCreator="false"
+        	hostname="localhost"
+        mainclass="src.launcher.DCVM"/>
+  </jvms2hostnames>
+</deployment>

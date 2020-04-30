@@ -2,6 +2,7 @@ package components;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import connectors.ReceptionConnector;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -14,6 +15,7 @@ import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
 import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
+import interfaces.TransfertImplementationI;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import annexes.Client;
@@ -22,6 +24,8 @@ import annexes.TopicKeeper;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
+import ports.TransfertCInBoundPort;
+import ports.TransfertCOutBoundPort;
 
 /**
  * The class Broker 
@@ -33,13 +37,17 @@ import ports.ReceptionCOutBoundPort;
 @RequiredInterfaces(required = {ReceptionCI.class} )
 public class Broker 
 extends AbstractComponent 
-implements ManagementImplementationI, SubscriptionImplementationI, PublicationsImplementationI{
-
+implements ManagementImplementationI, SubscriptionImplementationI, PublicationsImplementationI, TransfertImplementationI{
+//Ajout de l'implementation TransfertImplementationI
 
 	/**------------------- PORTS -------------------------*/
 	protected ManagementCInBoundPort      mipPublisher;   // Connected to URIPublisher 
 	protected ManagementCInBoundPort      mipSubscriber;  // Connected to URISubscriber 
 	protected PublicationCInBoundPort     publicationInboundPort;
+	
+	//Ajout pour Multi-JVM
+	protected TransfertCOutBoundPort topURI;
+	protected TransfertCInBoundPort tipURI;
 	
 	
 	/**------------------ VARIABLES ----------------------*/
@@ -99,6 +107,56 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.toggleTracing() ;	
 	}
 	
+	//Second constructeur pour le mult JVM -> Rajout de publicationOutboundPortURI 
+		protected Broker(int nbThreads, int nbSchedulableThreads, 
+				String uri, 
+				String TransfertOutboundPortURI,
+				String TransfertInboundPortURI) throws Exception {
+			super(uri, nbThreads, nbSchedulableThreads);
+
+			
+			//ajout
+			assert TransfertOutboundPortURI != null;
+			assert TransfertInboundPortURI !=null;
+
+			/**---------------------- THREADS ---------------------*/
+			threadPublication = createNewExecutorService("threadPublication", 10, false);
+			threadSubscription = createNewExecutorService("threadSubscription", 10, false);
+			threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
+
+			/**----------------- ADD COMPONENTS -------------------*/
+			this.addOfferedInterface(ManagementCI.class);
+			this.addOfferedInterface(PublicationCI.class);
+			this.addRequiredInterface(ReceptionCI.class);
+			
+			//Ajout
+			this.addRequiredInterface(TransfertImplementationI.class);
+
+			/**---------------- PORTS CREATION --------------------*/
+			this.mipPublisher = new ManagementCInBoundPort(this);
+			this.mipSubscriber = new ManagementCInBoundPort(this,threadSubscription);
+			this.publicationInboundPort = new PublicationCInBoundPort(this, threadPublication);
+			
+			//ajout
+			this.topURI=new TransfertCOutBoundPort(TransfertOutboundPortURI, this);
+			this.tipURI=new TransfertCInBoundPort(TransfertInboundPortURI, this);
+
+			/**-------------- PUBLISH PORT IN REGISTER ------------*/
+			this.mipPublisher.publishPort(); 
+			this.mipSubscriber.publishPort(); 
+			this.publicationInboundPort.publishPort();
+			
+			//ajout
+			this.topURI.publishPort();
+			this.tipURI.publishPort();
+
+
+			this.tracer.setTitle(uri) ;
+			this.tracer.setRelativePosition(0, 2) ;
+			this.toggleTracing() ;
+
+		}
+	
 	
 	/**-----------------------------------------------------
 	 * -------------------- LIFE CYCLE ---------------------
@@ -136,6 +194,47 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		
 		super.finalise();
 	}
+	
+	/**======================================================================================
+	 * ================================== TransfertImplementationI =====================================
+	 ======================================================================================*/
+	
+	/**
+	 * Transfert un message d'un broker à un autre pour le multi JVM
+	 * @param msg
+	 * @throws Exception
+	 */
+	@Override
+	public void transfererMessage(MessageI msg,String topic) throws Exception { //mettre des try finaly
+//		ArrayList<MessageI> listMessages= new ArrayList<MessageI>();
+//		
+//		readLock.lock();
+//		
+//		if(topics.containsKey(topic)){
+//			listMessages= topics.get(topic); //On récupère la liste des messages associé à un topic
+//			
+//			for(MessageI m : listMessages) {
+//				
+//				if(m.getURI()==msg.getURI()) { //Si le message à déjà été envoyé, on le supprime
+//					
+//					readLock.unlock();
+//					writeLock.lock();
+//					listMessages.remove(msg);
+//					topics.put(topic, listMessages);
+//					this.logMessage("message deja recu : " + msg.getPayload());
+//					writeLock.unlock();
+//					return;
+//				}
+//			} //Sinon :
+//			writeLock.lock();
+//			this.logMessage("distribution du message : " + msg.getPayload());
+//			listMessages.add(msg);
+//			topics.put(topic, listMessages); //on ajoute le message à la liste des messages déjà existant du topic 
+//			writeLock.unlock();
+//			publish(msg, topic); // On publie
+//			topURI.transfererMessage(msg, topic);	// On transfert le message à un autre Broker
+				
+		}
 	
 	
 	
