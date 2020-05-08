@@ -6,6 +6,15 @@ import org.junit.Test;
 
 import annexes.message.TimeStamp;
 
+
+/**
+ * This JUnit class test all the 
+ * method of the class TimeStamp
+ * (in annexe)
+ * 
+ * @author Group LAMA
+ *
+ */
 public class TimeStampTest {
 
 	/**

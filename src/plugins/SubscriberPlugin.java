@@ -17,6 +17,11 @@ import ports.ManagementCOutBoundPort;
 import ports.ReceptionCInBoundPort;
 
 /**
+ * This class <code>SubscriberPlugin</code>
+ * represent the Subscriber plug-in that implement all 
+ * the method of SubscriptionImplementationI and
+ * ReceptionImplementationI. Beside, all the ports 
+ * are publish and connected too. 
  * 
  * @author GROUP LAMA
  *

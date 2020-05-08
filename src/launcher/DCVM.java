@@ -3,14 +3,9 @@ package launcher;
 import components.Broker;
 import components.Publisher;
 import components.Subscriber;
-import connectors.PublicationConnector;
-import connectors.ReceptionConnector;
 import connectors.TransfertConnector;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractDistributedCVM;
-import interfaces.PublicationsImplementationI;
-import ports.PublicationCOutBoundPort;
-import ports.ReceptionCOutBoundPort;
 
 public class DCVM extends AbstractDistributedCVM {
 	

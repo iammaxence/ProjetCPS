@@ -6,6 +6,14 @@ import org.junit.Test;
 
 import annexes.message.Properties;
 
+/**
+ * This JUnit class test all the 
+ * method of the class Properties
+ * (in annexe)
+ * 
+ * @author Group LAMA
+ *
+ */
 public class PropertiesTest {
 	protected Properties props = new Properties();
 	protected String[] names = {"boolean", "byte", "char", "double","float", "int", "long", "short","string"};

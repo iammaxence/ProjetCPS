@@ -10,6 +10,14 @@ import annexes.message.Properties;
 import annexes.message.TimeStamp;
 import annexes.message.interfaces.MessageI;
 
+/**
+ * This JUnit class test all the 
+ * method of the class Message
+ * (in annex)
+ * 
+ * @author Group LAMA
+ *
+ */
 public class MessageTest {
 	protected static MessageI message;
 	

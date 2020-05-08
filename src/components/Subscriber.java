@@ -14,6 +14,10 @@ import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * The class <code> Subscriber </code> represent 
+ * a subscriber that will subscribe in specific 
+ * topics and that will receive a message if there
+ * is a publication in theses topics.
  * 
  * @author GROUP LAMA
  *

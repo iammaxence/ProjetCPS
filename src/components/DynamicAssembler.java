@@ -16,6 +16,14 @@ import fr.sorbonne_u.components.pre.dcc.interfaces.DynamicComponentCreationI;
 import fr.sorbonne_u.components.pre.dcc.ports.DynamicComponentCreationOutboundPort;
 import launcher.CVMDynamicCreationLife;
 
+
+/**
+ * The class <code> DynamicAssembler </code> represent 
+ * 
+ * 
+ * @author GROUP LAMA
+ *
+ */
 @RequiredInterfaces(required = {DynamicComponentCreationI.class})
 public class DynamicAssembler 
 extends AbstractComponent {

@@ -16,6 +16,11 @@ import ports.ManagementCOutBoundPort;
 import ports.PublicationCOutBoundPort;
 
 /**
+ * This class <code>PublisherPlugin</code>
+ * represent the Publisher plug-in that implement all 
+ * the method of PublicationsImplementationI and
+ * ManagementImplementationI. Beside, all the ports 
+ * are publish and connected too.
  * 
  * @author GROUP LAMA
  *

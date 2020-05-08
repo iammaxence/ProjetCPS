@@ -7,7 +7,7 @@ import ports.PublicationCInBoundPort;
 
 
 /**
- * The class <code>SubscriberReceptionDynamicPlugin</code>
+ * The class <code>BrokerPublicationDynamicPlugin</code>
  * represent the dynamic plug-in of the client: a Publisher
  * (which have to add this plug-in), it will be connected 
  * with the server: the Broker in order to communicate.

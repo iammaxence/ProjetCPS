@@ -2,7 +2,6 @@ package components;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 import connectors.ReceptionConnector;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -28,7 +27,9 @@ import ports.TransfertCInBoundPort;
 import ports.TransfertCOutBoundPort;
 
 /**
- * The class Broker 
+ * The class <code> Broker </code> represent the 
+ * intermediate between publishers and subscriber. 
+ * Indeed it take care of all messages and souscription.
  * 
  * @author GROUP LAMA
  *

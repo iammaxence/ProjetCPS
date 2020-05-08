@@ -13,6 +13,9 @@ import annexes.message.TimeStamp;
 import annexes.message.interfaces.MessageI;
 
 /**
+ * The class <code> Publisher </code> represent 
+ * a publisher that will publish message in a 
+ * specific topic thank to a Broker.
  * 
  * @author GROUP LAMA
  *
