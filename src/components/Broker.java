@@ -85,10 +85,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
 		
 		
-		/**----------------- ADD COMPONENTS -------------------*/
-		this.addOfferedInterface(ManagementCI.class);
-		this.addOfferedInterface(PublicationCI.class);
-		this.addRequiredInterface(ReceptionCI.class);
+//		/**----------------- ADD COMPONENTS -------------------*/
+//		this.addOfferedInterface(ManagementCI.class);
+//		this.addOfferedInterface(PublicationCI.class);
+//		this.addRequiredInterface(ReceptionCI.class);
 		
 		/**---------------- PORTS CREATION --------------------*/
 		this.mipPublisher = new ManagementCInBoundPort(this);
@@ -126,11 +126,12 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
 
 			/**----------------- ADD COMPONENTS -------------------*/
-			this.addOfferedInterface(ManagementCI.class);
-			this.addOfferedInterface(PublicationCI.class);
-			this.addRequiredInterface(ReceptionCI.class);
+//			this.addOfferedInterface(ManagementCI.class);
+//			this.addOfferedInterface(PublicationCI.class);
+//			this.addRequiredInterface(ReceptionCI.class);
 			
 			//Ajout
+			this.addOfferedInterface(TransfertImplementationI.class);
 			this.addRequiredInterface(TransfertImplementationI.class);
 
 			/**---------------- PORTS CREATION --------------------*/

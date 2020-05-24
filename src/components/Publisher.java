@@ -20,7 +20,7 @@ import annexes.message.interfaces.MessageI;
  * @author GROUP LAMA
  *
  */
-@RequiredInterfaces(required = {ManagementCI.class, PublicationCI.class})
+
 public class Publisher 
 extends AbstractComponent {
 	

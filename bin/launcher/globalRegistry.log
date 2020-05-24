@@ -1,15 +1,27 @@
-1588258602871|Registry up and running!
-1588258619533|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-80523890-a510-4659-a56c-3b2c807cedd5 rmi=localhost
-1588258619596|GlobalRegistry processing put jvm_broker_1-dcc rmi=localhost
-1588258619802|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-256596f4-18d0-406d-a93b-878abc43a81d rmi=localhost
-1588258619811|All connected!
-1588258619815|GlobalRegistry processing put fr.sorbonne_u.components.reflection.interfaces.ReflectionI-5ffd41c5-1dac-4a16-a0b9-ef7ceeb9e5f6 rmi=localhost
-1588258619880|GlobalRegistry processing put jvm_broker_2-dcc rmi=localhost
-1588258770340|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-80523890-a510-4659-a56c-3b2c807cedd5
-1588258770344|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-5ffd41c5-1dac-4a16-a0b9-ef7ceeb9e5f6
-1588258770348|GlobalRegistry processing remove fr.sorbonne_u.components.reflection.interfaces.ReflectionI-256596f4-18d0-406d-a93b-878abc43a81d
-1588258770432|GlobalRegistry processing remove jvm_broker_2-dcc
-1588258770432|GlobalRegistry processing remove jvm_broker_3-dcc
-1588258770524|GlobalRegistry processing shutdown
-1588258770524|GlobalRegistry processing shutdown
-1588258770531|Global registry shuts down!
+1590309310013|Registry up and running!
+1590309324659|GlobalRegistry processing put my-URI-Broker1 rmi=localhost
+1590309324763|GlobalRegistry processing put interfaces.ManagementCI-11d28ecf-ddad-4285-8b54-5a0abf3b98f2 rmi=localhost
+1590309324782|GlobalRegistry processing put my-URI-Broker2 rmi=localhost
+1590309324789|All connected!
+1590309324807|GlobalRegistry processing put interfaces.ManagementCI-d1f5a778-1c27-4116-b685-14a36982c98f rmi=localhost
+1590309324815|GlobalRegistry processing put my-URI-Broker3 rmi=localhost
+1590309324879|GlobalRegistry processing put interfaces.ManagementCI-ac3d1927-d721-43ad-bece-503d39947d2b rmi=localhost
+1590309324903|GlobalRegistry processing put interfaces.ManagementCI-96d2f906-3c72-4456-b41e-d01c8650be75 rmi=localhost
+1590309324907|GlobalRegistry processing put interfaces.PublicationCI-ba1e2c14-0574-46cd-8618-96f3dbc19c6b rmi=localhost
+1590309324931|GlobalRegistry processing put interfaces.ManagementCI-25042f0a-2c62-473c-8fee-cfc9027543c5 rmi=localhost
+1590309324951|GlobalRegistry processing put interfaces.ManagementCI-8d66e68c-445d-4678-a94e-62f905162d32 rmi=localhost
+1590309324995|GlobalRegistry processing put oport1 rmi=localhost
+1590309325023|GlobalRegistry processing put interfaces.PublicationCI-24dcda5d-67b7-4479-945d-097e869a8933 rmi=localhost
+1590309325047|GlobalRegistry processing put interfaces.PublicationCI-32feb882-dd47-46a8-a8e2-d1afc97f508d rmi=localhost
+1590309325083|GlobalRegistry processing put iport1 rmi=localhost
+1590309325123|GlobalRegistry processing put oport2 rmi=localhost
+1590309325143|GlobalRegistry processing put oport3 rmi=localhost
+1590309325219|GlobalRegistry processing put iport2 rmi=localhost
+1590309325239|GlobalRegistry processing put iport3 rmi=localhost
+1590309325667|GlobalRegistry processing put my-URI-Publisher1 rmi=localhost
+1590309325732|GlobalRegistry processing put my-URI-Publisher3 rmi=localhost
+1590309325835|GlobalRegistry processing put my-URI-Publisher2 rmi=localhost
+1590309336012|GlobalRegistry processing null
+1590309336128|GlobalRegistry processing null
+1590309336197|GlobalRegistry processing null
+1590309336198|Global registry shuts down!

@@ -5,6 +5,7 @@ import connectors.ManagementConnector;
 import connectors.PublicationConnector;
 import fr.sorbonne_u.components.AbstractPlugin;
 import fr.sorbonne_u.components.ComponentI;
+import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.reflection.connectors.ReflectionConnector;
 import fr.sorbonne_u.components.reflection.interfaces.ReflectionI;
 import fr.sorbonne_u.components.reflection.ports.ReflectionOutboundPort;
@@ -25,6 +26,7 @@ import ports.PublicationCOutBoundPort;
  * @author GROUP LAMA
  *
  */
+
 public class PublisherPlugin 
 extends AbstractPlugin 
 implements PublicationsImplementationI, ManagementImplementationI{

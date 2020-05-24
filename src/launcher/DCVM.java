@@ -18,27 +18,27 @@ public class DCVM extends AbstractDistributedCVM {
 		// Port URI des Broker pour l'interconnexion
 		protected static final String    URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
 		protected static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
-		protected static final String    URIBrokerPublicationInboundPortURI = "bp-iport";
+		protected static final String    URIBrokerPublicationInboundPortURI = "bp1-iport";
 		
-		protected static final String    URIBrokerManagementInboundPortURI3 = "bm1-iport"; //For Publisher
-		protected static final String    URIBrokerManagementInboundPortURI4 = "bm2-iport"; //For Subscriber
-		protected static final String    URIBrokerPublicationInboundPortURI1 = "bp-iport";
+		protected static final String    URIBrokerManagementInboundPortURI3 = "bm3-iport"; //For Publisher
+		protected static final String    URIBrokerManagementInboundPortURI4 = "bm4-iport"; //For Subscriber
+		protected static final String    URIBrokerPublicationInboundPortURI1 = "bp2-iport";
 		
-		protected static final String    URIBrokerManagementInboundPortURI5 = "bm1-iport"; //For Publisher
-		protected static final String    URIBrokerManagementInboundPortURI6 = "bm2-iport"; //For Subscriber
-		protected static final String    URIBrokerPublicationInboundPortURI2 = "bp-iport";
+		protected static final String    URIBrokerManagementInboundPortURI5 = "bm5-iport"; //For Publisher
+		protected static final String    URIBrokerManagementInboundPortURI6 = "bm6-iport"; //For Subscriber
+		protected static final String    URIBrokerPublicationInboundPortURI2 = "bp3-iport";
 		
 		public static final String BROKER_COMPONENT_URI_1 = "my-URI-Broker1" ;
 		public static final String PUBLISHER_COMPONENT_URI_1 ="my-URI-Publisher1";
 		public static final String SUBSCRIBER_COMPONENT_URI_1="my-URI-Subscriber1";
 		
-		public static final String BROKER_COMPONENT_URI_2 = "my-URI-Broker1" ;
-		public static final String PUBLISHER_COMPONENT_URI_2 ="my-URI-Publisher1";
-		public static final String SUBSCRIBER_COMPONENT_URI_2="my-URI-Subscriber1";
+		public static final String BROKER_COMPONENT_URI_2 = "my-URI-Broker2" ;
+		public static final String PUBLISHER_COMPONENT_URI_2 ="my-URI-Publisher2";
+		public static final String SUBSCRIBER_COMPONENT_URI_2="my-URI-Subscriber2";
 		
-		public static final String BROKER_COMPONENT_URI_3 = "my-URI-Broker1" ;
-		public static final String PUBLISHER_COMPONENT_URI_3 ="my-URI-Publisher1";
-		public static final String SUBSCRIBER_COMPONENT_URI_3="my-URI-Subscriber1";
+		public static final String BROKER_COMPONENT_URI_3 = "my-URI-Broker3" ;
+		public static final String PUBLISHER_COMPONENT_URI_3 ="my-URI-Publisher3";
+		public static final String SUBSCRIBER_COMPONENT_URI_3="my-URI-Subscriber3";
 		
 		
 		// Les ports pour connecter les broker entre eux

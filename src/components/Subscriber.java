@@ -22,8 +22,7 @@ import annexes.message.interfaces.MessageI;
  * @author GROUP LAMA
  *
  */
-@RequiredInterfaces(required = {ManagementCI.class})
-@OfferedInterfaces(offered = {ReceptionCI.class} )
+
 public class Subscriber 
 extends AbstractComponent implements ReceptionImplementationI{
 	

@@ -1,8 +1,5 @@
-/annexes/
-/connectors/
 /interfaces/
-/ports/
-/components/
 /launcher/
-/tests/
 /plugins/
+/ports/
+/tests/

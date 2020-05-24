@@ -1,20 +1,20 @@
-1588263061615|DCVM Cyclic Barrier up and running!
-1588263087339|DCVM Cyclic Barrier accepts: jvm_1 localhost 39092
-1588263087346|DCVM Cyclic Barrier has received 1 out of 3 expected.
-1588263094186|DCVM Cyclic Barrier accepts: jvm_2 localhost 39094
-1588263094186|DCVM Cyclic Barrier has received 2 out of 3 expected.
-1588263102511|All connected!
-1588263102511|DCVM Cyclic Barrier accepts: jvm_3 localhost 39096
-1588263102514|DCVM Cyclic Barrier has received 3 out of 3 expected.
-1588263102514|DCVM Cyclic Barrier releases 3 sites.
-1588263102523|DCVM Cyclic Barrier accepts: jvm_1 localhost 39092
-1588263102527|DCVM Cyclic Barrier has received 1 out of 3 expected.
-1588263102565|DCVM Cyclic Barrier accepts: jvm_2 localhost 39094
-1588263102565|DCVM Cyclic Barrier has received 2 out of 3 expected.
-1588263102592|DCVM Cyclic Barrier accepts: jvm_3 localhost 39096
-1588263102592|DCVM Cyclic Barrier has received 3 out of 3 expected.
-1588263102592|DCVM Cyclic Barrier releases 3 sites.
-1588263113768|DCVMCyclicBarrier.run() finished.
-1588263113896|DCVMCyclicBarrier.run() finished.
-1588263113901|DCVMCyclicBarrier.run() finished.
-1588263113901|DCVM Cyclic Barrier shuts down!
+1590309397725|DCVM Cyclic Barrier up and running!
+1590309403237|DCVM Cyclic Barrier accepts: jvm_1 localhost 44576
+1590309403242|DCVM Cyclic Barrier has received 1 out of 3 expected.
+1590309405078|DCVM Cyclic Barrier accepts: jvm_2 localhost 44580
+1590309405079|DCVM Cyclic Barrier has received 2 out of 3 expected.
+1590309411833|All connected!
+1590309411833|DCVM Cyclic Barrier accepts: jvm_3 localhost 44582
+1590309411834|DCVM Cyclic Barrier has received 3 out of 3 expected.
+1590309411835|DCVM Cyclic Barrier releases 3 sites.
+1590309411847|DCVM Cyclic Barrier accepts: jvm_1 localhost 44576
+1590309411847|DCVM Cyclic Barrier has received 1 out of 3 expected.
+1590309411893|DCVM Cyclic Barrier accepts: jvm_2 localhost 44580
+1590309411894|DCVM Cyclic Barrier has received 2 out of 3 expected.
+1590309411935|DCVM Cyclic Barrier accepts: jvm_3 localhost 44582
+1590309411936|DCVM Cyclic Barrier has received 3 out of 3 expected.
+1590309411936|DCVM Cyclic Barrier releases 3 sites.
+1590309424142|DCVMCyclicBarrier.run() finished.
+1590309424689|DCVMCyclicBarrier.run() finished.
+1590309424716|DCVMCyclicBarrier.run() finished.
+1590309424716|DCVM Cyclic Barrier shuts down!
