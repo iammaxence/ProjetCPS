@@ -21,10 +21,11 @@ import annexes.message.interfaces.MessageI;
  *
  */
 
+@RequiredInterfaces(required = {ManagementCI.class, PublicationCI.class})
 public class Publisher 
 extends AbstractComponent {
 	
-	protected final static String mypluginURI="publisherPlugin";
+	protected final static String mypluginURI = "publisherPlugin";
 	protected PublisherPlugin myplugin;
 	
 	/**
@@ -42,9 +43,7 @@ extends AbstractComponent {
 		/**----------- PLUGIN INSTALLATION ------------**/
 		myplugin = new PublisherPlugin(URI_BROKER);
 		myplugin.setPluginURI(mypluginURI);
-		this.installPlugin(myplugin);
 		
-		assert this.isInstalled(mypluginURI);
 		
 		/**----------------- TRACE --------------------**/
 		this.tracer.setTitle(uri) ;
@@ -58,8 +57,18 @@ extends AbstractComponent {
 	 ------------------------------------------------------*/
 	@Override
 	public void	start() throws ComponentStartException {
-		super.start() ;
-		this.logMessage("starting Publisher component.") ;
+		super.start();
+		this.logMessage("starting Publisher component.");
+		
+		assert	this.isStarted();
+		
+		/**----------- PLUGIN INSTALLATION ------------**/
+		try {
+			this.installPlugin(myplugin);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assert this.isInstalled(mypluginURI);
 	}
 	
 	@Override

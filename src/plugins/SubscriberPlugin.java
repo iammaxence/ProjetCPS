@@ -48,10 +48,6 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 		super.installOn(owner) ;
 		assert owner instanceof ReceptionImplementationI;
 		
-		/**----------------- ADD COMPONENTS -------------------*/
-		this.addRequiredInterface(ManagementCI.class);
-		this.addOfferedInterface(ReceptionCI.class);
-		
 		/**---------------- PORTS CREATION --------------------*/
 		this.managementOutboundPort=new ManagementCOutBoundPort(this.owner);
 		this.recepetionInboundPort=new ReceptionCInBoundPort(this.owner);
@@ -64,6 +60,8 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 	
 	@Override
 	public void initialise() throws Exception {
+		super.initialise();
+		
 		this.addRequiredInterface(ReflectionI.class) ;
 		ReflectionOutboundPort rop = new ReflectionOutboundPort(this.owner) ;
 		rop.publishPort() ;
@@ -73,6 +71,7 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 				rop.getPortURI(),
 				URI_BROKER,
 				ReflectionConnector.class.getCanonicalName()) ;
+		
 		String[] uris = rop.findPortURIsFromInterface(ManagementCI.class) ;
 		assert	uris != null && uris.length == 1 ;
 
@@ -88,7 +87,7 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 				uris[0],
 				ManagementConnector.class.getCanonicalName()) ;
 
-		super.initialise();
+		
 	}
 	
 	

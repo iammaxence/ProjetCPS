@@ -23,34 +23,32 @@ import annexes.message.interfaces.MessageI;
  *
  */
 
+@RequiredInterfaces(required = {ManagementCI.class})
+@OfferedInterfaces(offered = {ReceptionCI.class} )
 public class Subscriber 
 extends AbstractComponent implements ReceptionImplementationI{
 	
 	
 	/**-------------------- Variables ---------------------*/
 	protected final String                       uri;
-	protected final String                       receptionInboundPortURI;
+	protected String                       receptionInboundPortURI ;
 	protected SubscriberPlugin                   myplugin;
 	protected final static String mypluginURI = "subscriberPlugin";
+	
 	
 	protected Subscriber(int nbThreads, int nbSchedulableThreads, String uri, String URI_BROKER) throws Exception{
 		super(uri, nbThreads, nbSchedulableThreads);
 		
 		assert uri != null;
 		assert URI_BROKER != null;
+		
 		this.uri = uri;
 		
 		/**----------- PLUGIN INSTALLATION ------------**/
 		myplugin = new SubscriberPlugin(URI_BROKER);
 		myplugin.setPluginURI(mypluginURI);
-		this.installPlugin(myplugin);
-		
-		assert this.isInstalled(mypluginURI);
 
-		this.receptionInboundPortURI = myplugin.getReceptionURI();
-		assert receptionInboundPortURI != null;
-		
-		
+
 		/**----------------- TRACE --------------------**/
 		this.tracer.setTitle(uri) ;
 		this.tracer.setRelativePosition(0, 1) ;
@@ -65,6 +63,18 @@ extends AbstractComponent implements ReceptionImplementationI{
 		super.start() ;
 		this.logMessage("starting Subscriber component.") ;
 		
+		assert	this.isStarted();
+		
+		/**----------- PLUGIN INSTALLATION ------------**/
+		try {
+			this.installPlugin(myplugin);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}	
+		assert this.isInstalled(mypluginURI);
+		this.receptionInboundPortURI = myplugin.getReceptionURI();
+		assert receptionInboundPortURI != null;
+
 	
 		/**------------------- Scenarios in order to tests of the methods ---------------**/
 		try {	

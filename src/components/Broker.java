@@ -56,10 +56,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected GestionClient                                   subscriptions;   
 	private int threadPublication, threadSubscription, threadEnvoi;
 	
-	/**----------------------- MUTEX ----------------------*/
-//	protected ReadWriteLock lock = new ReentrantReadWriteLock();
-//	protected Lock readLock = lock.readLock();
-//	protected Lock writeLock = lock.writeLock();
 	
 	
 	
@@ -68,9 +64,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @param nbThreads is the number of threads
 	 * @param nbSchedulableThreads id the number of schedular threads
 	 * @param uri of the component
-	 * @param managInboundPortPublisherURI is the URI of the port connected to the Publisher (ManagementCI)
-	 * @param managInboundPortSubscriberURI is the URI of the port connected to the Subscriber
-	 * @param publicationInboundPortURI is the URI of the port connected to the Publisher (PublicationCI)
 	 * @throws Exception
 	 */
 	protected Broker(int nbThreads, int nbSchedulableThreads, String uri) throws Exception {
@@ -84,11 +77,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		threadSubscription = createNewExecutorService("threadSubscription", 10, false);
 		threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
 		
-		
-//		/**----------------- ADD COMPONENTS -------------------*/
-//		this.addOfferedInterface(ManagementCI.class);
-//		this.addOfferedInterface(PublicationCI.class);
-//		this.addRequiredInterface(ReceptionCI.class);
 		
 		/**---------------- PORTS CREATION --------------------*/
 		this.mipPublisher = new ManagementCInBoundPort(this);
@@ -107,58 +95,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.tracer.setRelativePosition(0, 0) ;
 		this.toggleTracing() ;	
 	}
-	
-	//Second constructeur pour le mult JVM -> Rajout de publicationOutboundPortURI 
-		protected Broker(int nbThreads, int nbSchedulableThreads, 
-				String uri, 
-				String TransfertOutboundPortURI,
-				String TransfertInboundPortURI) throws Exception {
-			super(uri, nbThreads, nbSchedulableThreads);
 
-			
-			//ajout
-			assert TransfertOutboundPortURI != null;
-			assert TransfertInboundPortURI !=null;
-
-			/**---------------------- THREADS ---------------------*/
-			threadPublication = createNewExecutorService("threadPublication", 10, false);
-			threadSubscription = createNewExecutorService("threadSubscription", 10, false);
-			threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
-
-			/**----------------- ADD COMPONENTS -------------------*/
-//			this.addOfferedInterface(ManagementCI.class);
-//			this.addOfferedInterface(PublicationCI.class);
-//			this.addRequiredInterface(ReceptionCI.class);
-			
-			//Ajout
-			this.addOfferedInterface(TransfertImplementationI.class);
-			this.addRequiredInterface(TransfertImplementationI.class);
-
-			/**---------------- PORTS CREATION --------------------*/
-			this.mipPublisher = new ManagementCInBoundPort(this);
-			this.mipSubscriber = new ManagementCInBoundPort(this,threadSubscription);
-			this.publicationInboundPort = new PublicationCInBoundPort(this, threadPublication);
-			
-			//ajout
-			this.topURI=new TransfertCOutBoundPort(TransfertOutboundPortURI, this);
-			this.tipURI=new TransfertCInBoundPort(TransfertInboundPortURI, this);
-
-			/**-------------- PUBLISH PORT IN REGISTER ------------*/
-			this.mipPublisher.publishPort(); 
-			this.mipSubscriber.publishPort(); 
-			this.publicationInboundPort.publishPort();
-			
-			//ajout
-			this.topURI.publishPort();
-			this.tipURI.publishPort();
-
-
-			this.tracer.setTitle(uri) ;
-			this.tracer.setRelativePosition(0, 2) ;
-			this.toggleTracing() ;
-
-		}
-	
 	
 	/**-----------------------------------------------------
 	 * -------------------- LIFE CYCLE ---------------------

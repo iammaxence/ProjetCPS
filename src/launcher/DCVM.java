@@ -3,6 +3,7 @@ package launcher;
 import components.Broker;
 import components.Publisher;
 import components.Subscriber;
+import connectors.ManagementConnector;
 import connectors.TransfertConnector;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractDistributedCVM;
@@ -201,7 +202,7 @@ public class DCVM extends AbstractDistributedCVM {
 			if (thisJVMURI.equals(JVM_URI_1)) {
 				
 				this.doPortConnection(brokerURI_1, URIBrokerOutboundPortURI1, URIBrokerInboundPortURI2, TransfertConnector.class.getCanonicalName());
-				
+
 			} else if (thisJVMURI.equals(JVM_URI_2)) {
 				
 				this.doPortConnection(brokerURI_2, URIBrokerOutboundPortURI2, URIBrokerInboundPortURI3, TransfertConnector.class.getCanonicalName());
