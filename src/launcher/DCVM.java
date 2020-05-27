@@ -3,7 +3,6 @@ package launcher;
 import components.Broker;
 import components.Publisher;
 import components.Subscriber;
-import connectors.ManagementConnector;
 import connectors.TransfertConnector;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractDistributedCVM;

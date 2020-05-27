@@ -14,6 +14,7 @@ import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
 import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
+import interfaces.TransfertCI;
 import interfaces.TransfertImplementationI;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
@@ -45,8 +46,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected ManagementCInBoundPort      mipPublisher;   // Connected to URIPublisher 
 	protected ManagementCInBoundPort      mipSubscriber;  // Connected to URISubscriber 
 	protected PublicationCInBoundPort     publicationInboundPort;
-	
-	//Ajout pour Multi-JVM
 	protected TransfertCOutBoundPort topURI;
 	protected TransfertCInBoundPort tipURI;
 	
@@ -95,6 +94,63 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.tracer.setRelativePosition(0, 0) ;
 		this.toggleTracing() ;	
 	}
+	
+	/**
+	 * Constructor of Broker Component
+	 * @param nbThreads is the number of threads
+	 * @param nbSchedulableThreads id the number of schedular threads
+	 * @param uri of the component
+	 * @param TransfertOutboundPortURI is the URI of the port connected to other Broker
+	 * @param TransfertInboundPortURI is the URI of the port connected to other Broker
+	 * @throws Exception
+	 */
+	//Second constructeur pour le mult JVM -> Rajout de publicationOutboundPortURI 
+	protected Broker(int nbThreads, int nbSchedulableThreads, 
+				String uri, 
+				String TransfertOutboundPortURI,
+				String TransfertInboundPortURI) throws Exception {
+			super(uri, nbThreads, nbSchedulableThreads);
+
+			//MULTI JVM implementation
+			assert TransfertOutboundPortURI != null;
+			assert TransfertInboundPortURI !=null;
+			
+			
+			topics = new TopicKeeper();  
+			subscriptions = new GestionClient();
+			
+			//Ajout
+			this.addOfferedInterface(TransfertCI.class);
+			this.addRequiredInterface(TransfertCI.class);
+			
+
+			/**---------------------- THREADS ---------------------*/
+			threadPublication = createNewExecutorService("threadPublication", 10, false);
+			threadSubscription = createNewExecutorService("threadSubscription", 10, false);
+			threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
+
+
+			/**---------------- PORTS CREATION --------------------*/
+			this.mipPublisher = new ManagementCInBoundPort(this);
+			this.mipSubscriber = new ManagementCInBoundPort(this,threadSubscription);
+			this.publicationInboundPort = new PublicationCInBoundPort(this, threadPublication);
+			this.topURI=new TransfertCOutBoundPort(TransfertOutboundPortURI, this);
+			this.tipURI=new TransfertCInBoundPort(TransfertInboundPortURI, this);
+			
+
+			/**-------------- PUBLISH PORT IN REGISTER ------------*/
+			this.mipPublisher.publishPort(); 
+			this.mipSubscriber.publishPort(); 
+			this.publicationInboundPort.publishPort();
+			this.topURI.publishPort();
+			this.tipURI.publishPort();
+			
+
+			this.tracer.setTitle(uri) ;
+			this.tracer.setRelativePosition(0, 2) ;
+			this.toggleTracing() ;
+
+		}
 
 	
 	/**-----------------------------------------------------
