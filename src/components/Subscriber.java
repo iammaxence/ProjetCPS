@@ -83,7 +83,7 @@ extends AbstractComponent implements ReceptionImplementationI{
 			/**
 			 * Choose scenario that you want (1 to 4):
 			 */
-			int[] scenario = {1, 2, 3, 4};
+			int[] scenario = {1, 2, 4};
 			
 			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 			chrono.start();
@@ -103,18 +103,21 @@ extends AbstractComponent implements ReceptionImplementationI{
 						
 					case 2: /** Scenario 2: Subscribe to a list of topics**/
 						myplugin.subscribe(topics, receptionInboundPortURI);
-						this.logMessage("Subscriber subcribe to Automobile");
+						this.logMessage("Subscriber subcribe to Automobile, Voyage, Sport and Nature&Decouvre");
 						break;
 						
 					case 3: /** Scenario 3: Subscribe to 100 topics**/
 						for(int y=0; y<100; y++) {
 							myplugin.subscribe("topic"+y, receptionInboundPortURI);
+							//this.logMessage("Subscriber subcribe to Topic"+y);
 						}
 						break;
 					case 4: /** Le composant subsciber1 s'abonne à Test **/
                         if (this.uri.equals("my-URI-subscribe1")) {
-                            myplugin.subscribe("Test", receptionInboundPortURI);  
+                            myplugin.subscribe("Test", receptionInboundPortURI); 
+                            this.logMessage("Subscriber subcribe to Test");
                         }
+                 
                         break;
 						
 					default: break;	

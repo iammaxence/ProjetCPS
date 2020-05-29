@@ -272,7 +272,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
 		topics.addMessages(topic, ms);
-		
+
 		this.sendMessages(ms, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
 	}
@@ -440,7 +440,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		//this.logMessage("Nb thread actif: "+Thread.activeCount());
 		
 		ArrayList<Client> clients = subscriptions.getSubscribersOfTopic(topic);
-		
 		
 		//Creation of a task: filter and send message
 		AbstractComponent.AbstractService<Void> task = new AbstractComponent.AbstractService<Void>() {
