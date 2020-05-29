@@ -9,8 +9,6 @@ import fr.sorbonne_u.components.reflection.connectors.ReflectionConnector;
 import fr.sorbonne_u.components.reflection.interfaces.ReflectionI;
 import fr.sorbonne_u.components.reflection.ports.ReflectionOutboundPort;
 import interfaces.ManagementCI;
-import interfaces.PublicationCI;
-import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import interfaces.SubscriptionImplementationI;
 import ports.ManagementCOutBoundPort;
@@ -105,8 +103,6 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 		this.managementOutboundPort.destroyPort() ;
 		this.recepetionInboundPort.destroyPort() ;
 		
-		this.removeRequiredInterface(PublicationCI.class) ;
-		this.removeRequiredInterface(ReceptionCI.class) ;
 	}
 	
 	

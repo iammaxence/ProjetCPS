@@ -123,9 +123,7 @@ implements PublicationsImplementationI, ManagementImplementationI{
 		
 		this.publicationOutboundPort.destroyPort() ;
 		this.managementOutboundPort.destroyPort();
-		
-		this.removeRequiredInterface(PublicationCI.class) ;
-		this.removeRequiredInterface(ManagementCI.class) ;
+	
 	}
 	
 	

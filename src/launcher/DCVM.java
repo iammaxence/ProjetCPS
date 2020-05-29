@@ -225,12 +225,12 @@ public class DCVM extends AbstractDistributedCVM {
 
 		public static void main(String[] args) {
 			try {
-				DCVM da  = new DCVM(args, 2, 5) ;
-				da.startStandardLifeCycle(150000L) ;
-				Thread.sleep(10000L) ;
-				System.exit(0) ;
+				DCVM da  = new DCVM(args, 2, 5);
+				da.startStandardLifeCycle(15000L);
+				Thread.sleep(3000L);
+				System.exit(0);
 			} catch (Exception e) {
-				throw new RuntimeException(e) ;
+				throw new RuntimeException(e);
 			}
 		}
 

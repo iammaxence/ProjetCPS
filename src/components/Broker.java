@@ -179,6 +179,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.mipPublisher.unpublishPort(); 
 		this.mipSubscriber.unpublishPort(); 
 		this.publicationInboundPort.unpublishPort();
+		this.topURI.unpublishPort();
+		this.tipURI.unpublishPort();
 		
 		/**----------------------------------------------------*/
 		Collection<Client> clients = subscriptions.getAllSubscribers();
