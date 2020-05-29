@@ -73,16 +73,17 @@ implements PublicationsImplementationI, ManagementImplementationI{
 		this.owner.doPortConnection(
 				rop.getPortURI(),
 				URI_BROKER, // Changement pour DCVM
-				ReflectionConnector.class.getCanonicalName()) ;
+				ReflectionConnector.class.getCanonicalName());
 		
 		
 		//System.out.println("-- avant exception : "+URI_BROKER);
-		String[] urip = rop.findPortURIsFromInterface(PublicationCI.class) ;
-		assert	urip != null && urip.length == 1 ;
+		String[] urip = rop.findPortURIsFromInterface(PublicationCI.class);
+		assert urip != null;
+		
 		
 		/**-------------- BrokerManagementCI --------------------*/
-		String[] urim = rop.findPortURIsFromInterface(ManagementCI.class) ;
-		assert	urim != null && urim.length == 1 ;
+		String[] urim = rop.findPortURIsFromInterface(ManagementCI.class);
+		assert urim != null;
 		
 		
 		

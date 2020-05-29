@@ -63,7 +63,7 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 		super.initialise();
 		
 		this.addRequiredInterface(ReflectionI.class) ;
-		ReflectionOutboundPort rop = new ReflectionOutboundPort(this.owner) ;
+		ReflectionOutboundPort rop = new ReflectionOutboundPort(this.owner);
 		rop.publishPort() ;
 		
 		/**-------------- BrokerManagementCI --------------------*/
@@ -72,20 +72,20 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 				URI_BROKER,
 				ReflectionConnector.class.getCanonicalName()) ;
 		
-		String[] uris = rop.findPortURIsFromInterface(ManagementCI.class) ;
-		assert	uris != null && uris.length == 1 ;
+		String[] uris = rop.findPortURIsFromInterface(ManagementCI.class);
+		assert	uris != null;
 
 		/**----------- DISCONNECT&DESTROY REFLECTION -----------*/
-		this.owner.doPortDisconnection(rop.getPortURI()) ;
+		this.owner.doPortDisconnection(rop.getPortURI());
 		rop.unpublishPort() ;
 		rop.destroyPort() ;
-		this.removeRequiredInterface(ReflectionI.class) ;
+		this.removeRequiredInterface(ReflectionI.class);
 
 		/**------------------ CONNECT PORT --------------------*/
 		this.owner.doPortConnection(
 				this.managementOutboundPort.getPortURI(),
 				uris[0],
-				ManagementConnector.class.getCanonicalName()) ;
+				ManagementConnector.class.getCanonicalName());
 
 		
 	}
