@@ -2,7 +2,6 @@ package components;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Vector;
 
 import connectors.ReceptionConnector;
 import fr.sorbonne_u.components.AbstractComponent;
@@ -17,7 +16,6 @@ import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
 import interfaces.TransfertCI;
 import interfaces.TransfertImplementationI;
-import annexes.message.Message;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import annexes.Client;
@@ -205,32 +203,14 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void transfererMessage(MessageI msg,String topic) throws Exception { //mettre des try finaly
-		Vector<MessageI> listMessages= null;
+		this.logMessage("JE PASSE ICI : "+msg.getPayload()+" | topic = "+topic);
 		
-		this.logMessage("JE PASSE ICI");
-		// Si le topic existe déjà dans ce broker
-		if(topics.isTopic(topic)){
-			this.logMessage("Le topic est déjà la pelo");
-			listMessages= topics.getMessages(topic); //On récupère la liste des messages associé au topic
-			
-			for(MessageI m : listMessages) {
-				
-				if(m.getURI()==msg.getURI()) { //Si le message à déjà été envoyé, on le supprime
-					
-					listMessages.remove(msg);
-					topics.addMessages(topic, listMessages); // on reconstruit la listes des messages du topic
-					this.logMessage("message deja recu : " + msg.getPayload()); // On prévient l'utilisateur que le message à déjà été recu
-					return;
-				}
-			} //Si le topic n'a jamais été crée dans ce broker
-			this.logMessage("distribution du message : " + msg.getPayload()+ " dans "+topic );
-//			listMessages.add(msg);
-//			topics.addMessages(topic, listMessages); //on ajoute le message à la liste des messages déjà existant du topic 
-			// Je fais d'ajout dans la liste des message car c'est le publish qui va le faire
-			publish(msg, topic); // On publie
-			//topURI.transfererMessage(msg, topic);	// On transfert le message à un autre Broker
-		
+		if(!topics.hasMessage(topic, msg)) {
+			this.logMessage("AVANT PUBLISH");
+			this.publish(msg, topic);
 		}
+		this.logMessage("---> End of transfere");
+		
 	}
 	
 	
@@ -246,8 +226,12 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
+		this.logMessage("1");
 		topics.addMessage(topic, m);
+		this.logMessage("2");
+		
 		topURI.transfererMessage(m, topic);
+		this.logMessage("3");
 		this.sendMessage(m, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
 	}
@@ -290,8 +274,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI[] ms, String[] listTopics) throws Exception {
-		for(String topic: listTopics) 
+		for(String topic: listTopics) {
 			publish(ms, topic);
+		}
 	}
 
 	

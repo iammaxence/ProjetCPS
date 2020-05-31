@@ -131,5 +131,27 @@ public class TopicKeeper {
 	public Vector<MessageI> getMessages(String topic) {
 		return topics.get(topic);
 	}
+	
+	/**
+	 * Check if the message already exist in the broker
+	 * @param topic in question
+	 * @param m : message to check the existence
+	 * @return if the Broker has the message
+	 */
+	public boolean hasMessage(String topic, MessageI m) {
+		if(topics.containsKey(topic)) {
+			boolean trouver = false;
+			String id = m.getURI();
+			Vector<MessageI> ms = topics.get(topic);
+			
+			for(MessageI message : ms) {
+				if(message.getURI().equals(id)) {
+					trouver = true;
+				}
+			}	
+			return trouver;
+		}
+		return false;
+	}
 
 }

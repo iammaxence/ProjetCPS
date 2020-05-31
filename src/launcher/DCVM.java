@@ -6,7 +6,6 @@ import components.Subscriber;
 import connectors.TransfertConnector;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractDistributedCVM;
-import plugins.PublisherPlugin;
 
 public class DCVM extends AbstractDistributedCVM {
 	
@@ -208,11 +207,12 @@ public class DCVM extends AbstractDistributedCVM {
 			if (thisJVMURI.equals(JVM_URI_1)) {
 				this.doPortConnection(brokerURI_1,URIBrokerOutboundPortURI1 , URIBrokerInboundPortURI2, TransfertConnector.class.getCanonicalName());
 			}
-//			}else if (thisJVMURI.equals(JVM_URI_2)) {
-//				
-//				this.doPortConnection(brokerURI_2, URIBrokerOutboundPortURI2, URIBrokerInboundPortURI3, TransfertConnector.class.getCanonicalName());
-//
-//			} else if (thisJVMURI.equals(JVM_URI_3)) {
+			else if (thisJVMURI.equals(JVM_URI_2)) {
+				
+				this.doPortConnection(brokerURI_2, URIBrokerOutboundPortURI2, URIBrokerInboundPortURI1, TransfertConnector.class.getCanonicalName());
+
+			} 
+//			else if (thisJVMURI.equals(JVM_URI_3)) {
 //				
 //				this.doPortConnection(brokerURI_3, URIBrokerOutboundPortURI3, URIBrokerInboundPortURI1, TransfertConnector.class.getCanonicalName());
 //
@@ -232,7 +232,7 @@ public class DCVM extends AbstractDistributedCVM {
 			try {
 				DCVM da  = new DCVM(args, 2, 5);
 				da.startStandardLifeCycle(15000L);
-				Thread.sleep(3000L);
+				Thread.sleep(10000L);
 				System.exit(0);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
