@@ -1,31 +1,50 @@
-1590762493068|DCVM Cyclic Barrier up and running!
-1590762497045|All connected!
-1590762497045|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762497047|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762497047|DCVM Cyclic Barrier releases 1 sites.
-1590762497049|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762497050|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762497050|DCVM Cyclic Barrier releases 1 sites.
-1590762497413|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762497414|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762497414|DCVM Cyclic Barrier releases 1 sites.
-1590762497416|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762497416|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762497416|DCVM Cyclic Barrier releases 1 sites.
-1590762497604|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762497606|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762497606|DCVM Cyclic Barrier releases 1 sites.
-1590762497653|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762497654|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762497654|DCVM Cyclic Barrier releases 1 sites.
-1590762512657|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762512659|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762512659|DCVM Cyclic Barrier releases 1 sites.
-1590762512818|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762512819|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762512819|DCVM Cyclic Barrier releases 1 sites.
-1590762512913|DCVM Cyclic Barrier accepts: jvm_1 localhost 41580
-1590762512914|DCVM Cyclic Barrier has received 1 out of 1 expected.
-1590762512914|DCVM Cyclic Barrier releases 1 sites.
-1590762512916|DCVMCyclicBarrier.run() finished.
-1590762512916|DCVM Cyclic Barrier shuts down!
+1590912688976|DCVM Cyclic Barrier up and running!
+1590912695187|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912695191|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912696495|All connected!
+1590912696496|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912696498|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912696498|DCVM Cyclic Barrier releases 2 sites.
+1590912696501|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912696502|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912696568|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912696569|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912696569|DCVM Cyclic Barrier releases 2 sites.
+1590912698325|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912698325|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912698340|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912698341|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912698341|DCVM Cyclic Barrier releases 2 sites.
+1590912698388|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912698389|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912698481|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912698481|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912698481|DCVM Cyclic Barrier releases 2 sites.
+1590912699014|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912699015|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912699345|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912699346|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912699346|DCVM Cyclic Barrier releases 2 sites.
+1590912699348|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912699350|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912699392|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912699393|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912699393|DCVM Cyclic Barrier releases 2 sites.
+1590912714439|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912714440|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912714481|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912714481|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912714481|DCVM Cyclic Barrier releases 2 sites.
+1590912715249|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912715250|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912715385|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912715386|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912715386|DCVM Cyclic Barrier releases 2 sites.
+1590912715617|DCVM Cyclic Barrier accepts: jvm_2 localhost 53324
+1590912715618|DCVM Cyclic Barrier has received 1 out of 2 expected.
+1590912715837|DCVM Cyclic Barrier accepts: jvm_1 localhost 53322
+1590912715838|DCVM Cyclic Barrier has received 2 out of 2 expected.
+1590912715838|DCVM Cyclic Barrier releases 2 sites.
+1590912715842|DCVMCyclicBarrier.run() finished.
+1590912715842|DCVMCyclicBarrier.run() finished.
+1590912715842|DCVM Cyclic Barrier shuts down!

@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.rmi.Remote;
+
 import annexes.message.interfaces.MessageI;
 
 
@@ -10,7 +12,7 @@ import annexes.message.interfaces.MessageI;
  * @author GROUP LAMA
  *
  */
-public interface TransfertImplementationI {
+public interface TransfertImplementationI extends Remote{
 	//Transfert un message d'un broker à un autre (Multi JVM)
 	public void transfererMessage(MessageI msg, String topic)throws Exception;
 }

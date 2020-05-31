@@ -6,6 +6,7 @@ import components.Subscriber;
 import connectors.TransfertConnector;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractDistributedCVM;
+import plugins.PublisherPlugin;
 
 public class DCVM extends AbstractDistributedCVM {
 	
@@ -110,6 +111,8 @@ public class DCVM extends AbstractDistributedCVM {
 		public void	instantiateAndPublish() throws Exception {
 			
 			if (thisJVMURI.equals(JVM_URI_1)) {
+				
+
 
 				this.brokerURI_1 = AbstractComponent.createComponent(
 									Broker.class.getCanonicalName(),
@@ -138,32 +141,32 @@ public class DCVM extends AbstractDistributedCVM {
 //				this.addDeployedComponent(uriConsommateur_1) ;
 				
 			} 
-//			else if (thisJVMURI.equals(JVM_URI_2)) {
-//
-//					this.brokerURI_2 = AbstractComponent.createComponent(
-//							Broker.class.getCanonicalName(),
-//							new Object[]{1,
-//							 0,
-//							 BROKER_COMPONENT_URI_2,
-//							 URIBrokerOutboundPortURI2,
-//							 URIBrokerInboundPortURI2}) ; 
-//		
+			else if (thisJVMURI.equals(JVM_URI_2)) {
+
+					this.brokerURI_2 = AbstractComponent.createComponent(
+							Broker.class.getCanonicalName(),
+							new Object[]{1,
+							 0,
+							 BROKER_COMPONENT_URI_2,
+							 URIBrokerOutboundPortURI2,
+							 URIBrokerInboundPortURI2}) ; 
+		
 //					this.publisherURI_2 = AbstractComponent.createComponent(
 //											Publisher.class.getCanonicalName(),
 //											new Object[]{1,
 //											0,
 //											PUBLISHER_COMPONENT_URI_2,
 //											BROKER_COMPONENT_URI_2}) ;
-//		
-//					this.subscriberURI_2 = AbstractComponent.createComponent(
-//											Subscriber.class.getCanonicalName(),
-//											new Object[]{1,
-//											0,
-//											SUBSCRIBER_COMPONENT_URI_2,
-//											BROKER_COMPONENT_URI_2}) ;;
-//				
-//
-//			} else if (thisJVMURI.equals(JVM_URI_3)) {
+		
+					this.subscriberURI_2 = AbstractComponent.createComponent(
+											Subscriber.class.getCanonicalName(),
+											new Object[]{1,
+											0,
+											SUBSCRIBER_COMPONENT_URI_2,
+											BROKER_COMPONENT_URI_2}) ;
+				
+			}
+//			else if (thisJVMURI.equals(JVM_URI_3)) {
 //				
 //				this.brokerURI_3 = AbstractComponent.createComponent(
 //						Broker.class.getCanonicalName(),
@@ -188,9 +191,11 @@ public class DCVM extends AbstractDistributedCVM {
 //										BROKER_COMPONENT_URI_3}) ;;
 //				
 //
-//			} else {
-//				System.out.println("Unknown JVM URI... " + thisJVMURI) ;
 //			}
+			else {
+				System.out.println("Unknown JVM URI... " + thisJVMURI) ;
+			}
+			
 			super.instantiateAndPublish();
 		}
 
@@ -198,11 +203,11 @@ public class DCVM extends AbstractDistributedCVM {
 		@Override
 		public void	interconnect() throws Exception {
 			//Connexion des brokers entre eux
-
-//			if (thisJVMURI.equals(JVM_URI_1)) {
-//				
-//				this.doPortConnection(brokerURI_1, URIBrokerOutboundPortURI1, URIBrokerInboundPortURI2, TransfertConnector.class.getCanonicalName());
-//
+			
+			
+			if (thisJVMURI.equals(JVM_URI_1)) {
+				this.doPortConnection(brokerURI_1,URIBrokerOutboundPortURI1 , URIBrokerInboundPortURI2, TransfertConnector.class.getCanonicalName());
+			}
 //			}else if (thisJVMURI.equals(JVM_URI_2)) {
 //				
 //				this.doPortConnection(brokerURI_2, URIBrokerOutboundPortURI2, URIBrokerInboundPortURI3, TransfertConnector.class.getCanonicalName());

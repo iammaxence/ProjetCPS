@@ -32,9 +32,12 @@ extends AbstractInboundPort implements TransfertCI{
 
 	@Override
 	public void transfererMessage(MessageI msg, String topic) throws Exception {
-		this.getOwner().handleRequestSync(
+		
+		this.getOwner().handleRequestSync(1,
 				owner -> {((Broker)owner).transfererMessage(msg, topic);; return null;}) ;
 		
 	}
+	
+	
 
 }

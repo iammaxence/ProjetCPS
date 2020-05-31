@@ -1,5 +1,6 @@
 package annexes.message;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Instant;
@@ -13,7 +14,7 @@ import java.time.Instant;
  * @author Group LAMA
  *
  */
-public class TimeStamp {
+public class TimeStamp implements Serializable{
 	protected long time;
 	protected String timestamper;
 	
