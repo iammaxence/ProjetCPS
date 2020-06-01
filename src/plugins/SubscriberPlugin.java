@@ -9,8 +9,6 @@ import fr.sorbonne_u.components.reflection.connectors.ReflectionConnector;
 import fr.sorbonne_u.components.reflection.interfaces.ReflectionI;
 import fr.sorbonne_u.components.reflection.ports.ReflectionOutboundPort;
 import interfaces.ManagementCI;
-import interfaces.PublicationCI;
-import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import interfaces.SubscriptionImplementationI;
 import ports.ManagementCOutBoundPort;
@@ -48,10 +46,6 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 		super.installOn(owner) ;
 		assert owner instanceof ReceptionImplementationI;
 		
-		/**----------------- ADD COMPONENTS -------------------*/
-		this.addRequiredInterface(ManagementCI.class);
-		this.addOfferedInterface(ReceptionCI.class);
-		
 		/**---------------- PORTS CREATION --------------------*/
 		this.managementOutboundPort=new ManagementCOutBoundPort(this.owner);
 		this.recepetionInboundPort=new ReceptionCInBoundPort(this.owner);
@@ -64,8 +58,10 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 	
 	@Override
 	public void initialise() throws Exception {
+		super.initialise();
+		
 		this.addRequiredInterface(ReflectionI.class) ;
-		ReflectionOutboundPort rop = new ReflectionOutboundPort(this.owner) ;
+		ReflectionOutboundPort rop = new ReflectionOutboundPort(this.owner);
 		rop.publishPort() ;
 		
 		/**-------------- BrokerManagementCI --------------------*/
@@ -73,22 +69,23 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 				rop.getPortURI(),
 				URI_BROKER,
 				ReflectionConnector.class.getCanonicalName()) ;
-		String[] uris = rop.findPortURIsFromInterface(ManagementCI.class) ;
-		assert	uris != null && uris.length == 1 ;
+		
+		String[] uris = rop.findPortURIsFromInterface(ManagementCI.class);
+		assert	uris != null;
 
 		/**----------- DISCONNECT&DESTROY REFLECTION -----------*/
-		this.owner.doPortDisconnection(rop.getPortURI()) ;
+		this.owner.doPortDisconnection(rop.getPortURI());
 		rop.unpublishPort() ;
 		rop.destroyPort() ;
-		this.removeRequiredInterface(ReflectionI.class) ;
+		this.removeRequiredInterface(ReflectionI.class);
 
 		/**------------------ CONNECT PORT --------------------*/
 		this.owner.doPortConnection(
 				this.managementOutboundPort.getPortURI(),
 				uris[0],
-				ManagementConnector.class.getCanonicalName()) ;
+				ManagementConnector.class.getCanonicalName());
 
-		super.initialise();
+		
 	}
 	
 	
@@ -106,8 +103,6 @@ implements SubscriptionImplementationI, ReceptionImplementationI{
 		this.managementOutboundPort.destroyPort() ;
 		this.recepetionInboundPort.destroyPort() ;
 		
-		this.removeRequiredInterface(PublicationCI.class) ;
-		this.removeRequiredInterface(ReceptionCI.class) ;
 	}
 	
 	

@@ -14,6 +14,7 @@ import interfaces.PublicationCI;
 import interfaces.PublicationsImplementationI;
 import interfaces.ReceptionCI;
 import interfaces.SubscriptionImplementationI;
+import interfaces.TransfertCI;
 import interfaces.TransfertImplementationI;
 import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
@@ -45,8 +46,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected ManagementCInBoundPort      mipPublisher;   // Connected to URIPublisher 
 	protected ManagementCInBoundPort      mipSubscriber;  // Connected to URISubscriber 
 	protected PublicationCInBoundPort     publicationInboundPort;
-	
-	//Ajout pour Multi-JVM
 	protected TransfertCOutBoundPort topURI;
 	protected TransfertCInBoundPort tipURI;
 	
@@ -56,10 +55,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected GestionClient                                   subscriptions;   
 	private int threadPublication, threadSubscription, threadEnvoi;
 	
-	/**----------------------- MUTEX ----------------------*/
-//	protected ReadWriteLock lock = new ReentrantReadWriteLock();
-//	protected Lock readLock = lock.readLock();
-//	protected Lock writeLock = lock.writeLock();
 	
 	
 	
@@ -68,9 +63,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @param nbThreads is the number of threads
 	 * @param nbSchedulableThreads id the number of schedular threads
 	 * @param uri of the component
-	 * @param managInboundPortPublisherURI is the URI of the port connected to the Publisher (ManagementCI)
-	 * @param managInboundPortSubscriberURI is the URI of the port connected to the Subscriber
-	 * @param publicationInboundPortURI is the URI of the port connected to the Publisher (PublicationCI)
 	 * @throws Exception
 	 */
 	protected Broker(int nbThreads, int nbSchedulableThreads, String uri) throws Exception {
@@ -84,11 +76,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		threadSubscription = createNewExecutorService("threadSubscription", 10, false);
 		threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
 		
-		
-		/**----------------- ADD COMPONENTS -------------------*/
-		this.addOfferedInterface(ManagementCI.class);
-		this.addOfferedInterface(PublicationCI.class);
-		this.addRequiredInterface(ReceptionCI.class);
 		
 		/**---------------- PORTS CREATION --------------------*/
 		this.mipPublisher = new ManagementCInBoundPort(this);
@@ -108,56 +95,63 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.toggleTracing() ;	
 	}
 	
+	/**
+	 * Constructor of Broker Component
+	 * @param nbThreads is the number of threads
+	 * @param nbSchedulableThreads id the number of schedular threads
+	 * @param uri of the component
+	 * @param TransfertOutboundPortURI is the URI of the port connected to other Broker
+	 * @param TransfertInboundPortURI is the URI of the port connected to other Broker
+	 * @throws Exception
+	 */
 	//Second constructeur pour le mult JVM -> Rajout de publicationOutboundPortURI 
-		protected Broker(int nbThreads, int nbSchedulableThreads, 
+	protected Broker(int nbThreads, int nbSchedulableThreads, 
 				String uri, 
 				String TransfertOutboundPortURI,
 				String TransfertInboundPortURI) throws Exception {
 			super(uri, nbThreads, nbSchedulableThreads);
 
-			
-			//ajout
+			//MULTI JVM implementation
 			assert TransfertOutboundPortURI != null;
 			assert TransfertInboundPortURI !=null;
+			
+			
+			topics = new TopicKeeper();  
+			subscriptions = new GestionClient();
+			
+			//Ajout
+			this.addOfferedInterface(TransfertCI.class);
+			this.addRequiredInterface(TransfertCI.class);
+			
 
 			/**---------------------- THREADS ---------------------*/
 			threadPublication = createNewExecutorService("threadPublication", 10, false);
 			threadSubscription = createNewExecutorService("threadSubscription", 10, false);
 			threadEnvoi = createNewExecutorService("threadEnvoi", 10, true);
 
-			/**----------------- ADD COMPONENTS -------------------*/
-			this.addOfferedInterface(ManagementCI.class);
-			this.addOfferedInterface(PublicationCI.class);
-			this.addRequiredInterface(ReceptionCI.class);
-			
-			//Ajout
-			this.addRequiredInterface(TransfertImplementationI.class);
 
 			/**---------------- PORTS CREATION --------------------*/
 			this.mipPublisher = new ManagementCInBoundPort(this);
 			this.mipSubscriber = new ManagementCInBoundPort(this,threadSubscription);
 			this.publicationInboundPort = new PublicationCInBoundPort(this, threadPublication);
-			
-			//ajout
 			this.topURI=new TransfertCOutBoundPort(TransfertOutboundPortURI, this);
 			this.tipURI=new TransfertCInBoundPort(TransfertInboundPortURI, this);
+			
 
 			/**-------------- PUBLISH PORT IN REGISTER ------------*/
 			this.mipPublisher.publishPort(); 
 			this.mipSubscriber.publishPort(); 
 			this.publicationInboundPort.publishPort();
-			
-			//ajout
 			this.topURI.publishPort();
 			this.tipURI.publishPort();
-
+			
 
 			this.tracer.setTitle(uri) ;
 			this.tracer.setRelativePosition(0, 2) ;
 			this.toggleTracing() ;
 
 		}
-	
+
 	
 	/**-----------------------------------------------------
 	 * -------------------- LIFE CYCLE ---------------------
@@ -185,6 +179,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		this.mipPublisher.unpublishPort(); 
 		this.mipSubscriber.unpublishPort(); 
 		this.publicationInboundPort.unpublishPort();
+		if (topURI != null && tipURI !=null) { //Cas de la DCVM
+			this.topURI.unpublishPort();
+			this.tipURI.unpublishPort();
+		}
 		
 		/**----------------------------------------------------*/
 		Collection<Client> clients = subscriptions.getAllSubscribers();
@@ -207,36 +205,15 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void transfererMessage(MessageI msg,String topic) throws Exception { //mettre des try finaly
-//		ArrayList<MessageI> listMessages= new ArrayList<MessageI>();
-//		
-//		readLock.lock();
-//		
-//		if(topics.containsKey(topic)){
-//			listMessages= topics.get(topic); //On récupère la liste des messages associé à un topic
-//			
-//			for(MessageI m : listMessages) {
-//				
-//				if(m.getURI()==msg.getURI()) { //Si le message à déjà été envoyé, on le supprime
-//					
-//					readLock.unlock();
-//					writeLock.lock();
-//					listMessages.remove(msg);
-//					topics.put(topic, listMessages);
-//					this.logMessage("message deja recu : " + msg.getPayload());
-//					writeLock.unlock();
-//					return;
-//				}
-//			} //Sinon :
-//			writeLock.lock();
-//			this.logMessage("distribution du message : " + msg.getPayload());
-//			listMessages.add(msg);
-//			topics.put(topic, listMessages); //on ajoute le message à la liste des messages déjà existant du topic 
-//			writeLock.unlock();
-//			publish(msg, topic); // On publie
-//			topURI.transfererMessage(msg, topic);	// On transfert le message à un autre Broker
-				
+		this.logMessage("JE PASSE ICI : "+msg.getPayload()+" | topic = "+topic);
+		
+		if(!topics.hasMessage(topic, msg)) {
+			this.logMessage("AVANT PUBLISH");
+			this.publish(msg, topic);
 		}
-	
+		this.logMessage("---> End of transfere");
+		
+	}
 	
 	
 	/**======================================================================================
@@ -251,8 +228,12 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
+		//this.logMessage("1");
 		topics.addMessage(topic, m);
-
+		//this.logMessage("2");
+		if (topURI != null) // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
+			topURI.transfererMessage(m, topic);
+		//this.logMessage("3");
 		this.sendMessage(m, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
 	}
@@ -265,8 +246,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI m, String[] listTopics) throws Exception {
-		for(String topic: listTopics)
+		for(String topic: listTopics) {
 			publish(m, topic);
+		}
 	}
 	
 	/**
@@ -278,7 +260,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
 		topics.addMessages(topic, ms);
-		
+		if (topURI !=null) { // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
+			for(int i=0; i< ms.length;i++) {
+				topURI.transfererMessage(ms[i], topic);
+			}
+		}
 		this.sendMessages(ms, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
 	}
@@ -292,8 +278,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI[] ms, String[] listTopics) throws Exception {
-		for(String topic: listTopics)
+		for(String topic: listTopics) {
 			publish(ms, topic);
+		}
 	}
 
 	
@@ -444,9 +431,9 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	public void sendMessage(MessageI m, String topic) throws Exception {	
 		//Connaitre le nombre de thread actif à un moment donnée
 		//this.logMessage("Nb thread actif: "+Thread.activeCount());
+		//topURI.transfererMessage(m, topic);
 		
 		ArrayList<Client> clients = subscriptions.getSubscribersOfTopic(topic);
-		
 		
 		//Creation of a task: filter and send message
 		AbstractComponent.AbstractService<Void> task = new AbstractComponent.AbstractService<Void>() {
@@ -471,7 +458,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 				return null;
 			}
 		};
-		this.handleRequest(threadEnvoi, task);		
+		this.handleRequest(threadEnvoi, task);
+		
 	}
 	
 	/**

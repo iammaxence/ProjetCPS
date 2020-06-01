@@ -1,5 +1,6 @@
 package annexes.message;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Instant;
@@ -13,7 +14,9 @@ import java.time.Instant;
  * @author Group LAMA
  *
  */
-public class TimeStamp {
+public class TimeStamp implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	protected long time;
 	protected String timestamper;
 	
@@ -27,7 +30,6 @@ public class TimeStamp {
 	 * @param timestamper : identification of the guest -> String 
 	 */
 	public TimeStamp(long time, String timestamper) {
-		assert time >= 0 && timestamper != "";
 		this.time = time;
 		this.timestamper = timestamper;
 	}

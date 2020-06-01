@@ -109,7 +109,7 @@ public class GestionClient {
 		ArrayList<Client> res = new ArrayList<Client>();
 		if(souscriptions.containsKey(topic)) {
 			for(String uri: souscriptions.get(topic)) {
-				res.add(subscribers.get(uri).copy());
+				res.add(subscribers.get(uri));
 			}
 		}
 		System.out.println("-- getSubscribers of "+topic+" : "+res.size());

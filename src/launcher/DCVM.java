@@ -18,27 +18,27 @@ public class DCVM extends AbstractDistributedCVM {
 		// Port URI des Broker pour l'interconnexion
 		protected static final String    URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
 		protected static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
-		protected static final String    URIBrokerPublicationInboundPortURI = "bp-iport";
+		protected static final String    URIBrokerPublicationInboundPortURI = "bp1-iport";
 		
-		protected static final String    URIBrokerManagementInboundPortURI3 = "bm1-iport"; //For Publisher
-		protected static final String    URIBrokerManagementInboundPortURI4 = "bm2-iport"; //For Subscriber
-		protected static final String    URIBrokerPublicationInboundPortURI1 = "bp-iport";
+		protected static final String    URIBrokerManagementInboundPortURI3 = "bm3-iport"; //For Publisher
+		protected static final String    URIBrokerManagementInboundPortURI4 = "bm4-iport"; //For Subscriber
+		protected static final String    URIBrokerPublicationInboundPortURI1 = "bp2-iport";
 		
-		protected static final String    URIBrokerManagementInboundPortURI5 = "bm1-iport"; //For Publisher
-		protected static final String    URIBrokerManagementInboundPortURI6 = "bm2-iport"; //For Subscriber
-		protected static final String    URIBrokerPublicationInboundPortURI2 = "bp-iport";
+		protected static final String    URIBrokerManagementInboundPortURI5 = "bm5-iport"; //For Publisher
+		protected static final String    URIBrokerManagementInboundPortURI6 = "bm6-iport"; //For Subscriber
+		protected static final String    URIBrokerPublicationInboundPortURI2 = "bp3-iport";
 		
 		public static final String BROKER_COMPONENT_URI_1 = "my-URI-Broker1" ;
 		public static final String PUBLISHER_COMPONENT_URI_1 ="my-URI-Publisher1";
-		public static final String SUBSCRIBER_COMPONENT_URI_1="my-URI-Subscriber1";
+		public static final String SUBSCRIBER_COMPONENT_URI_1="my-URI-subscribe1"; 
 		
-		public static final String BROKER_COMPONENT_URI_2 = "my-URI-Broker1" ;
-		public static final String PUBLISHER_COMPONENT_URI_2 ="my-URI-Publisher1";
-		public static final String SUBSCRIBER_COMPONENT_URI_2="my-URI-Subscriber1";
+		public static final String BROKER_COMPONENT_URI_2 = "my-URI-Broker2" ;
+		public static final String PUBLISHER_COMPONENT_URI_2 ="my-URI-Publisher2";
+		public static final String SUBSCRIBER_COMPONENT_URI_2="my-URI-Subscriber2";
 		
-		public static final String BROKER_COMPONENT_URI_3 = "my-URI-Broker1" ;
-		public static final String PUBLISHER_COMPONENT_URI_3 ="my-URI-Publisher1";
-		public static final String SUBSCRIBER_COMPONENT_URI_3="my-URI-Subscriber1";
+		public static final String BROKER_COMPONENT_URI_3 = "my-URI-Broker3" ;
+		public static final String PUBLISHER_COMPONENT_URI_3 ="my-URI-Publisher3";
+		public static final String SUBSCRIBER_COMPONENT_URI_3="my-URI-Subscriber3";
 		
 		
 		// Les ports pour connecter les broker entre eux
@@ -110,6 +110,8 @@ public class DCVM extends AbstractDistributedCVM {
 		public void	instantiateAndPublish() throws Exception {
 			
 			if (thisJVMURI.equals(JVM_URI_1)) {
+				
+
 
 				this.brokerURI_1 = AbstractComponent.createComponent(
 									Broker.class.getCanonicalName(),
@@ -137,7 +139,8 @@ public class DCVM extends AbstractDistributedCVM {
 //				this.addDeployedComponent(uriProducteur_1) ;
 //				this.addDeployedComponent(uriConsommateur_1) ;
 				
-			} else if (thisJVMURI.equals(JVM_URI_2)) {
+			} 
+			else if (thisJVMURI.equals(JVM_URI_2)) {
 
 					this.brokerURI_2 = AbstractComponent.createComponent(
 							Broker.class.getCanonicalName(),
@@ -147,49 +150,51 @@ public class DCVM extends AbstractDistributedCVM {
 							 URIBrokerOutboundPortURI2,
 							 URIBrokerInboundPortURI2}) ; 
 		
-					this.publisherURI_2 = AbstractComponent.createComponent(
-											Publisher.class.getCanonicalName(),
-											new Object[]{1,
-											0,
-											PUBLISHER_COMPONENT_URI_2,
-											BROKER_COMPONENT_URI_2}) ;
+//					this.publisherURI_2 = AbstractComponent.createComponent(
+//											Publisher.class.getCanonicalName(),
+//											new Object[]{1,
+//											0,
+//											PUBLISHER_COMPONENT_URI_2,
+//											BROKER_COMPONENT_URI_2}) ;
 		
 					this.subscriberURI_2 = AbstractComponent.createComponent(
 											Subscriber.class.getCanonicalName(),
 											new Object[]{1,
 											0,
 											SUBSCRIBER_COMPONENT_URI_2,
-											BROKER_COMPONENT_URI_2}) ;;
+											BROKER_COMPONENT_URI_2}) ;
 				
-
-			} else if (thisJVMURI.equals(JVM_URI_3)) {
-				
-				this.brokerURI_3 = AbstractComponent.createComponent(
-						Broker.class.getCanonicalName(),
-						new Object[]{1,
-						 0,
-						 BROKER_COMPONENT_URI_3,
-						 URIBrokerOutboundPortURI3,
-						 URIBrokerInboundPortURI3}) ; 
-	
-				this.publisherURI_3 = AbstractComponent.createComponent(
-										Publisher.class.getCanonicalName(),
-										new Object[]{1,
-										0,
-										PUBLISHER_COMPONENT_URI_3,
-										BROKER_COMPONENT_URI_3}) ;
-				
-				this.subscriberURI_3 = AbstractComponent.createComponent(
-										Subscriber.class.getCanonicalName(),
-										new Object[]{1,
-										0,
-										SUBSCRIBER_COMPONENT_URI_3,
-										BROKER_COMPONENT_URI_3}) ;;
-				
-
-			} else {
+			}
+//			else if (thisJVMURI.equals(JVM_URI_3)) {
+//				
+//				this.brokerURI_3 = AbstractComponent.createComponent(
+//						Broker.class.getCanonicalName(),
+//						new Object[]{1,
+//						 0,
+//						 BROKER_COMPONENT_URI_3,
+//						 URIBrokerOutboundPortURI3,
+//						 URIBrokerInboundPortURI3}) ; 
+//	
+//				this.publisherURI_3 = AbstractComponent.createComponent(
+//										Publisher.class.getCanonicalName(),
+//										new Object[]{1,
+//										0,
+//										PUBLISHER_COMPONENT_URI_3,
+//										BROKER_COMPONENT_URI_3}) ;
+//				
+//				this.subscriberURI_3 = AbstractComponent.createComponent(
+//										Subscriber.class.getCanonicalName(),
+//										new Object[]{1,
+//										0,
+//										SUBSCRIBER_COMPONENT_URI_3,
+//										BROKER_COMPONENT_URI_3}) ;;
+//				
+//
+//			}
+			else {
 				System.out.println("Unknown JVM URI... " + thisJVMURI) ;
 			}
+			
 			super.instantiateAndPublish();
 		}
 
@@ -197,22 +202,23 @@ public class DCVM extends AbstractDistributedCVM {
 		@Override
 		public void	interconnect() throws Exception {
 			//Connexion des brokers entre eux
-
+			
+			
 			if (thisJVMURI.equals(JVM_URI_1)) {
-				
-				this.doPortConnection(brokerURI_1, URIBrokerOutboundPortURI1, URIBrokerInboundPortURI2, TransfertConnector.class.getCanonicalName());
-				
-			} else if (thisJVMURI.equals(JVM_URI_2)) {
-				
-				this.doPortConnection(brokerURI_2, URIBrokerOutboundPortURI2, URIBrokerInboundPortURI3, TransfertConnector.class.getCanonicalName());
-
-			} else if (thisJVMURI.equals(JVM_URI_3)) {
-				
-				this.doPortConnection(brokerURI_3, URIBrokerOutboundPortURI3, URIBrokerInboundPortURI1, TransfertConnector.class.getCanonicalName());
-
-			} else {
-				System.out.println("Unknown JVM URI... " + thisJVMURI) ;
+				this.doPortConnection(brokerURI_1,URIBrokerOutboundPortURI1 , URIBrokerInboundPortURI2, TransfertConnector.class.getCanonicalName());
 			}
+			else if (thisJVMURI.equals(JVM_URI_2)) {
+				
+				this.doPortConnection(brokerURI_2, URIBrokerOutboundPortURI2, URIBrokerInboundPortURI1, TransfertConnector.class.getCanonicalName());
+
+			} 
+//			else if (thisJVMURI.equals(JVM_URI_3)) {
+//				
+//				this.doPortConnection(brokerURI_3, URIBrokerOutboundPortURI3, URIBrokerInboundPortURI1, TransfertConnector.class.getCanonicalName());
+//
+//			} else {
+//				System.out.println("Unknown JVM URI... " + thisJVMURI) ;
+//			}
 			super.interconnect();
 		}
 
@@ -224,12 +230,12 @@ public class DCVM extends AbstractDistributedCVM {
 
 		public static void main(String[] args) {
 			try {
-				DCVM da  = new DCVM(args, 2, 5) ;
-				da.startStandardLifeCycle(150000L) ;
-				Thread.sleep(10000L) ;
-				System.exit(0) ;
+				DCVM da  = new DCVM(args, 2, 5);
+				da.startStandardLifeCycle(15000L);
+				Thread.sleep(10000L);
+				System.exit(0);
 			} catch (Exception e) {
-				throw new RuntimeException(e) ;
+				throw new RuntimeException(e);
 			}
 		}
 

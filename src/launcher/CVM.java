@@ -16,10 +16,6 @@ public class CVM extends AbstractCVM {
 	/**=================================== BROKER ==========================================*/
 	protected String brokerURI;
 	public static final String BROKER_COMPONENT_URI = "my-URI-Broker" ;
-//	protected static final String    URIBrokerManagementInboundPortURI1 = "bm1-iport"; //For Publisher
-//	protected static final String    URIBrokerManagementInboundPortURI2 = "bm2-iport"; //For Subscriber
-//	protected static final String    URIBrokerPublicationInboundPortURI = "bp-iport";
-
 	
 	
 	/** ==================================== PUBLISHER ======================================*/
@@ -68,10 +64,7 @@ public class CVM extends AbstractCVM {
 					new Object[]{1,
 								 0,
 								 BROKER_COMPONENT_URI}) ; 
-		
-//		assert	this.isDeployedComponent(this.brokerURI) ;
-//		this.toggleTracing(this.brokerURI) ;
-//		this.toggleLogging(this.brokerURI) ;
+
 
 		/**========================================================================================
 		 * ============================== PUBLISHER COMPONENT =====================================
@@ -83,10 +76,7 @@ public class CVM extends AbstractCVM {
 								0,
 								PUBLISHER_COMPONENT_URI,
 								BROKER_COMPONENT_URI}) ;
-		
-//		assert	this.isDeployedComponent(this.publisherURI) ;
-//		this.toggleTracing(this.publisherURI) ;
-//		this.toggleLogging(this.publisherURI) ;
+
 		
 		/**========================================================================================
 		 * ================================ SUBSCRIBER COMPONENT ==================================
@@ -98,10 +88,6 @@ public class CVM extends AbstractCVM {
 								0,
 								SUBSCRIBE_COMPONENT_URI,
 								BROKER_COMPONENT_URI}) ;
-		
-//		assert	this.isDeployedComponent(this.subscriberURI) ;
-//		this.toggleTracing(this.subscriberURI) ;
-//		this.toggleLogging(this.subscriberURI) ;
 		
 		
 		/**---------------------------------------------------------------------------------------

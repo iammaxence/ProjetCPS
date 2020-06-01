@@ -25,6 +25,7 @@ import ports.PublicationCOutBoundPort;
  * @author GROUP LAMA
  *
  */
+
 public class PublisherPlugin 
 extends AbstractPlugin 
 implements PublicationsImplementationI, ManagementImplementationI{
@@ -48,10 +49,6 @@ implements PublicationsImplementationI, ManagementImplementationI{
 	public void installOn(ComponentI owner) throws Exception {
 		super.installOn(owner) ;
 		assert owner != null;
-
-		/**----------------- ADD COMPONENTS -------------------*/
-		this.addRequiredInterface(PublicationCI.class) ;
-		this.addRequiredInterface(ManagementCI.class) ;
 		
 		/**---------------- PORTS CREATION --------------------*/
 		this.publicationOutboundPort = new PublicationCOutBoundPort(this.owner);
@@ -65,6 +62,7 @@ implements PublicationsImplementationI, ManagementImplementationI{
 	
 	@Override
 	public void initialise() throws Exception {
+		super.initialise();
 		// Use the reflection approach to get the URI of the inbound port
 		
 		this.addRequiredInterface(ReflectionI.class) ;
@@ -75,14 +73,19 @@ implements PublicationsImplementationI, ManagementImplementationI{
 		this.owner.doPortConnection(
 				rop.getPortURI(),
 				URI_BROKER, // Changement pour DCVM
-				ReflectionConnector.class.getCanonicalName()) ;
+				ReflectionConnector.class.getCanonicalName());
 		
-		String[] urip = rop.findPortURIsFromInterface(PublicationCI.class) ;
-		assert	urip != null && urip.length == 1 ;
+		
+		//System.out.println("-- avant exception : "+URI_BROKER);
+		String[] urip = rop.findPortURIsFromInterface(PublicationCI.class);
+		assert urip != null;
+		
 		
 		/**-------------- BrokerManagementCI --------------------*/
-		String[] urim = rop.findPortURIsFromInterface(ManagementCI.class) ;
-		assert	urim != null && urim.length == 1 ;
+		String[] urim = rop.findPortURIsFromInterface(ManagementCI.class);
+		assert urim != null;
+		
+		
 		
 		/**----------- DISCONNECT&DESTROY REFLECTION -----------*/
 		this.owner.doPortDisconnection(rop.getPortURI()) ;
@@ -101,7 +104,7 @@ implements PublicationsImplementationI, ManagementImplementationI{
 				urim[0],
 				ManagementConnector.class.getCanonicalName()) ;
 
-		super.initialise();
+		
 	}
 	
 	
@@ -120,9 +123,7 @@ implements PublicationsImplementationI, ManagementImplementationI{
 		
 		this.publicationOutboundPort.destroyPort() ;
 		this.managementOutboundPort.destroyPort();
-		
-		this.removeRequiredInterface(PublicationCI.class) ;
-		this.removeRequiredInterface(ManagementCI.class) ;
+	
 	}
 	
 	

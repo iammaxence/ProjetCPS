@@ -98,6 +98,7 @@ public class TopicKeeper {
 		}
 	}
 	
+	
 	/**
 	 * Getter of the list of topics that exist
 	 * @return the list of all the topics
@@ -105,6 +106,36 @@ public class TopicKeeper {
 	public String[] getTopics() {
 		Set<String> keys = topics.keySet();
 		return keys.toArray(new String[0]);
+	}
+	
+	/**
+	 * Getter of the list of messages (d'un topic)
+	 * @return the list of all the message of a topic
+	 */
+	public Vector<MessageI> getMessages(String topic) {
+		return topics.get(topic);
+	}
+	
+	/**
+	 * Check if the message already exist in the broker
+	 * @param topic in question
+	 * @param m : message to check the existence
+	 * @return if the Broker has the message
+	 */
+	public boolean hasMessage(String topic, MessageI m) {
+		if(topics.containsKey(topic)) {
+			boolean trouver = false;
+			String id = m.getURI();
+			Vector<MessageI> ms = topics.get(topic);
+			
+			for(MessageI message : ms) {
+				if(message.getURI().equals(id)) {
+					trouver = true;
+				}
+			}	
+			return trouver;
+		}
+		return false;
 	}
 
 }

@@ -22,6 +22,7 @@ import annexes.message.interfaces.MessageI;
  * @author GROUP LAMA
  *
  */
+
 @RequiredInterfaces(required = {ManagementCI.class})
 @OfferedInterfaces(offered = {ReceptionCI.class} )
 public class Subscriber 
@@ -30,28 +31,24 @@ extends AbstractComponent implements ReceptionImplementationI{
 	
 	/**-------------------- Variables ---------------------*/
 	protected final String                       uri;
-	protected final String                       receptionInboundPortURI;
+	protected String                       receptionInboundPortURI ;
 	protected SubscriberPlugin                   myplugin;
 	protected final static String mypluginURI = "subscriberPlugin";
+	
 	
 	protected Subscriber(int nbThreads, int nbSchedulableThreads, String uri, String URI_BROKER) throws Exception{
 		super(uri, nbThreads, nbSchedulableThreads);
 		
 		assert uri != null;
 		assert URI_BROKER != null;
+		
 		this.uri = uri;
 		
 		/**----------- PLUGIN INSTALLATION ------------**/
 		myplugin = new SubscriberPlugin(URI_BROKER);
 		myplugin.setPluginURI(mypluginURI);
-		this.installPlugin(myplugin);
-		
-		assert this.isInstalled(mypluginURI);
 
-		this.receptionInboundPortURI = myplugin.getReceptionURI();
-		assert receptionInboundPortURI != null;
-		
-		
+
 		/**----------------- TRACE --------------------**/
 		this.tracer.setTitle(uri) ;
 		this.tracer.setRelativePosition(0, 1) ;
@@ -66,6 +63,18 @@ extends AbstractComponent implements ReceptionImplementationI{
 		super.start() ;
 		this.logMessage("starting Subscriber component.") ;
 		
+		assert	this.isStarted();
+		
+		/**----------- PLUGIN INSTALLATION ------------**/
+		try {
+			this.installPlugin(myplugin);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}	
+		assert this.isInstalled(mypluginURI);
+		this.receptionInboundPortURI = myplugin.getReceptionURI();
+		assert receptionInboundPortURI != null;
+
 	
 		/**------------------- Scenarios in order to tests of the methods ---------------**/
 		try {	
@@ -74,7 +83,7 @@ extends AbstractComponent implements ReceptionImplementationI{
 			/**
 			 * Choose scenario that you want (1 to 4):
 			 */
-			int[] scenario = {1, 2, 3, 4};
+			int[] scenario = {5};
 			
 			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 			chrono.start();
@@ -94,19 +103,27 @@ extends AbstractComponent implements ReceptionImplementationI{
 						
 					case 2: /** Scenario 2: Subscribe to a list of topics**/
 						myplugin.subscribe(topics, receptionInboundPortURI);
-						this.logMessage("Subscriber subcribe to Automobile");
+						this.logMessage("Subscriber subcribe to Automobile, Voyage, Sport and Nature&Decouvre");
 						break;
 						
 					case 3: /** Scenario 3: Subscribe to 100 topics**/
 						for(int y=0; y<100; y++) {
 							myplugin.subscribe("topic"+y, receptionInboundPortURI);
+							//this.logMessage("Subscriber subcribe to Topic"+y);
 						}
 						break;
 					case 4: /** Le composant subsciber1 s'abonne à Test **/
                         if (this.uri.equals("my-URI-subscribe1")) {
-                            myplugin.subscribe("Test", receptionInboundPortURI);  
+                            myplugin.subscribe("Test", receptionInboundPortURI); 
+                            this.logMessage("Subscriber subcribe to Test");
                         }
+                 
                         break;
+					case 5:
+						 if (this.uri.equals("my-URI-subscribe1")) {
+	                            myplugin.subscribe("Automobile", receptionInboundPortURI); 
+	                            this.logMessage("Subscriber subcribe to Test");
+	                        }
 						
 					default: break;	
 				}

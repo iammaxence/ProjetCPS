@@ -13,13 +13,9 @@
         rmiRegistryCreator="true"
         hostname="localhost"
         mainclass="src.launcher.DCVM"/>
-    <jvm2hostname jvmuri="jvm_2"
+   <jvm2hostname jvmuri="jvm_2"
         rmiRegistryCreator="false"
-        	hostname="localhost"
-        mainclass="src.launcher.DCVM"/>
-    <jvm2hostname jvmuri="jvm_3"
-        rmiRegistryCreator="false"
-        	hostname="localhost"
+        hostname="localhost"
         mainclass="src.launcher.DCVM"/>
   </jvms2hostnames>
 </deployment>
