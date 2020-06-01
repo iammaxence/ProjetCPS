@@ -50,7 +50,8 @@ public class MessageTest {
 	@Test
 	 public final void testTimeStamp() {
 		TimeStamp ts = new TimeStamp();
-		Message m = new Message("Hello Word", ts, null);
+		Properties props = new Properties();
+		Message m = new Message("Hello Word", ts, props);
 		assertNotNull(m.getTimeStamp());
 		assertEquals(ts, m.getTimeStamp());
 	}
@@ -62,11 +63,8 @@ public class MessageTest {
 	@Test
 	 public final void testProperties1() {
 		String msg = "Hello Word";
-		Properties props = new Properties();
-		props.putProp("Hello", true);
-		Message m = new Message(msg,null,props);
+		Message m = new Message(msg);
 		assertNotNull(m.getProperties());
-		assertEquals(props, m.getProperties());
 		try {
 			assertTrue(m.getProperties().getBooleanProp("Hello"));
 		} catch (Exception e) {

@@ -6,7 +6,7 @@ import annexes.message.interfaces.MessageI;
 
 
 /**
- * Interface <code>PublicationsImplementationI</code>
+ * Interface <code>TransfertImplementationI</code>
  * all methods for management of transfer message
  * 
  * @author GROUP LAMA

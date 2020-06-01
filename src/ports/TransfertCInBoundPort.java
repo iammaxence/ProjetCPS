@@ -17,12 +17,7 @@ import interfaces.TransfertCI;
  */
 public class TransfertCInBoundPort 
 extends AbstractInboundPort implements TransfertCI{
-	
 	private static final long serialVersionUID = 1L;
-	
-	//Pool de thread par la suite ?
-	
-
 	
 	public TransfertCInBoundPort(String uri, ComponentI owner) throws Exception {
 		super(uri, TransfertCI.class, owner);

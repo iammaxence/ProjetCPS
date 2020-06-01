@@ -98,22 +98,6 @@ public class TopicKeeper {
 		}
 	}
 	
-	/**
-	 * Add a list of message in a specific topic
-	 * @param sujet where to add the messages
-	 * @param ms : the list of messages
-	 */
-	public void addMessages(String sujet,Vector<MessageI> ms) {
-		if(!topics.containsKey(sujet)) {
-			topics.put(sujet, new Vector<MessageI>());
-			System.out.println("-- create topic : "+sujet);
-		}
-		
-		for(MessageI m : ms) {
-			topics.get(sujet).add(m);
-			System.out.println("-- add message vector : "+m.getPayload()+" to topic : "+sujet);
-		}
-	}
 	
 	/**
 	 * Getter of the list of topics that exist

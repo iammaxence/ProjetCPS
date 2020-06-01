@@ -19,6 +19,8 @@ import launcher.CVMDynamicCreationLife;
 
 /**
  * The class <code> DynamicAssembler </code> represent 
+ * the assembler that will create all the component
+ * actively
  * 
  * 
  * @author GROUP LAMA
