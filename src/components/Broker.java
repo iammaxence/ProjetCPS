@@ -231,11 +231,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 		//this.logMessage("1");
 		topics.addMessage(topic, m);
 		//this.logMessage("2");
-		if (topURI != null) // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
-			topURI.transfererMessage(m, topic);
 		//this.logMessage("3");
 		this.sendMessage(m, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
+		if (topURI != null) // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
+			topURI.transfererMessage(m, topic);
 	}
 	
 	/**
@@ -260,13 +260,13 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
 		topics.addMessages(topic, ms);
+		this.sendMessages(ms, topic);
+		this.logMessage("Broker: Message publié dans "+topic);
 		if (topURI !=null) { // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
 			for(int i=0; i< ms.length;i++) {
 				topURI.transfererMessage(ms[i], topic);
 			}
 		}
-		this.sendMessages(ms, topic);
-		this.logMessage("Broker: Message publié dans "+topic);
 	}
 	
 	

@@ -3,6 +3,7 @@ package components;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
+import fr.sorbonne_u.components.cvm.AbstractCVM;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import interfaces.ManagementCI;
 import interfaces.ReceptionCI;
@@ -74,38 +75,82 @@ extends AbstractComponent implements ReceptionImplementationI{
 		assert this.isInstalled(mypluginURI);
 		this.receptionInboundPortURI = myplugin.getReceptionURI();
 		assert receptionInboundPortURI != null;
+		
+		/**--------------Scenarios for the DCVM  ----------------------**/
+		if (AbstractCVM.isDistributed) {
+			try {	
+				String [] topics = {"Automobile","Nature&Decouvre"};   //Pour que le Subscriber soit abonné aux topics avant la publication
 
-	
-		/**------------------- Scenarios in order to tests of the methods ---------------**/
-		try {	
-			String [] topics = {"Automobile", "Voyage","Sport","Nature&Decouvre"};   //Pour que le Subscriber soit abonné aux topics avant la publication
-			
-			/**
-			 * Choose scenario that you want (1 to 4):
-			 */
-			int[] scenario = {5};
-			
-			Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
-			chrono.start();
-			
-			for(int i=0; i<scenario.length; i++) {
-				switch (scenario[i]) {
+				/**
+				 * Choose scenario that you want (1 to 4):
+				 */
+				int[] scenario = {1,2};
+
+				Chrono chrono=new Chrono(); //Chrono donne la preuve que les thread améliore le temps de calcul
+				chrono.start();
+
+				for(int i=0; i<scenario.length; i++) {
+					switch (scenario[i]) {
 					case 1: /** Scenario 1: Subscribe to the topic "Peche&Cuisine". We use the filter "thon" **/
 						this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
 						MessageFilterI filter = m -> {Properties props = m.getProperties(); 
-													try {
-														if(!props.getBooleanProp("thon")) //Don't want a message with the word "thon" inside
-															return true;
-														return false;
-													} catch (Exception e) { e.printStackTrace(); return false; }} ;
+						try {
+							if(!props.getBooleanProp("thon")) //Don't want a message with the word "thon" inside
+								return true;
+							return false;
+						} catch (Exception e) { e.printStackTrace(); return false; }} ;
+						myplugin.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
+						myplugin.subscribe("Automobile", receptionInboundPortURI);
+						break;
+
+					case 2: /**------Scenarios 2: Suscribe to the topic Automobile **/
+						if (this.uri.equals("my-URI-Subscriber2")) {
+							myplugin.subscribe("Automobile", receptionInboundPortURI); 
+							this.logMessage("Subscriber subcribe to Test");
+						}
+
+					default: break;	
+					}
+				}
+
+				chrono.stop();
+				this.logMessage("Chrono sub : "+chrono.getDureeMs()); 
+			} catch (Exception e) {
+				throw new RuntimeException(e) ;
+			}
+		}
+		/**------------------------------ End of Scenarios DCVM -----------------------------**/
+		else {
+			/**------------------- Scenarios for the CVM ---------------**/
+			try {	
+				String [] topics = {"Automobile", "Voyage","Sport","Nature&Decouvre"};   //Pour que le Subscriber soit abonné aux topics avant la publication
+
+				/**
+				 * Choose scenario that you want (1 to 4):
+				 */
+				int[] scenario = {1};
+
+				Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
+				chrono.start();
+
+				for(int i=0; i<scenario.length; i++) {
+					switch (scenario[i]) {
+					case 1: /** Scenario 1: Subscribe to the topic "Peche&Cuisine". We use the filter "thon" **/
+						this.logMessage("Subscriber subcribe to the topic Peche&Cuisine.");
+						MessageFilterI filter = m -> {Properties props = m.getProperties(); 
+						try {
+							if(!props.getBooleanProp("thon")) //Don't want a message with the word "thon" inside
+								return true;
+							return false;
+						} catch (Exception e) { e.printStackTrace(); return false; }} ;
 						myplugin.subscribe("Peche&Cuisine", filter ,receptionInboundPortURI);
 						break;
-						
+
 					case 2: /** Scenario 2: Subscribe to a list of topics**/
 						myplugin.subscribe(topics, receptionInboundPortURI);
 						this.logMessage("Subscriber subcribe to Automobile, Voyage, Sport and Nature&Decouvre");
 						break;
-						
+
 					case 3: /** Scenario 3: Subscribe to 100 topics**/
 						for(int y=0; y<100; y++) {
 							myplugin.subscribe("topic"+y, receptionInboundPortURI);
@@ -113,28 +158,29 @@ extends AbstractComponent implements ReceptionImplementationI{
 						}
 						break;
 					case 4: /** Le composant subsciber1 s'abonne à Test **/
-                        if (this.uri.equals("my-URI-subscribe1")) {
-                            myplugin.subscribe("Test", receptionInboundPortURI); 
-                            this.logMessage("Subscriber subcribe to Test");
-                        }
-                 
-                        break;
+						if (this.uri.equals("my-URI-subscribe1")) {
+							myplugin.subscribe("Test", receptionInboundPortURI); 
+							this.logMessage("Subscriber subcribe to Test");
+						}
+
+						break;
 					case 5:
-						 if (this.uri.equals("my-URI-subscribe1")) {
-	                            myplugin.subscribe("Automobile", receptionInboundPortURI); 
-	                            this.logMessage("Subscriber subcribe to Test");
-	                        }
-						
+						if (this.uri.equals("my-URI-subscribe1")) {
+							myplugin.subscribe("Automobile", receptionInboundPortURI); 
+							this.logMessage("Subscriber subcribe to Test");
+						}
+
 					default: break;	
+					}
 				}
+
+				chrono.stop();
+				this.logMessage("Chrono sub : "+chrono.getDureeMs()); 
+			} catch (Exception e) {
+				throw new RuntimeException(e) ;
 			}
-			
-			chrono.stop();
-			this.logMessage("Chrono sub : "+chrono.getDureeMs()); 
-		} catch (Exception e) {
-			throw new RuntimeException(e) ;
+			/**------------------------------ End of Scenarios -----------------------------**/
 		}
-		/**------------------------------ End of Scenarios -----------------------------**/
 	}
 	
 	

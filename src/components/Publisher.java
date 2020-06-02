@@ -84,24 +84,52 @@ extends AbstractComponent {
 		
 		if (AbstractCVM.isDistributed) {
 			try {
-				switch (AbstractCVM.getCVM().logPrefix()) {
-				case "jvm_1":
-					this.logMessage("Publisher publit  2 message dans Peche&Cuisine et CPS");
-					myplugin.publish(messages, topics);
-					break;
-				
-				case "jvm_2":
-					this.logMessage("Publisher publit 2 message dans Automobile");
-					myplugin.publish(messages, topic);
 
-				break;
+				/**
+				 * Choose scenario that you want (1 to 6):
+				 */
+				int[] scenario = {1};
+
+				for(int i=0; i<scenario.length; i++) {
+					switch (scenario[i]) {
+					case 1 : /**jvm_1 publisher publish 2 messages in topics Peche&Cuisine and CPS. jvm_2 publish 2 messages in Automobile **/
+						switch (AbstractCVM.getCVM().logPrefix()) {
+							case "jvm_1":
+								this.logMessage("Publisher publit  2 message dans Peche&Cuisine et Nature&Decouvre");
+								myplugin.publish(messages, topics);
+								break;
+	
+							case "jvm_2":
+								this.logMessage("Publisher publit 2 message dans Automobile");
+								myplugin.publish(messages, topic);
+	
+								break;
+						}
+						break;
+					case 2 :/**jvm_1 publish a message with a propertie in the topic Peche&Cuisine. jvm_2 publish 100 messages in topic Automobile **/
+						switch (AbstractCVM.getCVM().logPrefix()) {
+						case "jvm_2": 
+							this.logMessage("Publisher publit des messages dans Peche&Cuisine");
+							Properties props = new Properties();
+							props.putProp("thon", true);
+							Message msg = new Message("Non! Le thon c'est meilleur!", new TimeStamp(), props );
+							myplugin.publish(msg, "Peche&Cuisine");
+							break;
+
+						case "jvm_1":
+							this.logMessage("Publisher publit 2 message dans Automobile");
+							for (int j=0; j<100;j++)
+								myplugin.publish(new Message("Mercedes Classe A"), topic);
+
+							break;
+					}
+					}
 				}
-			
-				
-			}catch (Exception e) {
-				e.printStackTrace();
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
-		}
 		else {
 			/**----------------------- Scenarios for the CVM ------------------------------------------------**/
 			try {

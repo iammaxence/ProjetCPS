@@ -30,7 +30,7 @@ public class DCVM extends AbstractDistributedCVM {
 		
 		public static final String BROKER_COMPONENT_URI_1 = "my-URI-Broker1" ;
 		public static final String PUBLISHER_COMPONENT_URI_1 ="my-URI-Publisher1";
-		public static final String SUBSCRIBER_COMPONENT_URI_1="my-URI-subscribe1"; 
+		public static final String SUBSCRIBER_COMPONENT_URI_1="my-URI-Subscriber1"; 
 		
 		public static final String BROKER_COMPONENT_URI_2 = "my-URI-Broker2" ;
 		public static final String PUBLISHER_COMPONENT_URI_2 ="my-URI-Publisher2";
@@ -150,12 +150,12 @@ public class DCVM extends AbstractDistributedCVM {
 							 URIBrokerOutboundPortURI2,
 							 URIBrokerInboundPortURI2}) ; 
 		
-//					this.publisherURI_2 = AbstractComponent.createComponent(
-//											Publisher.class.getCanonicalName(),
-//											new Object[]{1,
-//											0,
-//											PUBLISHER_COMPONENT_URI_2,
-//											BROKER_COMPONENT_URI_2}) ;
+					this.publisherURI_2 = AbstractComponent.createComponent(
+											Publisher.class.getCanonicalName(),
+											new Object[]{1,
+											0,
+											PUBLISHER_COMPONENT_URI_2,
+											BROKER_COMPONENT_URI_2}) ;
 		
 					this.subscriberURI_2 = AbstractComponent.createComponent(
 											Subscriber.class.getCanonicalName(),
