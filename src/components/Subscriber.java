@@ -138,7 +138,7 @@ extends AbstractComponent implements ReceptionImplementationI{
 				/**
 				 * Choose scenario that you want (1 to 4):
 				 */
-				int[] scenario = {1};
+				int[] scenario = {1, 2, 4, 5};
 
 				Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 				chrono.start();

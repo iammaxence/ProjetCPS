@@ -20,6 +20,7 @@ import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import annexes.Client;
 import annexes.GestionClient;
+import annexes.Time;
 import annexes.TopicKeeper;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
@@ -54,6 +55,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected TopicKeeper                                     topics;        
 	protected GestionClient                                   subscriptions;   
 	private int threadPublication, threadSubscription, threadEnvoi;
+	private Time                                              time = new Time();
 	
 	
 	
@@ -154,7 +156,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 			this.tracer.setTitle(uri) ;
 			this.tracer.setRelativePosition(0, 2) ;
 			this.toggleTracing() ;
-
 		}
 
 	
@@ -229,9 +230,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
 		topics.addMessage(topic, m);
+		this.logMessage("Message "+m.getURI()+" ajouté dans "+topic+" : "+time.getCurrentDate());
 
 		this.sendMessage(m, topic);
-		this.logMessage("Broker: Message publié dans "+topic);
+		this.logMessage("Message "+m.getURI()+" publié dans "+topic+" : "+time.getCurrentDate());
+		
 		if (topURI != null) // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
 			topURI.transfererMessage(m, topic);
 	}
@@ -258,8 +261,11 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
 		topics.addMessages(topic, ms);
+		this.logMessage("Messages ajouté dans "+topic+" : "+time.getCurrentDate());
+		
 		this.sendMessages(ms, topic);
-		this.logMessage("Broker: Message publié dans "+topic);
+		this.logMessage("Messages publié dans "+topic+" : "+time.getCurrentDate());
+		
 		if (topURI !=null) { // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
 			for(int i=0; i< ms.length;i++) {
 				topURI.transfererMessage(ms[i], topic);

@@ -8,6 +8,7 @@ import interfaces.ManagementCI;
 import interfaces.PublicationCI;
 import plugins.PublisherPlugin;
 import annexes.Chrono;
+import annexes.Time;
 import annexes.message.Message;
 import annexes.message.Properties;
 import annexes.message.TimeStamp;
@@ -86,6 +87,7 @@ extends AbstractComponent {
 		MessageI[] messages = {new Message("Le 1er message"), new Message("Le 2eme message")};
 		String [] topics = {"Peche&Cuisine", "Nature&Decouvre"};
 		String [] topic = {"Automobile"};
+		Time time = new Time();
 		
 		if (AbstractCVM.isDistributed) {
 			try {
@@ -144,7 +146,7 @@ extends AbstractComponent {
 				/**
 				 * Choose scenario that you want (1 to 6):
 				 */
-				int[] scenario = {3};
+				int[] scenario = {2, 3, 4, 5, 6};
 				
 				Chrono chrono=new Chrono(); //Chrono permet la preuve que les thread améliore le temps de calcul
 				chrono.start();
@@ -166,7 +168,7 @@ extends AbstractComponent {
 						case 3: /** Scenario 3: Create the topic Automobile and publish messages **/
 							this.logMessage("Publisher creer le topic Automobile");
 							myplugin.createTopic("Automobile");
-							this.logMessage("Publisher publit des messages dans Automobile");
+							this.logMessage("Publisher publit des messages dans Automobile "+time.getCurrentDate());
 							myplugin.publish(messages, "Automobile");
 							break;
 							
