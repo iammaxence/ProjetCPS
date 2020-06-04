@@ -31,9 +31,14 @@ extends AbstractComponent {
 	
 	/**
 	 * Constructor of Publisher Component
+	 * 
+	 * pre uri != null;
+	 * pre URI_BROKER != null;
+	 * 
 	 * @param nbThreads is the number of thread s
 	 * @param nbSchedulableThreads is the number of schedulable threads
 	 * @param uri of the Component
+	 * @param URI_BROKER uri of the broker in the same jvm
 	 * @throws Exception
 	 */
 	protected Publisher(int nbThreads, int nbSchedulableThreads, String uri, String URI_BROKER) throws Exception{

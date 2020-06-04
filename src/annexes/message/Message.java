@@ -39,6 +39,7 @@ public class Message implements MessageI{
 	 * 
 	 * pre properties != null
 	 * pre timestamp != null
+	 * pre contenue != null
 	 * 
 	 * 
 	 * @param contenue is here a message -> Serializable
@@ -46,7 +47,7 @@ public class Message implements MessageI{
 	 * @param props is a map of properties -> Properties
 	 */
 	public Message(Serializable contenue, TimeStamp ts, Properties props) {
-		assert ts!= null && props != null;
+		assert contenue!= null && ts!= null && props != null;
 				
 		uri = generateURI();       //ex: MESSAGE_1 qui est donc unique
 		this.contenue=contenue;

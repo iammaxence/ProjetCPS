@@ -30,6 +30,8 @@ public class TimeStamp implements Serializable{
 	 * @param timestamper : identification of the guest -> String 
 	 */
 	public TimeStamp(long time, String timestamper) {
+		assert time >=0;
+		assert timestamper.equals("") == false;
 		this.time = time;
 		this.timestamper = timestamper;
 	}

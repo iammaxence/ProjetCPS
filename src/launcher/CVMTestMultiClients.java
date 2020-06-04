@@ -60,6 +60,8 @@ public class CVMTestMultiClients extends AbstractCVM {
 								 0,
 								 BROKER_COMPONENT_URI}) ; 
 		
+		assert	this.isDeployedComponent(this.brokerURI);
+		
 
 		/**============================== PUBLISHERS COMPONENT ==================================*/
 		

@@ -36,7 +36,18 @@ extends AbstractComponent implements ReceptionImplementationI{
 	protected SubscriberPlugin                   myplugin;
 	protected final static String mypluginURI = "subscriberPlugin";
 	
-	
+	/**
+	 * Constructor of Subscriber Component
+	 * 
+	 * pre uri != null
+	 * pre URI_BROKER != null
+	 * 
+	 * @param nbThreads is the number of thread s
+	 * @param nbSchedulableThreads is the number of schedulable threads
+	 * @param uri of the Component
+	 * @param URI_BROKER uri of the broker in the same jvm
+	 * @throws Exception
+	 */
 	protected Subscriber(int nbThreads, int nbSchedulableThreads, String uri, String URI_BROKER) throws Exception{
 		super(uri, nbThreads, nbSchedulableThreads);
 		
@@ -79,8 +90,7 @@ extends AbstractComponent implements ReceptionImplementationI{
 		/**--------------Scenarios for the DCVM  ----------------------**/
 		if (AbstractCVM.isDistributed) {
 			try {	
-				String [] topics = {"Automobile","Nature&Decouvre"};   //Pour que le Subscriber soit abonné aux topics avant la publication
-
+				
 				/**
 				 * Choose scenario that you want (1 to 4):
 				 */

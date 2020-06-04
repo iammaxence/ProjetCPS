@@ -60,6 +60,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	/**
 	 * Constructor of Broker Component
+	 * 
 	 * @param nbThreads is the number of threads
 	 * @param nbSchedulableThreads id the number of schedular threads
 	 * @param uri of the component
@@ -97,6 +98,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	
 	/**
 	 * Constructor of Broker Component
+	 * 
+	 * pre TransfertOutboundPortURI != null;
+	 * pre TransfertInboundPortURI !=null;
+	 * 
 	 * @param nbThreads is the number of threads
 	 * @param nbSchedulableThreads id the number of schedular threads
 	 * @param uri of the component
@@ -195,7 +200,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	}
 	
 	/**======================================================================================
-	 * ================================== TransfertImplementationI =====================================
+	 * ================================== TransfertImplementationI ==========================
 	 ======================================================================================*/
 	
 	/**
@@ -204,15 +209,10 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 * @throws Exception
 	 */
 	@Override
-	public void transfererMessage(MessageI msg,String topic) throws Exception { //mettre des try finaly
-		this.logMessage("JE PASSE ICI : "+msg.getPayload()+" | topic = "+topic);
-		
+	public void transfererMessage(MessageI msg,String topic) throws Exception { 
 		if(!topics.hasMessage(topic, msg)) {
-			this.logMessage("AVANT PUBLISH");
 			this.publish(msg, topic);
 		}
-		this.logMessage("---> End of transfere");
-		
 	}
 	
 	
@@ -228,10 +228,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	 */
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
-		//this.logMessage("1");
 		topics.addMessage(topic, m);
-		//this.logMessage("2");
-		//this.logMessage("3");
+
 		this.sendMessage(m, topic);
 		this.logMessage("Broker: Message publié dans "+topic);
 		if (topURI != null) // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)

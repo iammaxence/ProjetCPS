@@ -64,7 +64,8 @@ public class CVM extends AbstractCVM {
 					new Object[]{1,
 								 0,
 								 BROKER_COMPONENT_URI}) ; 
-
+		
+		assert	this.isDeployedComponent(this.brokerURI);
 
 		/**========================================================================================
 		 * ============================== PUBLISHER COMPONENT =====================================
@@ -76,7 +77,8 @@ public class CVM extends AbstractCVM {
 								0,
 								PUBLISHER_COMPONENT_URI,
 								BROKER_COMPONENT_URI}) ;
-
+		
+		assert	this.isDeployedComponent(this.publisherURI);
 		
 		/**========================================================================================
 		 * ================================ SUBSCRIBER COMPONENT ==================================
@@ -88,7 +90,7 @@ public class CVM extends AbstractCVM {
 								0,
 								SUBSCRIBE_COMPONENT_URI,
 								BROKER_COMPONENT_URI}) ;
-		
+		assert	this.isDeployedComponent(this.subscriberURI);
 		
 		/**---------------------------------------------------------------------------------------
 		 * ------------------------------------ Deployment Done ----------------------------------
