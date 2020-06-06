@@ -27,6 +27,7 @@ import ports.PublicationCInBoundPort;
 import ports.ReceptionCOutBoundPort;
 import ports.TransfertCInBoundPort;
 import ports.TransfertCOutBoundPort;
+import tests.EcritureCSV;
 
 /**
  * The class <code> Broker </code> represent the 
@@ -230,6 +231,7 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI m, String topic) throws Exception {
 		topics.addMessage(topic, m);
+		EcritureCSV.Calculdutemps("Broker", "reception", System.currentTimeMillis());
 		this.logMessage("Message "+m.getURI()+" ajouté dans "+topic+" : "+time.getCurrentDate());
 
 		this.sendMessage(m, topic);

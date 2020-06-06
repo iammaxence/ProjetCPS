@@ -7,6 +7,7 @@ import fr.sorbonne_u.components.exceptions.ComponentStartException;
 import interfaces.ManagementCI;
 import interfaces.PublicationCI;
 import plugins.PublisherPlugin;
+import tests.EcritureCSV;
 import annexes.Chrono;
 import annexes.Time;
 import annexes.message.Message;
@@ -103,6 +104,8 @@ extends AbstractComponent {
 						switch (AbstractCVM.getCVM().logPrefix()) {
 							case "jvm_1":
 								this.logMessage("Publisher publit  2 message dans Peche&Cuisine et Nature&Decouvre");
+								this.logMessage("Publisher debut : "+System.currentTimeMillis());
+								EcritureCSV.Calculdutemps("Publisher", "Debut", System.currentTimeMillis());
 								myplugin.publish(messages, topics);
 								break;
 	

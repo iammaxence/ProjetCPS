@@ -150,12 +150,12 @@ public class DCVM extends AbstractDistributedCVM {
 							 URIBrokerOutboundPortURI2,
 							 URIBrokerInboundPortURI2}) ; 
 		
-					this.publisherURI_2 = AbstractComponent.createComponent(
-											Publisher.class.getCanonicalName(),
-											new Object[]{1,
-											0,
-											PUBLISHER_COMPONENT_URI_2,
-											BROKER_COMPONENT_URI_2}) ;
+//					this.publisherURI_2 = AbstractComponent.createComponent(
+//											Publisher.class.getCanonicalName(),
+//											new Object[]{1,
+//											0,
+//											PUBLISHER_COMPONENT_URI_2,
+//											BROKER_COMPONENT_URI_2}) ;
 		
 					this.subscriberURI_2 = AbstractComponent.createComponent(
 											Subscriber.class.getCanonicalName(),

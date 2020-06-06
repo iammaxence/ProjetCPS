@@ -9,6 +9,7 @@ import interfaces.ManagementCI;
 import interfaces.ReceptionCI;
 import interfaces.ReceptionImplementationI;
 import plugins.SubscriberPlugin;
+import tests.EcritureCSV;
 import annexes.Chrono;
 import annexes.message.Properties;
 import annexes.message.interfaces.MessageFilterI;
@@ -219,6 +220,7 @@ extends AbstractComponent implements ReceptionImplementationI{
 	@Override
 	public void acceptMessage(MessageI m) throws Exception {
 		this.logMessage(this.uri+" a reçu : "+ m.getPayload());
+		EcritureCSV.Calculdutemps("Subscriber", "reception", System.currentTimeMillis());
 		
 	}
 
