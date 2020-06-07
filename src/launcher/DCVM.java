@@ -7,6 +7,15 @@ import connectors.TransfertConnector;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractDistributedCVM;
 
+
+/**
+ * Class DCVM executable
+ * represent a multi-JVM
+ * (two JVM)
+ * 
+ * @author GROUP LAMA
+ *
+ */
 public class DCVM extends AbstractDistributedCVM {
 	
 		// URI des JVM defini dans le fichier config.xml

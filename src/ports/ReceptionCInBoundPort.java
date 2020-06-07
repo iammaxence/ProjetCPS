@@ -23,7 +23,7 @@ extends AbstractInboundPort implements ReceptionCI{
 	/**
 	 * Constructor of ReceptionCInBoundPort
 	 * 
-	 * pre owner instanceof Subscriber
+	 * @pre owner instanceof Subscriber
 	 * 
 	 * @param owner of this port
 	 * @throws Exception

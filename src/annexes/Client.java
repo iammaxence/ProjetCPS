@@ -23,9 +23,9 @@ public class Client {
 	/**
 	 * Constructor of a Client 
 	 * 
-	 * pre	port != null
-	 * pre  inBoundPortURI != ""
-	 * post port.isPublish()
+	 * @pre	port != null
+	 * @pre  inBoundPortURI != ""
+	 * @post port.isPublish()
 	 * 
 	 * @param inBoundPortURI is the URI of Subscriber's port
 	 * @param port is the Broker's port linked to the Subscriber

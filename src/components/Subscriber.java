@@ -40,8 +40,8 @@ extends AbstractComponent implements ReceptionImplementationI{
 	/**
 	 * Constructor of Subscriber Component
 	 * 
-	 * pre uri != null
-	 * pre URI_BROKER != null
+	 * @pre uri != null
+	 * @pre URI_BROKER != null
 	 * 
 	 * @param nbThreads is the number of thread s
 	 * @param nbSchedulableThreads is the number of schedulable threads

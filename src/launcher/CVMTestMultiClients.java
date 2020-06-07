@@ -7,6 +7,10 @@ import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 
 /**
+ * Class CVMTestMultiClients executable
+ * with a unique Broker, multiple Publisher
+ * and Subscriber
+ * 
  * 
  * @author GROUP LAMA
  *

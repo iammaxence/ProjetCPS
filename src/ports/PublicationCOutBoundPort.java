@@ -22,7 +22,7 @@ extends AbstractOutboundPort implements PublicationCI{
 	/**
 	 * Constructor of PublicationCOutBoundPort
 	 * 
-	 * pre  owner instanceof Publisher
+	 * @pre  owner instanceof Publisher
 	 * 
 	 * @param owner of the port
 	 * @throws Exception

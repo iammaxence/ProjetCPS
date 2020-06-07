@@ -9,7 +9,6 @@ import interfaces.PublicationCI;
 import plugins.PublisherPlugin;
 import tests.EcritureCSV;
 import annexes.Chrono;
-import annexes.Time;
 import annexes.message.Message;
 import annexes.message.Properties;
 import annexes.message.TimeStamp;
@@ -34,8 +33,8 @@ extends AbstractComponent {
 	/**
 	 * Constructor of Publisher Component
 	 * 
-	 * pre uri != null;
-	 * pre URI_BROKER != null;
+	 * @pre uri != null;
+	 * @pre URI_BROKER != null;
 	 * 
 	 * @param nbThreads is the number of thread s
 	 * @param nbSchedulableThreads is the number of schedulable threads
@@ -88,7 +87,6 @@ extends AbstractComponent {
 		MessageI[] messages = {new Message("Le 1er message"), new Message("Le 2eme message")};
 		String [] topics = {"Peche&Cuisine", "Nature&Decouvre"};
 		String [] topic = {"Automobile"};
-		Time time = new Time();
 		
 		if (AbstractCVM.isDistributed) {
 			try {
@@ -143,8 +141,6 @@ extends AbstractComponent {
 		else {
 			/**----------------------- Scenarios for the CVM ------------------------------------------------**/
 			try {
-	//			MessageI[] messages = {new Message("Mon 1er message."), new Message("Mon second message.")};
-	//			String [] topics = {"Peche&Cuisine", "CPS"};
 				
 				/**
 				 * Choose scenario that you want (1 to 6):
@@ -171,7 +167,6 @@ extends AbstractComponent {
 						case 3: /** Scenario 3: Create the topic Automobile and publish messages **/
 							this.logMessage("Publisher creer le topic Automobile");
 							myplugin.createTopic("Automobile");
-							this.logMessage("Publisher publit des messages dans Automobile "+time.getCurrentDate());
 							myplugin.publish(messages, "Automobile");
 							break;
 							

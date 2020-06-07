@@ -1,6 +1,8 @@
 package annexes.message.interfaces;
 
 /**
+ * Functionnal Interface
+ * of MessageFilter
  * 
  * @author Group LAMA
  *

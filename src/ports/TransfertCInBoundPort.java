@@ -19,6 +19,16 @@ public class TransfertCInBoundPort
 extends AbstractInboundPort implements TransfertCI{
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Constructor of TransfertCInBoundPort
+	 * 
+	 * @pre owner instanceof Broker
+	 * @pre uri != null
+	 * 
+	 * @param uri of the component 
+	 * @param owner of this port
+	 * @throws Exception
+	 */
 	public TransfertCInBoundPort(String uri, ComponentI owner) throws Exception {
 		super(uri, TransfertCI.class, owner);
 		assert	uri != null && owner instanceof Broker ;

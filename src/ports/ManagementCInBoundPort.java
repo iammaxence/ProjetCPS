@@ -23,7 +23,7 @@ extends AbstractInboundPort implements ManagementCI {
 	/**
 	 * Constructor of ManagementCInBoundPort
 	 * 
-	 * pre owner instanceof Broker
+	 * @pre owner instanceof Broker
 	 * 
 	 * @param owner of this port
 	 * @throws Exception

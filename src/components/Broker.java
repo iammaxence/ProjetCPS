@@ -20,7 +20,6 @@ import annexes.message.interfaces.MessageFilterI;
 import annexes.message.interfaces.MessageI;
 import annexes.Client;
 import annexes.GestionClient;
-import annexes.Time;
 import annexes.TopicKeeper;
 import ports.ManagementCInBoundPort;
 import ports.PublicationCInBoundPort;
@@ -48,15 +47,14 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	protected ManagementCInBoundPort      mipPublisher;   // Connected to URIPublisher 
 	protected ManagementCInBoundPort      mipSubscriber;  // Connected to URISubscriber 
 	protected PublicationCInBoundPort     publicationInboundPort;
-	protected TransfertCOutBoundPort topURI;
-	protected TransfertCInBoundPort tipURI;
+	protected TransfertCOutBoundPort      topURI;
+	protected TransfertCInBoundPort       tipURI;
 	
 	
 	/**------------------ VARIABLES ----------------------*/
-	protected TopicKeeper                                     topics;        
-	protected GestionClient                                   subscriptions;   
+	protected TopicKeeper                                     topics;        //Storage of topics and id messages      
+	protected GestionClient                                   subscriptions; //Storage of subscription
 	private int threadPublication, threadSubscription, threadEnvoi;
-	private Time                                              time = new Time();
 	
 	
 	
@@ -102,8 +100,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	/**
 	 * Constructor of Broker Component
 	 * 
-	 * pre TransfertOutboundPortURI != null;
-	 * pre TransfertInboundPortURI !=null;
+	 * @pre TransfertOutboundPortURI != null;
+	 * @pre TransfertInboundPortURI !=null;
 	 * 
 	 * @param nbThreads is the number of threads
 	 * @param nbSchedulableThreads id the number of schedular threads
@@ -232,12 +230,12 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	public void publish(MessageI m, String topic) throws Exception {
 		topics.addMessage(topic, m);
 		EcritureCSV.Calculdutemps("Broker", "reception", System.currentTimeMillis());
-		this.logMessage("Message "+m.getURI()+" ajouté dans "+topic+" : "+time.getCurrentDate());
 
 		this.sendMessage(m, topic);
-		this.logMessage("Message "+m.getURI()+" publié dans "+topic+" : "+time.getCurrentDate());
 		
-		if (topURI != null) // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
+		// Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter
+		// à un autre broker (broker2) (Il existe un port de connexion entre les deux)
+		if (topURI != null) 
 			topURI.transfererMessage(m, topic);
 	}
 	
@@ -263,10 +261,8 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	@Override
 	public void publish(MessageI[] ms, String topic) throws Exception {
 		topics.addMessages(topic, ms);
-		this.logMessage("Messages ajouté dans "+topic+" : "+time.getCurrentDate());
 		
 		this.sendMessages(ms, topic);
-		this.logMessage("Messages publié dans "+topic+" : "+time.getCurrentDate());
 		
 		if (topURI !=null) { // Dans le cas d'une multi-jvm, un broker (broker1) peut être connecter à un autre broker (broker2) (Il existe un port de connexion entre les deux)
 			for(int i=0; i< ms.length;i++) {
@@ -437,7 +433,6 @@ implements ManagementImplementationI, SubscriptionImplementationI, PublicationsI
 	public void sendMessage(MessageI m, String topic) throws Exception {	
 		//Connaitre le nombre de thread actif à un moment donnée
 		//this.logMessage("Nb thread actif: "+Thread.activeCount());
-		//topURI.transfererMessage(m, topic);
 		
 		ArrayList<Client> clients = subscriptions.getSubscribersOfTopic(topic);
 		

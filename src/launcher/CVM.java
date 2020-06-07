@@ -7,6 +7,9 @@ import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 
 /**
+ * Class CVM executable
+ * with a unique Broker, Publisher
+ * and Subscriber
  * 
  * @author GROUP LAMA
  *

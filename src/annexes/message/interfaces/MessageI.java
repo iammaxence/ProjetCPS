@@ -6,6 +6,8 @@ import annexes.message.Properties;
 import annexes.message.TimeStamp;
 
 /**
+ * Interface of Message
+ * with it's serializable
  * 
  * @author Group LAMA
  *

@@ -34,7 +34,16 @@ extends AbstractComponent {
 	protected String								jvmURI ;
 	protected Set<String>							deployerURIs ;
 	
-	
+	/**
+	 * Constructor of DynamicAssembler
+	 * 
+	 * @pre URI != null;
+	 * 
+	 * @param URI of this component
+	 * @param nbThreads number of threads
+	 * @param nbSchedulableThreads number of schedular threads
+	 * @throws Exception
+	 */
 	protected DynamicAssembler(String URI, int nbThreads, int nbSchedulableThreads) throws Exception{
 		super(nbThreads, nbSchedulableThreads);
 		assert URI != null;

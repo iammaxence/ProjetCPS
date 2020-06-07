@@ -24,9 +24,14 @@ public class Message implements MessageI{
 	
 	/**
 	 * Constructor of Message
+	 * 
+	 * @pre contenue!= null;
+	 * 
 	 * @param contenue : here a message -> Serializable
 	 */
 	public Message(Serializable contenue) {
+		assert contenue!= null;
+		
 		uri = generateURI();       //ex: MESSAGE_1 qui est donc unique
 		ts = new TimeStamp(); 
 		this.contenue = contenue;
@@ -37,9 +42,9 @@ public class Message implements MessageI{
 	/**
 	 * Constructor of Message
 	 * 
-	 * pre properties != null
-	 * pre timestamp != null
-	 * pre contenue != null
+	 * @pre properties != null
+	 * @pre timestamp != null
+	 * @pre contenue != null
 	 * 
 	 * 
 	 * @param contenue is here a message -> Serializable

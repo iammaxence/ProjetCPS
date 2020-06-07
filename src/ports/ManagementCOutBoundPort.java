@@ -23,7 +23,7 @@ extends AbstractOutboundPort implements ManagementCI{
 	/**
 	 * Constructor of ManagementCOutBoundPort
 	 * 
-	 * pre (owner instanceof Subscriber || owner instanceof Publisher)
+	 * @pre (owner instanceof Subscriber || owner instanceof Publisher)
 	 * 
 	 * @param owner of the port
 	 * @throws Exception

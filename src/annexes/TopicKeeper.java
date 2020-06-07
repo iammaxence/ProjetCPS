@@ -17,14 +17,14 @@ import annexes.message.interfaces.MessageI;
  */
 public class TopicKeeper {
 	
-	private volatile ConcurrentHashMap <String, Vector<MessageI>> topics; //key: topic   value: list of message
+	private volatile ConcurrentHashMap <String, Vector<String>> topics; //key: topic   value: list of id message
 	
 	
 	/**
 	 * Constructor of the concurrent hasmap that represent the storage of message for each topic
 	 */
 	public TopicKeeper() {
-		topics = new ConcurrentHashMap <String, Vector<MessageI>>();
+		topics = new ConcurrentHashMap <String, Vector<String>>();
 	}
 	
 	/**
@@ -33,7 +33,7 @@ public class TopicKeeper {
 	 */
 	public synchronized void createTopic(String sujet) {
 		if(!topics.containsKey(sujet))
-			topics.put(sujet, new Vector<MessageI>());
+			topics.put(sujet, new Vector<String>());
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class TopicKeeper {
 	public synchronized void createTopics(String[] sujets) {
 		for(String sujet: sujets) {
 			if(!topics.containsKey(sujet))
-				topics.put(sujet, new Vector<MessageI>());
+				topics.put(sujet, new Vector<String>());
 		}	
 	}
 	
@@ -74,10 +74,10 @@ public class TopicKeeper {
 	 */
 	public void addMessage(String sujet, MessageI m) {
 		if(!topics.containsKey(sujet)) {
-			topics.put(sujet, new Vector<MessageI>());
+			topics.put(sujet, new Vector<String>());
 			System.out.println("-- create topic : "+sujet);
 		}
-		topics.get(sujet).add(m);
+		topics.get(sujet).add(m.getURI());
 		System.out.println("-- add message : "+m.getPayload()+" to topic : "+sujet);
 	}
 	
@@ -88,12 +88,12 @@ public class TopicKeeper {
 	 */
 	public void addMessages(String sujet, MessageI[] ms) {
 		if(!topics.containsKey(sujet)) {
-			topics.put(sujet, new Vector<MessageI>());
+			topics.put(sujet, new Vector<String>());
 			System.out.println("-- create topic : "+sujet);
 		}
 		
 		for(MessageI m : ms) {
-			topics.get(sujet).add(m);
+			topics.get(sujet).add(m.getURI());
 			System.out.println("-- add message : "+m.getPayload()+" to topic : "+sujet);
 		}
 	}
@@ -112,7 +112,7 @@ public class TopicKeeper {
 	 * Getter of the list of messages (d'un topic)
 	 * @return the list of all the message of a topic
 	 */
-	public Vector<MessageI> getMessages(String topic) {
+	public Vector<String> getMessages(String topic) {
 		return topics.get(topic);
 	}
 	
@@ -124,16 +124,9 @@ public class TopicKeeper {
 	 */
 	public boolean hasMessage(String topic, MessageI m) {
 		if(topics.containsKey(topic)) {
-			boolean trouver = false;
 			String id = m.getURI();
-			Vector<MessageI> ms = topics.get(topic);
-			
-			for(MessageI message : ms) {
-				if(message.getURI().equals(id)) {
-					trouver = true;
-				}
-			}	
-			return trouver;
+			return topics.get(topic).contains(id);
+
 		}
 		return false;
 	}

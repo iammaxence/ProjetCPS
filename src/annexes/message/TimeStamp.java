@@ -23,8 +23,8 @@ public class TimeStamp implements Serializable{
 	/**
 	 * Constructor of TimeStamp with argument
 	 * 
-	 * pre time >= 0
-	 * pre timestamper != ""
+	 * @pre time >= 0
+	 * @pre timestamper != ""
 	 * 
 	 * @param time : time system of Unix -> long
 	 * @param timestamper : identification of the guest -> String 

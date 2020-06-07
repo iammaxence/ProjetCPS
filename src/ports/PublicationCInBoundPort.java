@@ -23,7 +23,7 @@ extends AbstractInboundPort implements PublicationCI{
 	/**
 	 * Constructor of PublicationCInBoundPort
 	 * 
-	 * pre owner instanceof Broker
+	 * @pre owner instanceof Broker
 	 * 
 	 * @param owner of the port
 	 * @param indexPool is the index of pool thread for the handleRequest
